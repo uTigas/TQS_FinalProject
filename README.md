@@ -4,10 +4,10 @@ Repository for the Final Project for TQS class of 2024. The theme of this projec
 
 ## Organization
 
-- 'frontend' folder - contains the frontend for both user and staff portal
-- 'backend' folder - contains the backend for all other components
-- 'signage' folder - contains the digital signage app.
-- 'report' folder - contains documentation and report work for this project.
+- `frontend` folder - contains the frontend for both user and staff portal
+- `backend` folder - contains the backend for all other components
+- `signage` folder - contains the digital signage app.
+- `report` folder - contains documentation and report work for this project.
 
 ## Students
 
@@ -18,6 +18,6 @@ Repository for the Final Project for TQS class of 2024. The theme of this projec
 ## Links
 
 - [GitHub](https://github.com/uTigas/TQS_FinalProject) 
-- [Jira]()
+- [Jira](https://snappark.atlassian.net/jira/software/projects/TP/boards/3/backlog?atlOrigin=eyJwIjoiaiIsImkiOiIyOWI5ZjMyYTcxMzA0NDQ5OWI3MTNhZjJjYjk4ODViNiJ9&cloudId=cac2b219-bf1b-4e8e-8f7a-e01aaa2358ca&epics=visible&issueParent=10028%2C10027&selectedIssue=TP-15)
 
 
