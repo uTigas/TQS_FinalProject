@@ -1,6 +1,6 @@
 # TQS_FinalProject
 
-Repository for the Final Project for TQS class of 2024. The theme of this project is a train trip management system that includes an user portal , staff portal and a digital signage system.
+Repository for the Final Project for TQS class of 2024. The theme of this project is a train trip management system that includes a user portal, a staff portal, and a digital signage system.
 
 ## Organization
 
@@ -14,6 +14,19 @@ Repository for the Final Project for TQS class of 2024. The theme of this projec
 - Diogo Marto NºMec: 108298
 - Tiago Pereira NºMec: 108546 
 - Miguel Pinto NºMec: 107449
+
+## Definition of Done
+
+For a story to be considered complete it must pass all these criteria:
+
+- Code completed ( backend and frontend )
+- Successful build 
+- Passed the acceptance criteria of story
+- All test pass
+- Sonarqube quality gate
+  - Code coverage
+  - Clean code
+  - No security issues
 
 ## Links
 
