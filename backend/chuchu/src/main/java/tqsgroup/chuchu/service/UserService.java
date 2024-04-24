@@ -16,4 +16,8 @@ public class UserService {
     public Optional<User> findByUsername(String username){
         return repo.findByUsername(username);
     }
+
+    public User createUser(User newUser){
+        return repo.save(newUser);
+    }
 }
