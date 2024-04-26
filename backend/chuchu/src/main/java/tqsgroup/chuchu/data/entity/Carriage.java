@@ -2,6 +2,9 @@ package tqsgroup.chuchu.data.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "CARRIAGES")
 public class Carriage {
@@ -12,33 +15,46 @@ public class Carriage {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    private CarriageType type;
+    private CarriageType type;    
+    
+    @ManyToOne
+    private Train train;
 
     @Column(name = "capacity")
     private int capacity;
 
-    @PrePersist
-    @PreUpdate
-    private void validateCapacity() {
-        if (capacity <= 0) {
-            throw new IllegalStateException("Carriage must have a positive capacity");
+    @Column(name = "multiplier")
+    private double multiplier;
+
+    @OneToMany(mappedBy = "carriage")
+    private List<Seat> seats;
+
+    private double selectMultiplier() {
+        switch (type) {
+            case FIRST_CLASS:
+                return 4.0;
+            case SECOND_CLASS:
+                return 3.0;
+            case NORMAL:
+                return 1.0;
+            default:
+                throw new IllegalStateException("Unknown carriage type");
         }
     }
 
     public Carriage() {
     }
 
-    public Carriage(CarriageType type, int capacity) {
+    public Carriage(CarriageType type, Train train, int capacity) {
         this.type = type;
+        this.train = train;
         this.capacity = capacity;
+        this.multiplier = selectMultiplier();
+        this.seats = new ArrayList<>();
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public CarriageType getType() {
@@ -56,4 +72,41 @@ public class Carriage {
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
+
+    public double getMultiplier() {
+        return multiplier;
+    }
+
+    public List<Seat> getSeats() {
+        return seats;
+    }
+
+    // private Seat findSeat(int seatNumber) {
+    //     Seat seat = seats.stream()
+    //     .filter(s -> s.getSeatNumber() == seatNumber)
+    //     .findFirst()
+    //     .orElseThrow(() -> new IllegalArgumentException("Seat " + seatNumber + " does not exist."));
+
+    //     return seat;
+    // }
+
+    // public void reserveSeat(int seatNumber, User user) {
+    //     Seat seat = findSeat(seatNumber);
+    
+    //     // if (seat.getUser() != null) {
+    //     //     throw new IllegalArgumentException("Seat " + seatNumber + " is already reserved.");
+    //     // }
+    
+    //     // seat.setUser(user);
+    // }
+    
+    // public void releaseSeat(int seatNumber) {
+    //     Seat seat = findSeat(seatNumber);
+    
+    //     // if (seat.getUser() == null) {
+    //     //     throw new IllegalArgumentException("Seat " + seatNumber + " is not reserved.");
+    //     // }
+    
+    //     // seat.setUser(null);
+    // }
 }
