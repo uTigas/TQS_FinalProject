@@ -43,4 +43,12 @@ public class SeatReservation {
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
+
+    public boolean isConnectionValid(SeatReservation next) {
+        // Check timestamps and stations
+        if (this.connection.getDepartureTime().isAfter(next.connection.getArrivalTime())) {
+            return false;
+        }
+        return this.connection.getDestination().equals(next.connection.getOrigin());
+    }
 }

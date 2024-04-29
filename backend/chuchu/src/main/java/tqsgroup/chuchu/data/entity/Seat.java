@@ -16,6 +16,8 @@ public class Seat {
     @ManyToOne
     private Carriage carriage;
 
+    private boolean isReserved = false;
+
     public Seat() {
     }
 
@@ -42,5 +44,13 @@ public class Seat {
 
     public void setCarriage(Carriage carriage) {
         this.carriage = carriage;
-    }  
+    }
+    
+    public boolean isReserved() {
+        return isReserved;
+    }
+
+    public void setReserved(boolean isReserved) {
+        this.isReserved = isReserved;
+    }
 }

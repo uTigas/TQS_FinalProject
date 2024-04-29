@@ -31,15 +31,6 @@ public class Connection {
     @Column(name = "lineNumber")
     private int lineNumber; // Line number from the origin Station
 
-    @PrePersist
-    @PreUpdate
-    // Line number can has to be available in the origin station
-    private void validateLineNumber() {
-        if (lineNumber < 0 || lineNumber > origin.getNumberOfLines()) {
-            throw new IllegalStateException("Line number does not exist in the origin station");
-        }
-    }
-
     public Connection() {
     }
 

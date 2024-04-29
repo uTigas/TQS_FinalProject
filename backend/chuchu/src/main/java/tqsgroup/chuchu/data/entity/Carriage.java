@@ -65,6 +65,14 @@ public class Carriage {
         this.type = type;
     }
 
+    public Train getTrain() {
+        return train;
+    }
+
+    public void setTrain(Train train) {
+        this.train = train;
+    }
+
     public int getCapacity() {
         return capacity;
     }
@@ -80,33 +88,4 @@ public class Carriage {
     public List<Seat> getSeats() {
         return seats;
     }
-
-    // private Seat findSeat(int seatNumber) {
-    //     Seat seat = seats.stream()
-    //     .filter(s -> s.getSeatNumber() == seatNumber)
-    //     .findFirst()
-    //     .orElseThrow(() -> new IllegalArgumentException("Seat " + seatNumber + " does not exist."));
-
-    //     return seat;
-    // }
-
-    // public void reserveSeat(int seatNumber, User user) {
-    //     Seat seat = findSeat(seatNumber);
-    
-    //     // if (seat.getUser() != null) {
-    //     //     throw new IllegalArgumentException("Seat " + seatNumber + " is already reserved.");
-    //     // }
-    
-    //     // seat.setUser(user);
-    // }
-    
-    // public void releaseSeat(int seatNumber) {
-    //     Seat seat = findSeat(seatNumber);
-    
-    //     // if (seat.getUser() == null) {
-    //     //     throw new IllegalArgumentException("Seat " + seatNumber + " is not reserved.");
-    //     // }
-    
-    //     // seat.setUser(null);
-    // }
 }
