@@ -1,4 +1,4 @@
-package tqsgroup.chuchu.security;
+package tqsgroup.chuchu.authentication.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import tqsgroup.chuchu.data.entity.User;
-import tqsgroup.chuchu.service.UserService;
+import tqsgroup.chuchu.data.service.UserService;
 
 @Component
 public class UserPasswordAuthenticationProvider implements AuthenticationProvider {
@@ -37,11 +37,12 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
             User cUser = user.get();
             List<GrantedAuthority> roles = new ArrayList<>();
             
-            roles.add(new SimpleGrantedAuthority("ROLE_USER"));
-
-            if (cUser.getAdmin())
-                roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-
+            
+            if (cUser.getRole().getRole().matches("ADMIN"))
+                roles.add(new SimpleGrantedAuthority("ADMIN"));
+            else
+                roles.add(new SimpleGrantedAuthority("USER"));
+            
             return new UsernamePasswordAuthenticationToken(cUser, password, roles);
         }
         else

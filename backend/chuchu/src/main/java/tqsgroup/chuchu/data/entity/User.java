@@ -2,6 +2,7 @@ package tqsgroup.chuchu.data.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,7 +16,8 @@ public class User {
     
     private String name;
     
-    private Boolean admin;
+    @ManyToOne
+    private Role role;
 
     public String getPassword() {
         return this.password;
@@ -41,12 +43,12 @@ public class User {
         this.name = name;
     }
 
-    public Boolean getAdmin() {
-        return this.admin;
+    public Role getRole() {
+        return this.role;
     }
 
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
 }
