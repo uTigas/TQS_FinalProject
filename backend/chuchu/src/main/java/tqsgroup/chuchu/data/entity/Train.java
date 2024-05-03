@@ -1,10 +1,16 @@
 package tqsgroup.chuchu.data.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
 
 @Entity
 @Table(name = "TRAINS")
 public class Train {
+
+    private static final int MIN_TRAIN_NUMBER = 1;
+    private static final int MAX_TRAIN_NUMBER = 9999;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,9 +18,13 @@ public class Train {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
+    @NotNull
     private TrainType type;
 
-    @Column(name = "number")
+    @Column(name = "number", unique = true)
+    @Min(MIN_TRAIN_NUMBER)
+    @Max(MAX_TRAIN_NUMBER)
+    @NotNull
     private int number;
 
     public Train() {

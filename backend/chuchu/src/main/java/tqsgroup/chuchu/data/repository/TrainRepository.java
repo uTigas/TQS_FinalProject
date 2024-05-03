@@ -7,5 +7,5 @@ import tqsgroup.chuchu.data.entity.Train;
 
 @Repository
 public interface TrainRepository extends JpaRepository<Train, Long> {
-    
+    Train findByNumber(int number);
 }

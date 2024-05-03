@@ -4,8 +4,11 @@ import org.springframework.stereotype.Service;
 
 import tqsgroup.chuchu.data.entity.Carriage;
 import tqsgroup.chuchu.data.entity.CarriageType;
+import tqsgroup.chuchu.data.entity.Train;
 import tqsgroup.chuchu.data.entity.TrainType;
 import tqsgroup.chuchu.data.repository.CarriageRepository;
+
+import java.util.List;
 
 @Service
 public class CarriageService {
@@ -20,33 +23,32 @@ public class CarriageService {
     }
 
     public Carriage saveCarriage(Carriage carriage) {
-        checkValidTrain(carriage);
-        checkValidCarriageType(carriage);
+        checkMatchingTypes(carriage.getType(), carriage.getTrain().getType());
         checkValidSeats(carriage);
         return carriageRepository.save(carriage);
     }
 
-    // Helper methods
-    private void checkValidTrain(Carriage carriage) {
-        if (carriage.getTrain() == null) {
-            throw new IllegalArgumentException("Train must not be null");
-        }
+    public Carriage findByCarriageType(CarriageType type) {
+        return carriageRepository.findByType(type);
     }
 
-    private void checkValidCarriageType(Carriage carriage) {
-        if (carriage.getType() == null) {
-            throw new IllegalArgumentException("Carriage type must not be null");
-        }
-        CarriageType carriageType = carriage.getType();
-        TrainType trainType = carriage.getTrain().getType();
+    public List<Carriage> findAllByTrain(Train train) {
+        return carriageRepository.findAllByTrain(train);
+    }
 
+    public List<Carriage> getAllCarriages() {
+        return carriageRepository.findAll();
+    }
+
+    // Helper methods
+    private void checkMatchingTypes(CarriageType carriageType, TrainType trainType) {
         if (carriageType == CarriageType.NORMAL) {
             if (trainType == TrainType.ALPHA || trainType == TrainType.INTERCITY) {
-                throw new IllegalArgumentException("Normal carriage is not allowed for this train type");
+                throw new IllegalArgumentException(carriageType.toString() + " carriage is not allowed for " + trainType.toString() + " train");
             }
         } else { //then it is first or second class
             if (trainType == TrainType.REGIONAL || trainType == TrainType.URBAN || trainType == TrainType.SPECIAL) {
-                throw new IllegalArgumentException("First or second class carriage is not allowed for this train type");
+                throw new IllegalArgumentException(carriageType.toString() + " carriage is not allowed for " + trainType.toString() + " train");
             }
         }
     }

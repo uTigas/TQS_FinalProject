@@ -1,13 +1,16 @@
 package tqsgroup.chuchu.data.entity;
 
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
 
 @Entity
 @Table(name = "CARRIAGES")
 public class Carriage {
+
+    private static final int MIN_CARRIAGE_CAPACITY = 10;
+    private static final int MAX_CARRIAGE_CAPACITY = 200;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,19 +18,33 @@ public class Carriage {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
+    @NotNull
     private CarriageType type;    
     
     @ManyToOne
+    @JoinColumn(name = "train_id")
+    @NotNull
     private Train train;
 
     @Column(name = "capacity")
+    @Min(MIN_CARRIAGE_CAPACITY)
+    @Max(MAX_CARRIAGE_CAPACITY)
+    @NotNull
     private int capacity;
 
     @Column(name = "multiplier")
+    @NotNull
     private double multiplier;
 
-    @OneToMany(mappedBy = "carriage")
-    private List<Seat> seats;
+    public Carriage() {
+    }
+
+    public Carriage(CarriageType type, int capacity, Train train) {
+        this.type = type;
+        this.capacity = capacity;
+        this.train = train;
+        this.multiplier = selectMultiplier();
+    }
 
     private double selectMultiplier() {
         switch (type) {
@@ -42,17 +59,6 @@ public class Carriage {
         }
     }
 
-    public Carriage() {
-    }
-
-    public Carriage(CarriageType type, Train train, int capacity) {
-        this.type = type;
-        this.train = train;
-        this.capacity = capacity;
-        this.multiplier = selectMultiplier();
-        this.seats = new ArrayList<>();
-    }
-
     public Long getId() {
         return id;
     }
@@ -65,14 +71,6 @@ public class Carriage {
         this.type = type;
     }
 
-    public Train getTrain() {
-        return train;
-    }
-
-    public void setTrain(Train train) {
-        this.train = train;
-    }
-
     public int getCapacity() {
         return capacity;
     }
@@ -81,11 +79,15 @@ public class Carriage {
         this.capacity = capacity;
     }
 
-    public double getMultiplier() {
-        return multiplier;
+    public Train getTrain() {
+        return train;
     }
 
-    public List<Seat> getSeats() {
-        return seats;
+    public void setTrain(Train train) {
+        this.train = train;
+    }
+
+    public double getMultiplier() {
+        return multiplier;
     }
 }

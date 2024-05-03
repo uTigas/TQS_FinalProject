@@ -17,12 +17,14 @@ public class StationService {
     }
 
     public Station saveStation(Station station) {
-        checkValidStationName(station);
-        checkValidNumberOfLines(station);
+        checkEmptyStationName(station.getName());
+        checkUniqueStationName(station.getName());
+        checkValidNumberOfLines(station.getNumberOfLines());
         return stationRepository.save(station);
     }
 
     public Station getStationByName(String name) {
+        checkEmptyStationName(name);
         return stationRepository.findByName(name);
     }
 
@@ -32,15 +34,21 @@ public class StationService {
 
 
     // Helper methods
-    private void checkValidStationName(Station station) {
-        if (station.getName() == null || station.getName().isEmpty()) {
+    private void checkEmptyStationName(String name) {
+        if (name.isEmpty()) {
             throw new IllegalArgumentException("Station name must not be empty");
         }
     }
 
-    private void checkValidNumberOfLines(Station station) {
-        if (station.getNumberOfLines() <= 0) {
-            throw new IllegalArgumentException("Number of lines must be greater than 0");
+    private void checkUniqueStationName(String name) {
+        if (stationRepository.findByName(name) != null) {
+            throw new IllegalArgumentException("Station name must be unique");
+        }
+    }
+
+    private void checkValidNumberOfLines(int numberOfLines) {
+        if (numberOfLines <= 0 || numberOfLines > 30){
+            throw new IllegalArgumentException("Number of lines in a Station must be between 1 and 30 inclusive");
         }
     }
 }
