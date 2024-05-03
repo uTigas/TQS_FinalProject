@@ -1,13 +1,6 @@
 version: "3.8"
 
 services:
-  rabbitmq:
-    image: "rabbitmq:3.8-management"
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    networks:
-      - my_network
 
   postgres:
     image: postgres:latest
@@ -25,7 +18,6 @@ services:
   app:
     depends_on:
       - postgres
-      - rabbitmq
     build: ./backend/chuchu
     restart: on-failure
     env_file: ./.env
@@ -50,6 +42,13 @@ services:
     build: ./frontend/portal
     ports:
       - "8100:8100"
+    networks:
+      - my_network
+  
+  admin_ionic:
+    build: ./frontend/portal
+    ports:
+      - "8101:8101"
     networks:
       - my_network
 
