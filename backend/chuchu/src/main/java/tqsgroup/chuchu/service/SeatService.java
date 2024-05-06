@@ -3,7 +3,10 @@ package tqsgroup.chuchu.service;
 import org.springframework.stereotype.Service;
 
 import tqsgroup.chuchu.data.entity.Seat;
+import tqsgroup.chuchu.data.entity.Carriage;
 import tqsgroup.chuchu.data.repository.SeatRepository;
+
+import java.util.List;
 
 @Service
 public class SeatService {
@@ -15,15 +18,23 @@ public class SeatService {
     }
 
     public Seat saveSeat(Seat seat) {
-        checkValidSeatNumber(seat);
         checkValidCarriage(seat);
+        checkValidSeatNumber(seat);
         return seatRepository.save(seat);
+    }
+
+    public List<Seat> findAllByCarriage(Carriage carriage) {
+        return seatRepository.findAllByCarriage(carriage);
+    }
+
+    public Seat findByNumberAndCarriage(int number, Carriage carriage) {
+        return seatRepository.findByNumberAndCarriage(number, carriage);
     }
 
     // Helper methods
     private void checkValidSeatNumber(Seat seat) {
-        if (seat.getSeatNumber() < 0 || seat.getSeatNumber() > seat.getCarriage().getCapacity()){
-            throw new IllegalArgumentException("Seat number must be positive");
+        if (seat.getNumber() < 1 || seat.getNumber() > seat.getCarriage().getCapacity()){
+            throw new IllegalArgumentException("Seat number must be within carriage capacity");
         }
     }
 

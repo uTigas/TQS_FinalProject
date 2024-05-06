@@ -2,9 +2,10 @@ package tqsgroup.chuchu.service;
 
 import org.springframework.stereotype.Service;
 
-
 import tqsgroup.chuchu.data.entity.Ticket;
 import tqsgroup.chuchu.data.repository.TicketRepository;
+
+import java.util.List;
 
 @Service
 public class TicketService {
@@ -19,6 +20,10 @@ public class TicketService {
         checkValidRoute(ticket);
         checkValidPrice(ticket);
         return ticketRepository.save(ticket);
+    }
+
+    public List<Ticket> findAllByUserId(String userId) {
+        return ticketRepository.findAllByUserId(userId);
     }
 
     // Helper methods

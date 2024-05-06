@@ -1,63 +1,64 @@
 package tqsgroup.chuchu.data.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "USERS")
 public class User {
 
     @Id
-    @Column(name = "username")
     private String username;
 
-    @Column(name = "password")
     private String password;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "role")
-    private String role;
+    
+    private String name;
+    
+    @ManyToOne
+    private Role role;
 
     public User() {
     }
 
-    public User(String username, String password, String email, String role) {
+    public User(String username, String password, String name, Role role) {
         this.username = username;
         this.password = password;
-        this.email = email;
+        this.name = name;
         this.role = role;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getName() {
+        return this.name;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public Role getRole() {
+        return this.role;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
+
 }

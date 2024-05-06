@@ -1,6 +1,7 @@
 package tqsgroup.chuchu.data.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "SEAT_RESERVATIONS")
@@ -11,9 +12,15 @@ public class SeatReservation {
     private Long id;
 
     @ManyToOne
+    @Column(name = "seat")
+    @JoinColumn(name = "seat_id")
+    @NotNull
     private Seat seat;
 
     @ManyToOne
+    @Column(name = "connection")
+    @JoinColumn(name = "connection_id")
+    @NotNull
     private Connection connection;
 
     public SeatReservation() {

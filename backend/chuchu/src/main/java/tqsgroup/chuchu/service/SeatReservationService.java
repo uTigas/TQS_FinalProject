@@ -3,63 +3,74 @@ package tqsgroup.chuchu.service;
 import org.springframework.stereotype.Service;
 
 import tqsgroup.chuchu.data.entity.SeatReservation;
+import tqsgroup.chuchu.data.entity.Seat;
+import tqsgroup.chuchu.data.entity.Connection;
 import tqsgroup.chuchu.data.repository.SeatReservationRepository;
+import tqsgroup.chuchu.data.repository.SeatRepository;
+
+import java.util.List;
 
 @Service
 public class SeatReservationService {
     
     final SeatReservationRepository seatReservationRepository;
+    final SeatRepository seatRepository;
 
-    public SeatReservationService(SeatReservationRepository seatReservationRepository) {
+    public SeatReservationService(SeatReservationRepository seatReservationRepository, SeatRepository seatRepository) {
         this.seatReservationRepository = seatReservationRepository;
+        this.seatRepository = seatRepository;
     }
 
     public SeatReservation saveSeatReservation(SeatReservation seatReservation) {
-        checkValidSeat(seatReservation);
-        checkValidConnection(seatReservation);
-        checkSeatNonReserved(seatReservation);
-        reserveSeat(seatReservation);
+        checkValidSeat(seatReservation.getSeat());
+        checkValidConnection(seatReservation.getConnection());
         return seatReservationRepository.save(seatReservation);
     }
 
-    public SeatReservation cancelSeatReservation(SeatReservation seatReservation) {
-        checkValidSeat(seatReservation);
-        checkValidConnection(seatReservation);
-        checkSeatReserved(seatReservation);
-        releaseSeat(seatReservation);
-        return seatReservationRepository.save(seatReservation);
+    public boolean reserveSeat(Seat seat, Connection connection) {
+        SeatReservation existingReservation = findSeatReservationBySeat(seat);
+        if (existingReservation != null) {
+            return false; // Seat is already reserved
+        }
+
+        SeatReservation newReservation = new SeatReservation(seat, connection);
+        seat.setReserved(true);
+        seatRepository.save(seat);
+        seatReservationRepository.save(newReservation);
+        return true;
     }
+
+    public boolean releaseSeat(Seat seat) {
+        SeatReservation existingReservation = findSeatReservationBySeat(seat);
+        if (existingReservation == null) {
+            return false; // Seat is not reserved
+        }
+
+        seat.setReserved(false);
+        seatRepository.save(seat);
+        seatReservationRepository.delete(existingReservation);
+        return true;
+    }
+
+    public SeatReservation findSeatReservationBySeat(Seat seat) {
+        return seatReservationRepository.findBySeat(seat);
+    }
+
+    public List<SeatReservation> findAllSeatReservationsByConnection(Connection connection) {
+        return seatReservationRepository.findAllByConnection(connection);
+    }
+
 
     // Helper methods
-    private void checkValidSeat(SeatReservation seatReservation) {
-        if (seatReservation.getSeat() == null) {
-            throw new IllegalArgumentException("Seat must be assigned to a seat reservation");
+    private void checkValidSeat(Seat seat) {
+        if (seat == null) {
+            throw new IllegalArgumentException("Seat cannot be null");
         }
     }
 
-    private void checkValidConnection(SeatReservation seatReservation) {
-        if (seatReservation.getConnection() == null) {
-            throw new IllegalArgumentException("Connection must be assigned to a seat reservation");
+    private void checkValidConnection(Connection connection) {
+        if (connection == null) {
+            throw new IllegalArgumentException("Connection cannot be null");
         }
-    }
-
-    private void checkSeatNonReserved(SeatReservation seatReservation) {
-        if (seatReservation.getSeat().isReserved()) {
-            throw new IllegalArgumentException("Seat is already reserved");
-        }
-    }
-
-    private void checkSeatReserved(SeatReservation seatReservation) {
-        if (!seatReservation.getSeat().isReserved()) {
-            throw new IllegalArgumentException("Seat is not reserved");
-        }
-    }
-
-    private void reserveSeat(SeatReservation seatReservation) {
-        seatReservation.getSeat().setReserved(true);
-    }
-
-    private void releaseSeat(SeatReservation seatReservation) {
-        seatReservation.getSeat().setReserved(false);
     }
 }

@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import tqsgroup.chuchu.data.entity.Ticket;
 
+import java.util.List;
+
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
-    
+    List<Ticket> findAllByUserId(String userId);
 }
