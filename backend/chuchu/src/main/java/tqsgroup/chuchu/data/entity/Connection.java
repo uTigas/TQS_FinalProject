@@ -21,16 +21,13 @@ public class Connection {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "origin")
     @JoinColumn(name = "origin_id")
     private Station origin;
 
-    @Column(name = "destination")
     @JoinColumn(name = "destination_id")
     private Station destination;
 
     @ManyToOne
-    @Column(name = "train")
     @JoinColumn(name = "train_id")
     private Train train;
 

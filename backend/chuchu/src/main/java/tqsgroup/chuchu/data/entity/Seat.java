@@ -20,7 +20,6 @@ public class Seat {
     private int number;
 
     @ManyToOne
-    @Column(name = "carriage")
     @JoinColumn(name = "carriage_id")
     @NotNull
     private Carriage carriage;

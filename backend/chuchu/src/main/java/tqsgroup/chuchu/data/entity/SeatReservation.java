@@ -17,13 +17,11 @@ public class SeatReservation {
     private Long id;
 
     @ManyToOne
-    @Column(name = "seat")
     @JoinColumn(name = "seat_id")
     @NotNull
     private Seat seat;
 
     @ManyToOne
-    @Column(name = "connection")
     @JoinColumn(name = "connection_id")
     @NotNull
     private Connection connection;
