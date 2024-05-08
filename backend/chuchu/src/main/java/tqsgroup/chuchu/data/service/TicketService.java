@@ -28,8 +28,8 @@ public class TicketService {
         return ticketRepository.save(ticket);
     }
 
-    public List<Ticket> findAllByUserId(String userId) {
-        return ticketRepository.findAllByUserId(userId);
+    public List<Ticket> findAllByUserName(String username) {
+        return ticketRepository.findAllByUserUsername(username);
     }
 
     public List<Ticket> getAllTickets() {

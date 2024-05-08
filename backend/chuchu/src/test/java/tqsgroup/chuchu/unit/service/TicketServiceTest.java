@@ -86,9 +86,9 @@ class TicketServiceTest {
 
     @Test
     void whenFindByUserId_thenTicketShouldBeReturned() {
-        when(ticketRepository.findAllByUserId(u.getUsername())).thenReturn(validTickets);
-        assertThat(ticketService.findAllByUserId(u.getUsername())).isEqualTo(validTickets);
-        verify(ticketRepository, times(1)).findAllByUserId(u.getUsername());
+        when(ticketRepository.findAllByUserUsername(u.getUsername())).thenReturn(validTickets);
+        assertThat(ticketService.findAllByUserName(u.getUsername())).isEqualTo(validTickets);
+        verify(ticketRepository, times(1)).findAllByUserUsername(u.getUsername());
     }
 
     @Test
