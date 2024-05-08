@@ -1,4 +1,4 @@
-package tqsgroup.chuchu.service;
+package tqsgroup.chuchu.data.service;
 
 import org.springframework.stereotype.Service;
 
@@ -12,6 +12,10 @@ import java.util.List;
 
 @Service
 public class ConnectionService {
+
+    private final int MIN_PRICE = 0;
+    private final int MAX_PRICE = 1_000;
+
     final ConnectionRepository connectionRepository;
 
     public ConnectionService(ConnectionRepository connectionRepository) {
@@ -22,6 +26,7 @@ public class ConnectionService {
         checkValidStations(connection);
         checkValidTimestamps(connection);
         checkValidLineNumber(connection);
+        checkValidPriceValue(connection.getPrice());
         return connectionRepository.save(connection);
     }
 
@@ -53,6 +58,11 @@ public class ConnectionService {
         return connectionRepository.findAllByOriginAndLineNumber(origin, lineNumber);
     }
 
+    public List<Connection> findAllByPriceBetween(long minPrice, long maxPrice) {
+        checkValidPriceRange(minPrice, maxPrice);
+        return connectionRepository.findAllByPriceBetween(minPrice, maxPrice);
+    }
+
     public List<Connection> getAllConnections() {
         return connectionRepository.findAll();
     }
@@ -74,6 +84,18 @@ public class ConnectionService {
         int lineNumber = connection.getLineNumber();
         if (lineNumber < 1 || lineNumber > connection.getOrigin().getNumberOfLines()) {
             throw new IllegalArgumentException("Line number does not exist in the origin station");
+        }
+    }
+
+    private void checkValidPriceValue(long price) {
+        if (price < MIN_PRICE || price > MAX_PRICE) {
+            throw new IllegalArgumentException("Price must be between 0 and 1_000 inclusive");
+        }
+    }
+
+    private void checkValidPriceRange(long minPrice, long maxPrice) {
+        if (minPrice < MIN_PRICE || maxPrice < MIN_PRICE || minPrice > maxPrice) {
+            throw new IllegalArgumentException("Invalid price range");
         }
     }
 }

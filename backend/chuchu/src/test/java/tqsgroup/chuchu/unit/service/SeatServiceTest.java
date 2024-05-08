@@ -1,4 +1,4 @@
-package tqsgroup.chuchu.service;
+package tqsgroup.chuchu.unit.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +15,7 @@ import tqsgroup.chuchu.data.entity.TrainType;
 import tqsgroup.chuchu.data.entity.Carriage;
 import tqsgroup.chuchu.data.entity.CarriageType;
 import tqsgroup.chuchu.data.repository.SeatRepository;
+import tqsgroup.chuchu.data.service.SeatService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

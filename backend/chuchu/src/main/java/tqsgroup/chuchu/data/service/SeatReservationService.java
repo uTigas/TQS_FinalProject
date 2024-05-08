@@ -1,4 +1,4 @@
-package tqsgroup.chuchu.service;
+package tqsgroup.chuchu.data.service;
 
 import org.springframework.stereotype.Service;
 
@@ -12,6 +12,9 @@ import java.util.List;
 
 @Service
 public class SeatReservationService {
+
+    private static final long MIN_PRICE = 0L;
+    private static final long MAX_PRICE = 10_000L;
     
     final SeatReservationRepository seatReservationRepository;
     final SeatRepository seatRepository;
@@ -22,8 +25,9 @@ public class SeatReservationService {
     }
 
     public SeatReservation saveSeatReservation(SeatReservation seatReservation) {
-        checkValidSeat(seatReservation.getSeat());
-        checkValidConnection(seatReservation.getConnection());
+        Long seatReservationPrice = calculateSeatReservationPrice(seatReservation.getSeat(), seatReservation.getConnection());
+        checkValidPrice(seatReservationPrice);
+        seatReservation.setSeatPrice(seatReservationPrice);
         return seatReservationRepository.save(seatReservation);
     }
 
@@ -62,15 +66,20 @@ public class SeatReservationService {
 
 
     // Helper methods
-    private void checkValidSeat(Seat seat) {
-        if (seat == null) {
-            throw new IllegalArgumentException("Seat cannot be null");
+    private long calculateSeatReservationPrice(Seat seat, Connection connection) {
+        if (seat == null || connection == null) {
+            throw new IllegalArgumentException("Seat and connection are mandatory for calculating seat reservation price");
+        }
+
+        long basePrice = connection.getPrice();
+        double multiplier = seat.getCarriageMultiplier();
+        return (long) (basePrice * multiplier);
+    }
+
+    private void checkValidPrice(long price) {
+        if (price < MIN_PRICE || price > MAX_PRICE) {
+            throw new IllegalArgumentException("Price must be between " + MIN_PRICE + " and " + MAX_PRICE + " inclusive");
         }
     }
 
-    private void checkValidConnection(Connection connection) {
-        if (connection == null) {
-            throw new IllegalArgumentException("Connection cannot be null");
-        }
-    }
 }

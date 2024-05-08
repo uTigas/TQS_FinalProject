@@ -1,4 +1,4 @@
-package tqsgroup.chuchu.service;
+package tqsgroup.chuchu.data.service;
 
 import org.springframework.stereotype.Service;
 

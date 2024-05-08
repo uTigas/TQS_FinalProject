@@ -1,4 +1,4 @@
-package tqsgroup.chuchu.service;
+package tqsgroup.chuchu.unit.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import tqsgroup.chuchu.data.entity.Train;
 import tqsgroup.chuchu.data.entity.TrainType;
 import tqsgroup.chuchu.data.repository.TrainRepository;
-import tqsgroup.chuchu.service.TrainService;
+import tqsgroup.chuchu.data.service.TrainService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

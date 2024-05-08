@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Ticket {
 
     private static final long MIN_PRICE = 0L;
-    private static final long MAX_PRICE = 10_000L;
+    private static final long MAX_PRICE = 100_000L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,24 +27,23 @@ public class Ticket {
     @NotNull
     private SeatReservation[] route;
 
-    @Column(name = "price")
-    @Min(MIN_PRICE)
-    @Max(MAX_PRICE)
-    @NotNull
-    private double price;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     @NotNull
     private User user; 
 
+    @Column(name = "totalPrice")
+    @Min(MIN_PRICE)
+    @Max(MAX_PRICE)
+    @NotNull
+    private long totalPrice;
+
     public Ticket() {
     }
 
-    public Ticket(SeatReservation[] route, double price, User user) {
+    public Ticket(SeatReservation[] route, User user) {
         this.timestamp = LocalDateTime.now();
         this.route = route;
-        this.price = price;
         this.user = user;
     }
 
@@ -64,19 +63,19 @@ public class Ticket {
         this.route = route;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(long totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

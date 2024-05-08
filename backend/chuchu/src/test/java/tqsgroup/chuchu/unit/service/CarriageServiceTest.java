@@ -1,4 +1,4 @@
-package tqsgroup.chuchu.service;
+package tqsgroup.chuchu.unit.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ import tqsgroup.chuchu.data.entity.CarriageType;
 import tqsgroup.chuchu.data.entity.Train;
 import tqsgroup.chuchu.data.entity.TrainType;
 import tqsgroup.chuchu.data.repository.CarriageRepository;
-import tqsgroup.chuchu.service.CarriageService;
+import tqsgroup.chuchu.data.service.CarriageService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

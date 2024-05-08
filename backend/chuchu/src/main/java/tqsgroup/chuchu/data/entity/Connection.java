@@ -13,6 +13,9 @@ public class Connection {
 
     private static final int MIN_LINE_NUMBER = 1;
     private static final int MAX_LINE_NUMBER = 30;
+
+    private static final long MIN_PRICE = 0L;
+    private static final long MAX_PRICE = 1_000L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,16 +48,23 @@ public class Connection {
     @NotNull
     private int lineNumber; // Line number from the origin Station
 
+    @Column(name = "price")
+    @Min(MIN_PRICE)
+    @Max(MAX_PRICE)
+    @NotNull
+    private long price;
+
     public Connection() {
     }
 
-    public Connection(Station origin, Station destination, Train train, LocalTime arrivalTime, LocalTime departureTime, int lineNumber) {
+    public Connection(Station origin, Station destination, Train train, LocalTime arrivalTime, LocalTime departureTime, int lineNumber, long price) {
         this.origin = origin;
         this.destination = destination;
         this.train = train;
         this.arrivalTime = arrivalTime;
         this.departureTime = departureTime;
         this.lineNumber = lineNumber;
+        this.price = price;
     }
 
     public Long getId() {
@@ -111,5 +121,13 @@ public class Connection {
 
     public void setLineNumber(int lineNumber) {
         this.lineNumber = lineNumber;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
     }
 }

@@ -63,4 +63,8 @@ public class Seat {
     public void setReserved(boolean isReserved) {
         this.isReserved = isReserved;
     }
+
+    public double getCarriageMultiplier() {
+        return carriage.getMultiplier();
+    }
 }

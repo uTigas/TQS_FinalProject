@@ -2,10 +2,15 @@ package tqsgroup.chuchu.data.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
 
 @Entity
 @Table(name = "SEAT_RESERVATIONS")
 public class SeatReservation {
+
+    private static final long MIN_PRICE = 0L;
+    private static final long MAX_PRICE = 10_000L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +27,12 @@ public class SeatReservation {
     @JoinColumn(name = "connection_id")
     @NotNull
     private Connection connection;
+
+    @Column(name = "seatPrice")
+    @Min(MIN_PRICE)
+    @Max(MAX_PRICE)
+    @NotNull
+    private long seatPrice;
 
     public SeatReservation() {
     }
@@ -49,6 +60,14 @@ public class SeatReservation {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
+    }
+
+    public long getSeatPrice() {
+        return seatPrice;
+    }
+
+    public void setSeatPrice(long seatPrice) {
+        this.seatPrice = seatPrice;
     }
 
     public boolean isConnectionValid(SeatReservation next) {

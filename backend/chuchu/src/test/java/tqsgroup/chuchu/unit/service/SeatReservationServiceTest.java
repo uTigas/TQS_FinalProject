@@ -1,4 +1,4 @@
-package tqsgroup.chuchu.service;
+package tqsgroup.chuchu.unit.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +19,7 @@ import tqsgroup.chuchu.data.entity.CarriageType;
 import tqsgroup.chuchu.data.entity.Seat;
 import tqsgroup.chuchu.data.repository.SeatRepository;
 import tqsgroup.chuchu.data.repository.SeatReservationRepository;
+import tqsgroup.chuchu.data.service.SeatReservationService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,7 +40,7 @@ class SeatReservationServiceTest {
 
     Carriage carriage = new Carriage(CarriageType.NORMAL, 50, new Train(TrainType.URBAN, 2));
     Seat seat = new Seat(1, carriage);
-    Connection connection = new Connection(new Station("D", 4), new Station("E", 5), new Train(TrainType.ALPHA, 3), LocalTime.of(14, 0), LocalTime.of(15, 0), 3);
+    Connection connection = new Connection(new Station("D", 4), new Station("E", 5), new Train(TrainType.ALPHA, 3), LocalTime.of(14, 0), LocalTime.of(15, 0), 3, 1L);
     SeatReservation seatReservation = new SeatReservation(seat, connection);
 
 
@@ -58,7 +59,7 @@ class SeatReservationServiceTest {
         try {
             seatReservationService.saveSeatReservation(badSeatReservation);
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage()).isEqualTo("Seat cannot be null");
+            assertThat(e.getMessage()).isEqualTo("Seat and connection are mandatory for calculating seat reservation price");
         }
         verify(seatReservationRepository, never()).save(badSeatReservation);
     }
@@ -71,7 +72,7 @@ class SeatReservationServiceTest {
         try {
             seatReservationService.saveSeatReservation(badConnectionReservation);
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage()).isEqualTo("Connection cannot be null");
+            assertThat(e.getMessage()).isEqualTo("Seat and connection are mandatory for calculating seat reservation price");
         }
         verify(seatReservationRepository, never()).save(badConnectionReservation);
     }
