@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConnectionResponse {
+public class ConnectionDAO {
     private Station from;
     private Station to;
     private Train train;
