@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tqsgroup.chuchu.admin.dao.*; //Get all admin request and response templates
-import tqsgroup.chuchu.data.entity.Station;
-import tqsgroup.chuchu.data.service.StationService;
+import tqsgroup.chuchu.data.entity.*;
+import tqsgroup.chuchu.data.service.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,7 @@ public class AdminRestApi {
     private static final Logger logger = LoggerFactory.getLogger(AdminRestApi.class);
 
     private final StationService stationService;
+    private final TrainService trainService;
 
     @GetMapping("/hello")
     public String hello() {
@@ -39,7 +40,7 @@ public class AdminRestApi {
     }
 
     /* Station endpoints */
-    @Operation(summary = "Create a new station")
+    @Operation(summary = "Create a new Station")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Station was created successfully",
             content = { @Content(mediaType = "application/json",
@@ -52,7 +53,7 @@ public class AdminRestApi {
             logger.info("Creating Station with name: {}", request.getName());
             Station station = stationService.saveStation(new Station(request.getName(), request.getNumberOfLines()));
             logger.info("Station with name {} created successfully", request.getName());
-            StationResponse response = mapToResponse(station);
+            StationResponse response = mapToStationResponse(station);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             logger.error("Error creating Station: {}", e.getMessage());
@@ -81,7 +82,7 @@ public class AdminRestApi {
             }
             List<StationResponse> response = new ArrayList<>();
             for (Station station : stations) {
-                response.add(mapToResponse(station));
+                response.add(mapToStationResponse(station));
             }
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -93,7 +94,7 @@ public class AdminRestApi {
                     return new ResponseEntity<>("Station not found", HttpStatus.NOT_FOUND);
                 }
                 logger.info("Returning Station with name: {}", name);
-                StationResponse response = mapToResponse(station);
+                StationResponse response = mapToStationResponse(station);
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } catch (IllegalArgumentException e) {
                 logger.error("Error while fetching Station: {}", e.getMessage());
@@ -102,12 +103,84 @@ public class AdminRestApi {
         }
     }
 
-    private StationResponse mapToResponse(Station station) {
+    private StationResponse mapToStationResponse(Station station) {
         return StationResponse.builder()
-                .id(station.getId())
                 .name(station.getName())
                 .numberOfLines(station.getNumberOfLines())
                 .build();
     }
     /* End of Station endpoints */
+
+
+    /* Train endpoints */
+    @Operation(summary = "Create a new Train")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Train was created successfully",
+            content = { @Content(mediaType = "application/json",
+                schema = @Schema(implementation = StationResponse.class)) }),
+        @ApiResponse(responseCode = "400", description = "Invalid input while attempting to create Train",
+            content = @Content) })
+    @PostMapping("/trains")
+    public ResponseEntity<Object> createTrain(CreateTrainRequest request) {
+        try {
+            logger.info("Creating Train with number: {}", request.getNumber());
+            Train train = trainService.saveTrain(new Train(request.getType(), request.getNumber()));
+            logger.info("Train with number {} created successfully", request.getNumber());
+            TrainResponse response = mapToTrainResponse(train);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            logger.error("Error creating Train: {}", e.getMessage());
+            return new ResponseEntity<>("Error while creating Train: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Operation(summary = "List all trains or get a train by number")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "List of Trains or a specific Train if number is provided",
+            content = { @Content(mediaType = "application/json",
+                schema = @Schema(implementation = TrainResponse.class)) }),
+        @ApiResponse(responseCode = "400", description = "Invalid input while attempting to fetch a Train by number",
+            content = @Content),
+        @ApiResponse(responseCode = "404", description = "No Trains were found",
+            content = @Content)})
+    @GetMapping("/trains")
+    public ResponseEntity<Object> listTrains(
+            @RequestParam(required = false) Integer number) {
+        if (number == null) {
+            logger.info("No Train number given, fetching all trains");
+            List<Train> trains = trainService.getAllTrains();
+            if (trains.isEmpty()) {
+                logger.info("No Trains found");
+                return new ResponseEntity<>("No trains found", HttpStatus.NOT_FOUND);
+            }
+            List<TrainResponse> response = new ArrayList<>();
+            for (Train train : trains) {
+                response.add(mapToTrainResponse(train));
+            }
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            try {
+                Train train = trainService.findTrainByNumber(number);
+                logger.info("Fetching Train with number: {}", number);
+                if (train == null) {
+                    logger.info("Train with number {} not found", number);
+                    return new ResponseEntity<>("Train not found", HttpStatus.NOT_FOUND);
+                }
+                logger.info("Returning Train with number: {}", number);
+                TrainResponse response = mapToTrainResponse(train);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } catch (IllegalArgumentException e) {
+                logger.error("Error while fetching Train: {}", e.getMessage());
+                return new ResponseEntity<>("Error while fetching Train: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+        }
+    }
+
+    private TrainResponse mapToTrainResponse(Train train) {
+        return TrainResponse.builder()
+                .type(train.getType())
+                .number(train.getNumber())
+                .build();
+    }
+    /* End of Train endpoints */
 }

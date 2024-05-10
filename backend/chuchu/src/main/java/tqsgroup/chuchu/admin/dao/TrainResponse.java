@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import tqsgroup.chuchu.data.entity.TrainType;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StationResponse {
-    private String name;
-    private int numberOfLines;
+public class TrainResponse {
+    private TrainType type;
+    private int number;
 }
