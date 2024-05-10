@@ -33,6 +33,7 @@ public class AdminRestApi {
 
     private final StationService stationService;
     private final TrainService trainService;
+    private final ConnectionService connectionService;
 
     @GetMapping("/hello")
     public String hello() {
@@ -183,4 +184,86 @@ public class AdminRestApi {
                 .build();
     }
     /* End of Train endpoints */
+
+
+    /* Connection endpoints */
+    @Operation(summary = "Create a new Connection")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Connection was created successfully",
+            content = { @Content(mediaType = "application/json",
+                schema = @Schema(implementation = ConnectionResponse.class)) }),
+        @ApiResponse(responseCode = "400", description = "Invalid input while attempting to create Connection",
+            content = @Content) })
+    @PostMapping("/connections")
+    public ResponseEntity<Object> createConnection(CreateConnectionRequest request) {
+        try {
+            logger.info("Creating Connection from {} to {} with Train number: {}", request.getFrom().getName(), request.getTo().getName(), request.getTrain().getNumber());
+            Connection connection = connectionService.saveConnection(new Connection(request.getFrom(), request.getTo(), request.getTrain(), request.getDepartureTime(), request.getArrivalTime(), request.getLineNumber(), request.getPrice()));
+            logger.info("Connection from {} to {} with Train number {} created successfully", request.getFrom().getName(), request.getTo().getName(), request.getTrain().getNumber());
+            ConnectionResponse response = mapToConnectionResponse(connection);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            logger.error("Error creating Connection: {}", e.getMessage());
+            return new ResponseEntity<>("Error while creating Connection: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Operation(summary = "List all connections or get a connection by origin and destination")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "List of Connections or a specific Connection if origin and destination are provided",
+            content = { @Content(mediaType = "application/json",
+                schema = @Schema(implementation = ConnectionResponse.class)) }),
+        @ApiResponse(responseCode = "400", description = "Invalid input while attempting to fetch a Connection by origin and destination",
+            content = @Content),
+        @ApiResponse(responseCode = "404", description = "No Connections were found",
+            content = @Content)})
+    @GetMapping("/connections")
+    public ResponseEntity<Object> listConnections(
+            @RequestParam(required = false) String origin,
+            @RequestParam(required = false) String destination) {
+        if (origin == null || origin.isEmpty() || destination == null || destination.isEmpty()) {
+            logger.info("No origin and destination given, fetching all connections");
+            List<Connection> connections = connectionService.getAllConnections();
+            if (connections.isEmpty()) {
+                logger.info("No Connections found");
+                return new ResponseEntity<>("No connections found", HttpStatus.NOT_FOUND);
+            }
+            List<ConnectionResponse> response = new ArrayList<>();
+            for (Connection connection : connections) {
+                response.add(mapToConnectionResponse(connection));
+            }
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            try {
+                Station from = stationService.getStationByName(origin);
+                Station to = stationService.getStationByName(destination);
+                logger.info("Fetching Connection from {} to {}", origin, destination);
+                List<Connection> connections = connectionService.findAllByOriginAndDestination(from, to);
+                if (connections.isEmpty()) {
+                    logger.info("Connection from {} to {} not found", origin, destination);
+                    return new ResponseEntity<>("Connection not found", HttpStatus.NOT_FOUND);
+                }
+                List<ConnectionResponse> response = new ArrayList<>();
+                for (Connection connection : connections) {
+                    response.add(mapToConnectionResponse(connection));
+                }
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } catch (IllegalArgumentException e) {
+                logger.error("Error while fetching Connection: {}", e.getMessage());
+                return new ResponseEntity<>("Error while fetching Connection: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+        }
+    }
+
+    private ConnectionResponse mapToConnectionResponse(Connection connection) {
+        return ConnectionResponse.builder()
+                .from(connection.getOrigin())
+                .to(connection.getDestination())
+                .train(connection.getTrain())
+                .departureTime(connection.getDepartureTime())
+                .arrivalTime(connection.getArrivalTime())
+                .lineNumber(connection.getLineNumber())
+                .price(connection.getPrice())
+                .build();
+    }
 }

@@ -56,7 +56,7 @@ public class Connection {
     public Connection() {
     }
 
-    public Connection(Station origin, Station destination, Train train,  LocalTime departureTime, LocalTime arrivalTime, int lineNumber, long price) {
+    public Connection(Station origin, Station destination, Train train, LocalTime departureTime, LocalTime arrivalTime, int lineNumber, long price) {
         this.origin = origin;
         this.destination = destination;
         this.train = train;
