@@ -183,12 +183,6 @@
 			<plugin>
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
-				<configuration>
-					<url>jdbc:postgresql://localhost:5432/bus</url>
-					<user>root</user>
-					<password>password</password>
-					<cleanDisabled>false</cleanDisabled> 
-				</configuration>
 			</plugin>
 
 			<!-- Maven Surefire Plugin for running unit tests -->
