@@ -46,12 +46,12 @@ public class ConnectionService {
         return connectionRepository.findAllByTrain(train);
     }
 
-    public List<Connection> findAllByArrivalTimeAfter(LocalTime arrivalTime) {
-        return connectionRepository.findAllByArrivalTimeAfter(arrivalTime);
-    }
-
     public List<Connection> findAllByDepartureTimeAfter(LocalTime departureTime) {
         return connectionRepository.findAllByDepartureTimeAfter(departureTime);
+    }
+
+    public List<Connection> findAllByArrivalTimeBefore(LocalTime arrivalTime) {
+        return connectionRepository.findAllByArrivalTimeBefore(arrivalTime);
     }
 
     public List<Connection> findAllByOriginAndLineNumber(Station origin, int lineNumber) {
@@ -75,8 +75,8 @@ public class ConnectionService {
     }
 
     private void checkValidTimestamps(Connection connection) {
-        if (connection.getArrivalTime().isAfter(connection.getDepartureTime())) {
-            throw new IllegalArgumentException("Arrival time must be before departure time");
+        if (connection.getDepartureTime().isAfter(connection.getArrivalTime())) {
+            throw new IllegalArgumentException("Departure time must be before arrival time - Train departs from origin and arrives at destination");
         }
     }
 

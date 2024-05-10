@@ -16,8 +16,8 @@ public interface ConnectionRepository extends JpaRepository<Connection, Long> {
     List<Connection> findAllByDestination(Station destination);
     List<Connection> findAllByOriginAndDestination(Station origin, Station destination);
     List<Connection> findAllByTrain(Train train);
-    List<Connection> findAllByArrivalTimeAfter(LocalTime arrivalTime);
     List<Connection> findAllByDepartureTimeAfter(LocalTime departureTime);
+    List<Connection> findAllByArrivalTimeBefore(LocalTime arrivalTime);
     List<Connection> findAllByOriginAndLineNumber(Station origin, int lineNumber);
     List<Connection> findAllByPriceBetween(long minPrice, long maxPrice);
 }

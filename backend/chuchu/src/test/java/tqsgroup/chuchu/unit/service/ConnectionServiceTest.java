@@ -60,7 +60,7 @@ class ConnectionServiceTest {
         try {
             connectionService.saveConnection(c);
         } catch (IllegalArgumentException e) {
-            assertThat(e.getMessage()).isEqualTo("Arrival time must be before departure time");
+            assertThat(e.getMessage()).isEqualTo("Departure time must be before arrival time - Train departs from origin and arrives at destination");
         }
         verify(connectionRepository, never()).save(c);
     }
@@ -216,28 +216,28 @@ class ConnectionServiceTest {
         LocalTime currentTime = LocalTime.of(11, 59);
         LocalTime arrivalTime = LocalTime.of(12, 0);
         Connection c = new Connection(new Station("A", 1), new Station("B", 2), new Train(TrainType.ALPHA, 1), arrivalTime, LocalTime.of(13, 0), 1, 1L);
-        when(connectionRepository.findAllByArrivalTimeAfter(currentTime)).thenReturn(Arrays.asList(c));
+        when(connectionRepository.findAllByArrivalTimeBefore(currentTime)).thenReturn(Arrays.asList(c));
     
         // When
-        List<Connection> found = connectionService.findAllByArrivalTimeAfter(currentTime);
+        List<Connection> found = connectionService.findAllByArrivalTimeBefore(currentTime);
     
         // Then
         assertThat(found).containsOnly(c);
-        verify(connectionRepository, times(1)).findAllByArrivalTimeAfter(currentTime);
+        verify(connectionRepository, times(1)).findAllByArrivalTimeBefore(currentTime);
     }
 
     @Test
     void whenSearchInvalidArrivalTime_thenConnectionsShouldNotBeFound() {
         // Given
         LocalTime currentTime = LocalTime.of(12, 0);
-        when(connectionRepository.findAllByArrivalTimeAfter(currentTime)).thenReturn(Arrays.asList());
+        when(connectionRepository.findAllByArrivalTimeBefore(currentTime)).thenReturn(Arrays.asList());
     
         // When
-        List<Connection> found = connectionService.findAllByArrivalTimeAfter(currentTime);
+        List<Connection> found = connectionService.findAllByArrivalTimeBefore(currentTime);
     
         // Then
         assertThat(found).isEmpty();
-        verify(connectionRepository, times(1)).findAllByArrivalTimeAfter(currentTime);
+        verify(connectionRepository, times(1)).findAllByArrivalTimeBefore(currentTime);
     }
 
     @Test

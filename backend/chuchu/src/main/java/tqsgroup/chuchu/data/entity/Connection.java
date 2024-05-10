@@ -33,13 +33,13 @@ public class Connection {
     @JoinColumn(name = "train_id")
     private Train train;
 
-    @Column(name = "arrivalTime")
-    @NotNull
-    private LocalTime arrivalTime;
-
     @Column(name = "departureTime")
     @NotNull
     private LocalTime departureTime;
+
+    @Column(name = "arrivalTime")
+    @NotNull
+    private LocalTime arrivalTime;
 
     @Column(name = "lineNumber")
     @Min(MIN_LINE_NUMBER)
@@ -56,12 +56,12 @@ public class Connection {
     public Connection() {
     }
 
-    public Connection(Station origin, Station destination, Train train, LocalTime arrivalTime, LocalTime departureTime, int lineNumber, long price) {
+    public Connection(Station origin, Station destination, Train train,  LocalTime departureTime, LocalTime arrivalTime, int lineNumber, long price) {
         this.origin = origin;
         this.destination = destination;
         this.train = train;
-        this.arrivalTime = arrivalTime;
         this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
         this.lineNumber = lineNumber;
         this.price = price;
     }
@@ -98,20 +98,20 @@ public class Connection {
         this.train = train;
     }
 
-    public LocalTime getArrivalTime() {
-        return arrivalTime;
-    }
-
-    public void setArrivalTime(LocalTime arrivalTime) {
-        this.arrivalTime = arrivalTime;
-    }
-
     public LocalTime getDepartureTime() {
         return departureTime;
     }
 
     public void setDepartureTime(LocalTime departureTime) {
         this.departureTime = departureTime;
+    }
+
+    public LocalTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(LocalTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
     public int getLineNumber() {
