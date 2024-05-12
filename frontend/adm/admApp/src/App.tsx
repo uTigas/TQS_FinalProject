@@ -12,6 +12,7 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
 import Homepage from './pages/Homepage';
+import StationPage from './pages/StationPage';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 
@@ -54,6 +55,9 @@ const App: React.FC = () => (
         <IonRouterOutlet>
           <Route exact path="/homepage">
             <Homepage />
+          </Route>
+          <Route path="/stations">
+            <StationPage />
           </Route>
           <Route exact path="/tab2">
             <Tab2 />
