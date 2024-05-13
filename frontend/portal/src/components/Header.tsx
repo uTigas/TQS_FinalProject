@@ -6,10 +6,18 @@ import APIWrapper from "./APIWrapper";
 interface HeaderProps {
     name: string;
 }
+
 export interface User {
     username: string;
     name: string;
-  }
+}
+
+export interface ConnectionProp {
+    origin : string,
+    destination : string, 
+    
+}
+
 const Header: React.FC<HeaderProps> = ({name}) => {
     
     const [user, setUser] = useState<User | null>(null);
