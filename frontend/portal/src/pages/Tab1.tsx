@@ -2,15 +2,12 @@ import { IonBackdrop, IonButton, IonCol, IonContent, IonDatetime, IonDatetimeBut
 import ExploreContainer from '../components/ExploreContainer';
 import './Tab1.css';
 import { pin, search } from 'ionicons/icons';
+import Header from '../components/Header';
 
 const Tab1: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Homepage</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header name='Homepage'/>
       <IonContent fullscreen>
         <IonGrid className='ion-padding'>
           <IonRow>
