@@ -11,12 +11,12 @@ const Tab1: React.FC = () => {
       <IonContent fullscreen>
         <IonGrid className='ion-padding'>
           <IonRow>
-            <IonTitle>Horários e Preços:</IonTitle>
+            <IonTitle>Where would you like to go?</IonTitle>
           </IonRow>
           <form>
             <IonRow>
               <IonCol>
-                <IonInput name='origin' placeholder='Origem'></IonInput>
+                <IonInput name='origin' placeholder='Origin'></IonInput>
               </IonCol>
               <IonCol>
                 <IonDatetimeButton datetime="date"></IonDatetimeButton>
@@ -25,7 +25,7 @@ const Tab1: React.FC = () => {
                 </IonModal>
               </IonCol>
               <IonCol>
-                <IonInput name='destination' placeholder='Destino'></IonInput>
+                <IonInput name='destination' placeholder='Destination'></IonInput>
               </IonCol>
               <IonCol>
                 <IonDatetimeButton datetime="returnDate"></IonDatetimeButton>
