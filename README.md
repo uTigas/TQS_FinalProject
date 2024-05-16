@@ -32,5 +32,7 @@ For a story to be considered complete it must pass all these criteria:
 
 - [GitHub](https://github.com/uTigas/TQS_FinalProject) 
 - [Jira](https://snappark.atlassian.net/jira/software/projects/TP/boards/3/backlog?atlOrigin=eyJwIjoiaiIsImkiOiIyOWI5ZjMyYTcxMzA0NDQ5OWI3MTNhZjJjYjk4ODViNiJ9&cloudId=cac2b219-bf1b-4e8e-8f7a-e01aaa2358ca&epics=visible&issueParent=10028%2C10027&selectedIssue=TP-15)
+- [Report](https://uapt33090-my.sharepoint.com/:w:/g/personal/diogo_marto_ua_pt/Ed4dRsMsjFNAiqMjHYv2gLkBrFMs5zpGm0QKw8LwDl3ceA?e=9VfT9O)
+- [SonarCloud](https://sonarcloud.io/project/overview?id=uTigas_TQS_FinalProject)
 
 

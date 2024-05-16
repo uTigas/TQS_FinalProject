@@ -1,6 +1,7 @@
 import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonGrid, IonRow, IonCol } from '@ionic/react';
 import DashboardCard from '../components/DashboardCard';
+import Header from '../components/Header';
 
 const Tab1: React.FC = () => {
 
@@ -20,11 +21,7 @@ const Tab1: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Admin Dashboard</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header name='Homepage'/>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
