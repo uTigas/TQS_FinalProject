@@ -1,44 +1,43 @@
-import { IonBackdrop, IonButton, IonCol, IonContent, IonDatetime, IonDatetimeButton, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonModal, IonPage, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import { IonBackdrop, IonButton, IonCol, IonContent, IonDatetime, IonDatetimeButton, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonModal, IonPage, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import './Tab1.css';
-import { pin, search } from 'ionicons/icons';
-import Header from '../components/Header';
 import React from 'react';
+import Header, { ConnectionProp } from '../components/Header';
+import SelectContainer from '../components/SelectContainer';
+import TimeContainer from '../components/TimeContainer';
+import { arrowBackCircle, arrowBackOutline, arrowForwardCircle } from 'ionicons/icons';
 
-const Tab1: React.FC = () => {
-  let connections = ["Empty Array"];
-  let connections = [];
-  let connections = [];
+export let container = <SelectContainer />;
+export let connections: ConnectionProp[] = [];
+export let possible: ConnectionProp[] = [];
+export let selectedOrigin = "";
+export let selectedDestination = "";
 
-  const updatePossibilities = () => {
-    
-  }  
+const Tab1: React.FC = () => { 
   
+  const showTimeContainer = () => {
+    container = <TimeContainer origin={selectedOrigin} destination={selectedDestination} />;
+}  
+
   return (
     <IonPage>
       <Header name='Homepage'/>
       <IonContent fullscreen>
-        <IonGrid className='ion-padding'>
-          <IonRow>
-            <IonTitle>Where would you like to go?</IonTitle>
-          </IonRow>
-          <form>
-            <IonRow className='ion-padding'>
-              <IonCol>
-                <IonSelect label="Select Origin" labelPlacement="floating" fill="outline" interface="popover" onIonChange={() => updatePossibilities()}>
-                  {connections.map((con) => <IonSelectOption>Apple</IonSelectOption>)}
-                </IonSelect>
-              </IonCol>
-              <IonCol>
-                <IonInput name='destination' placeholder='Destination'></IonInput>
-              </IonCol>
-              <IonCol size='1'>
-                <IonButton size='small' shape='round' color='warning'>Search <IonIcon icon={search}></IonIcon></IonButton>
-              </IonCol>
-            </IonRow>
-          </form>
-        </IonGrid>
-      </IonContent>
+        <IonRow className='ion-padding'>
+          <IonCol size='1'>
+            <IonButton onClick={() => showTimeContainer()} id='prevContainer'>
+                <IonIcon icon={arrowBackCircle} size="large"></IonIcon>
+            </IonButton>
+          </IonCol>
+          <IonCol>
+            {container}
+          </IonCol>
+          <IonCol size='1'>
+            <IonButton onClick={() => showTimeContainer()} id='nextContainer'>
+                <IonIcon icon={arrowForwardCircle} size="large"></IonIcon>
+            </IonButton>
+          </IonCol>
+        </IonRow>
+      </IonContent> 
     </IonPage>
   );
 };

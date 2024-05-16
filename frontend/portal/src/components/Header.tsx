@@ -15,7 +15,6 @@ export interface User {
 export interface ConnectionProp {
     origin : string,
     destination : string, 
-    
 }
 
 const Header: React.FC<HeaderProps> = ({name}) => {
