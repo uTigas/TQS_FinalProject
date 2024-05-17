@@ -36,11 +36,8 @@ jobs:
     - name: setup-chromedriver
       uses: nanasess/setup-chromedriver@v2
 
-    - name: Navigate to Backend Directory
-      run: cd backend/chuchu
-
     - name: Start Docker Compose & Test App
-      run: docker-compose run app mvn -s $GITHUB_WORKSPACE/.github/workflows/maven-settings.xml clean compile test
+      run: docker-compose run app mvn -s maven-settings.xml clean compile test
 
     - name: Import results to Xray (cloud) using a GH action
       if: ${{ true }}
