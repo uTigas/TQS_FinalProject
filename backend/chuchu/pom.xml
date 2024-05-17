@@ -21,6 +21,12 @@
 
 	<dependencies>
 
+		<!-- Provides Thymeleaf HTML render support. -->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
 		<!-- Provides OAuth 2.0 Resource Server support. -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -32,7 +38,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-neo4j</artifactId>
+		</dependency>
+		
 		<!-- Provides Spring Security features, including authentication and authorization. -->
 		<dependency>
             <groupId>org.springframework.boot</groupId>

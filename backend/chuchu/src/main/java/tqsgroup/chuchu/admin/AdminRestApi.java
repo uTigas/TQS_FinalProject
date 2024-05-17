@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,7 +60,7 @@ public class AdminRestApi {
         @ApiResponse(responseCode = "400", description = "Invalid input while attempting to create station",
             content = @Content) })
     @PostMapping("/stations")
-    public ResponseEntity<Object> createStation(StationDAO request) {
+    public ResponseEntity<Object> createStation(@RequestBody StationDAO request) {
         try {
             logger.info("Creating Station with name: {}", request.getName());
             Station station = stationService.saveStation(new Station(request.getName(), request.getNumberOfLines()));

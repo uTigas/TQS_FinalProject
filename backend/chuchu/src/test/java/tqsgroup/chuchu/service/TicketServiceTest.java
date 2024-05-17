@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import tqsgroup.chuchu.data.entity.*;
 import tqsgroup.chuchu.data.repository.TicketRepository;
+import tqsgroup.chuchu.data.service.SeatReservationService;
 import tqsgroup.chuchu.data.service.TicketService;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,6 +25,9 @@ class TicketServiceTest {
 
     @Mock(lenient = true)
     private TicketRepository ticketRepository;
+
+    @Mock(lenient = true)
+    private SeatReservationService reservationService;
 
     @InjectMocks
     private TicketService ticketService;
@@ -40,9 +44,9 @@ class TicketServiceTest {
     Connection con2 = new Connection(station2, station3, train, LocalTime.of(15, 0), LocalTime.of(16, 0), 3, 2L);
     Connection con3 = new Connection(station3, station4, train, LocalTime.of(16, 0), LocalTime.of(17, 0), 3, 3L);
 
-    SeatReservation sr1 = new SeatReservation(seat, con1);
-    SeatReservation sr2 = new SeatReservation(seat, con2);
-    SeatReservation sr3 = new SeatReservation(seat, con3);
+    SeatReservation sr1 = new SeatReservation(seat, con1.getId());
+    SeatReservation sr2 = new SeatReservation(seat, con2.getId());
+    SeatReservation sr3 = new SeatReservation(seat, con3.getId());
     SeatReservation[] validRoute = {sr1, sr2, sr3};
     SeatReservation[] validRoute2 = {sr1, sr2};
     SeatReservation[] emptyRoute = {};
@@ -60,6 +64,7 @@ class TicketServiceTest {
 
     @Test
     void whenSaveValidTicket_thenTicketShouldBeSaved() {
+        when(reservationService.isConnectionValid(any(), any())).thenReturn(true);
         ticketService.saveTicket(validTicket);
         verify(ticketRepository, times(1)).save(validTicket);
     }
@@ -77,6 +82,7 @@ class TicketServiceTest {
     @Test
     void whenSaveTicketWithInvalidRoute_thenTicketShouldNotBeSaved() {
         try {
+            when(reservationService.isConnectionValid(invalidTicket.getRoute()[0], invalidTicket.getRoute()[1])).thenReturn(false);
             ticketService.saveTicket(invalidTicket);
         } catch (IllegalArgumentException e) {
             assertThat(e.getMessage()).isEqualTo("Seat reservations must be consecutive in the route");

@@ -21,10 +21,8 @@ public class SeatReservation {
     @NotNull
     private Seat seat;
 
-    @ManyToOne
-    @JoinColumn(name = "connection_id")
     @NotNull
-    private Connection connection;
+    private Long connection;
 
     @Column(name = "seatPrice")
     @Min(MIN_PRICE)
@@ -35,7 +33,7 @@ public class SeatReservation {
     public SeatReservation() {
     }
 
-    public SeatReservation(Seat seat, Connection connection) {
+    public SeatReservation(Seat seat, Long connection) {
         this.seat = seat;
         this.connection = connection;
     }
@@ -52,11 +50,11 @@ public class SeatReservation {
         this.seat = seat;
     }
 
-    public Connection getConnection() {
+    public Long getConnection() {
         return connection;
     }
 
-    public void setConnection(Connection connection) {
+    public void setConnection(Long connection) {
         this.connection = connection;
     }
 
@@ -68,11 +66,5 @@ public class SeatReservation {
         this.seatPrice = seatPrice;
     }
 
-    public boolean isConnectionValid(SeatReservation next) {
-        // Check timestamps and stations
-        if (this.connection.getDepartureTime().isAfter(next.connection.getArrivalTime())) {
-            return false;
-        }
-        return this.connection.getDestination().equals(next.connection.getOrigin());
-    }
+    
 }
