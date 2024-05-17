@@ -3,7 +3,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonGrid, IonRow, 
 import DashboardCard from '../components/DashboardCard';
 import Header from '../components/Header';
 
-const Tab1: React.FC = () => {
+const Homepage: React.FC = () => {
 
   const cardsData = [
     { title: "Stations", subtitle: "Manage stations here", imageSrc: "../../assets/station.jpg"},
@@ -38,4 +38,4 @@ const Tab1: React.FC = () => {
   );
 };
 
-export default Tab1;
+export default Homepage;
