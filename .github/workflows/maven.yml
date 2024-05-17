@@ -43,13 +43,13 @@ jobs:
       run: docker-compose run app mvn clean compile test
 
     - name: Import results to Xray (cloud) using a GH action
-        if: ${{ true }}
-        uses: mikepenz/xray-action@v2.4.5
-        with:
-           username: "${{ secrets.XRAYCLOUD_CLIENT_ID }}"
-           password: "${{ secrets.XRAYCLOUD_CLIENT_SECRET }}"
-           xrayCloud: "true"
-           testFormat: "junit"
-           testPaths: "**/reports/*.xml"
-           testPlanKey: "${{ secrets.XRAYCLOUD_TEST_PLAN_KEY }}"
-           projectKey: "${{ secrets.JIRACLOUD_PROJECT_KEY }}
+      if: ${{ true }}
+      uses: mikepenz/xray-action@v2.4.5
+      with:
+          username: "${{ secrets.XRAYCLOUD_CLIENT_ID }}"
+          password: "${{ secrets.XRAYCLOUD_CLIENT_SECRET }}"
+          xrayCloud: "true"
+          testFormat: "junit"
+          testPaths: "**/reports/*.xml"
+          testPlanKey: "${{ secrets.XRAYCLOUD_TEST_PLAN_KEY }}"
+          projectKey: "${{ secrets.JIRACLOUD_PROJECT_KEY }}
