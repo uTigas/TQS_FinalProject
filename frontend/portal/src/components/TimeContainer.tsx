@@ -1,42 +1,37 @@
-import { IonButton, IonCol, IonGrid, IonIcon, IonRow, IonSelect, IonSelectOption, IonTitle } from "@ionic/react"
-import { ConnectionProp } from "./Header";
-import { search } from "ionicons/icons";
-export interface TimeContainerProps {
-  origin: string;
-  destination: string;
-}
+import { IonButton, IonCol, IonDatetime, IonGrid, IonIcon, IonRow, IonSelect, IonSelectOption, IonText, IonTitle } from "@ionic/react"
+import { useContext } from "react";
+import { SharedVariablesContext } from "../support/SharedVariablesContext";
+import { arrowForward, handRight } from "ionicons/icons";
 
-const TimeContainer: React.FC<TimeContainerProps> = (() => {
-    let connections: ConnectionProp[] = [];
-    let possible: ConnectionProp[] = [];
-    let selectedOrigin = "";
-    let selectedDestination = "";
-
+const TimeContainer: React.FC = (() => {
+    const {
+    connections,
+    setConnections,
+    possible,
+    setPossible,
+    selectedOrigin,
+    setSelectedOrigin,
+    selectedDestination,
+    setSelectedDestination,
+    setSelectedDate,
+  } = useContext(SharedVariablesContext);
     const updatePossibilities = () => {
         
     } 
     return (
         <IonGrid className='ion-padding'>
               <IonRow>
-                <IonTitle>Where would you like to go?</IonTitle>
+                <IonCol className="ion-text-center">
+                  <IonTitle color={"tertiary"}>Time Selection</IonTitle>
+                </IonCol>
               </IonRow>
-              <form>
-                <IonRow className='ion-padding'>
-                  <IonCol>
-                    <IonSelect id='selectOrigin' label="Select Origin" labelPlacement="floating" fill="outline" interface="popover" onIonChange={() => updatePossibilities()}>
-                      {possible.map((con) => <IonSelectOption>{con.origin}</IonSelectOption>)}
-                    </IonSelect>
-                  </IonCol>
-                  <IonCol>
-                    <IonSelect id='selectDestination' label="Select Destination" labelPlacement="floating" fill="outline" interface="popover" onIonChange={() => updatePossibilities()}>
-                      {possible.map((con) => <IonSelectOption>{con.destination}</IonSelectOption>)}
-                    </IonSelect>
-                  </IonCol>
-                  <IonCol size='1'>
-                    <IonButton size='small' shape='round' color='warning'>Search <IonIcon icon={search}></IonIcon></IonButton>
-                  </IonCol>
-                </IonRow>
-              </form>
+              <IonRow className="ion-padding-top">
+                <IonCol>
+                  <IonTitle className="ion-padding-bottom">When do you want to go?</IonTitle>
+                  <IonDatetime min={new Date().toISOString()} firstDayOfWeek={1} presentation="date" onIonChange={(e) => {if(e.detail.value) setSelectedDate(e.detail.value.toString().split('T')[0])}}></IonDatetime>
+                </IonCol>
+              </IonRow>
+              
         </IonGrid>
     );
 })

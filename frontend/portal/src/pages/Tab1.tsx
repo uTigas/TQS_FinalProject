@@ -1,43 +1,86 @@
 import { IonBackdrop, IonButton, IonCol, IonContent, IonDatetime, IonDatetimeButton, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonModal, IonPage, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import './Tab1.css';
-import React from 'react';
-import Header, { ConnectionProp } from '../components/Header';
+import React, { useContext, useEffect, useState } from 'react';
+import Header, { ConnectionProp } from '../support/Header';
 import SelectContainer from '../components/SelectContainer';
 import TimeContainer from '../components/TimeContainer';
 import { arrowBackCircle, arrowBackOutline, arrowForwardCircle } from 'ionicons/icons';
-
-export let container = <SelectContainer />;
-export let connections: ConnectionProp[] = [];
-export let possible: ConnectionProp[] = [];
-export let selectedOrigin = "";
-export let selectedDestination = "";
+import APIWrapper from '../components/APIWrapper';
+import { SharedVariablesContext } from '../support/SharedVariablesContext';
+import ReturnTripContainer from '../components/ReturnTripContainer';
+import SearchOptionsContainer from '../components/SearchOptionsContainer';
 
 const Tab1: React.FC = () => { 
-  
-  const showTimeContainer = () => {
-    container = <TimeContainer origin={selectedOrigin} destination={selectedDestination} />;
-}  
+  const {
+    connections,
+    setConnections,
+    possible,
+    setPossible,
+    selectedOrigin,
+    setSelectedOrigin,
+    selectedDestination,
+    setSelectedDestination,
+    results, 
+    setResults,
+  } = useContext(SharedVariablesContext);
 
+  const [selectedContainer, setSelectedContainer] = useState(1);
+
+  const handlePreviousContainer = () => {
+    setSelectedContainer((prev) => (prev === 1 ? 4 : prev - 1));
+  };
+
+  const handleNextContainer = () => {
+    setSelectedContainer((prev) => (prev === 4 ? 1 : prev + 1));
+  };
+  
+  const fetchOrganizations = async () => {
+    const response = await APIWrapper.fetchOrganizations()
+    if (response){
+      const data = await response.json();
+      setConnections(data)
+      setPossible(data)
+      console.log("Connections" + connections)
+    }
+  }
+
+  useEffect(()=>{
+    fetchOrganizations()
+  },[])
   return (
     <IonPage>
       <Header name='Homepage'/>
       <IonContent fullscreen>
         <IonRow className='ion-padding'>
-          <IonCol size='1'>
-            <IonButton onClick={() => showTimeContainer()} id='prevContainer'>
+          <IonCol size='1' style={{ display: "flex", alignItems: "center" }}>
+            {selectedContainer > 1 ? (
+              <IonButton onClick={handlePreviousContainer} id='prevContainer'>
                 <IonIcon icon={arrowBackCircle} size="large"></IonIcon>
-            </IonButton>
+              </IonButton>
+            ):(<></>)}
           </IonCol>
           <IonCol>
-            {container}
+            {selectedContainer === 1 && <SelectContainer />}
+            {selectedContainer === 2 && <TimeContainer/>}
+            {selectedContainer === 3 && <ReturnTripContainer />}
+            {selectedContainer === 4 && <SearchOptionsContainer/>}
           </IonCol>
-          <IonCol size='1'>
-            <IonButton onClick={() => showTimeContainer()} id='nextContainer'>
+          <IonCol size='1' style={{ display: "flex", alignItems: "center" }}>
+            {selectedContainer < 4 && selectedOrigin != "" && selectedDestination != "" ? (
+              <IonButton onClick={handleNextContainer} id='nextContainer'>
                 <IonIcon icon={arrowForwardCircle} size="large"></IonIcon>
-            </IonButton>
+              </IonButton>
+            ):(<></>)}
           </IonCol>
         </IonRow>
-      </IonContent> 
+        <IonRow>
+          {results.length != 0 ? (
+              <IonCol>
+                Results
+              </IonCol>
+          ):(<></>)}
+        </IonRow>
+      </IonContent>
     </IonPage>
   );
 };

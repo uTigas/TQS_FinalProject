@@ -10,6 +10,18 @@ const APIWrapper = {
         }
     },
 
+    fetchOrganizations : async (origin : string|null = null, destination : string|null = null) => {
+      try{
+        let originArg
+        originArg = "?origin=" + origin
+        return await fetch(APIWrapper.backendURI + APIWrapper.privateAPI + 'connections' + (origin ? `?origin=${origin}` : '') + (origin && destination ? `&destination=${destination}` : '') + (!origin && destination ? `?destination=${destination}` : ''),
+        { method: 'GET', credentials: 'include' })
+        
+      } catch (error){
+        console.error('Error fetching Organizations', error);
+      }
+    },
+
 
 }
 export default APIWrapper;

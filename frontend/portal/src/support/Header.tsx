@@ -1,7 +1,7 @@
 import { IonButton, IonCol, IonContent, IonHeader, IonIcon, IonPopover, IonRow, IonText, IonTitle, IonToolbar } from "@ionic/react";
 import { logInOutline, logOut, person } from "ionicons/icons";
 import { createContext, useContext, useEffect, useState } from "react";
-import APIWrapper from "./APIWrapper";
+import APIWrapper from "../components/APIWrapper";
 
 interface HeaderProps {
     name: string;

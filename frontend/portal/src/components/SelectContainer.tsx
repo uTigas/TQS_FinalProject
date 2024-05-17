@@ -1,40 +1,57 @@
 import { IonButton, IonCol, IonGrid, IonIcon, IonRow, IonSelect, IonSelectOption, IonTitle } from "@ionic/react"
 import { arrowForwardCircle, handRight, search } from "ionicons/icons";
 import TimeContainer from "./TimeContainer";
-import React from "react";
-import { container, connections, possible, selectedOrigin, selectedDestination } from '../pages/Tab1';
+import React, { useContext, useEffect, useState } from "react";
+import { SharedVariablesContext } from "../support/SharedVariablesContext";
+import APIWrapper from "./APIWrapper";
 
 const SelectContainer: React.FC = (() => {
-    const updatePossibilities = () => {
-        
-    }
+  const {
+    connections,
+    setConnections,
+    possible,
+    setPossible,
+    selectedOrigin,
+    setSelectedOrigin,
+    selectedDestination,
+    setSelectedDestination,
+  } = useContext(SharedVariablesContext);
 
-    const showTimeContainer = () => {
-        container = <TimeContainer origin={selectedOrigin} destination={selectedDestination} />;
-    }  
+  const [origin, setOrigin] = useState<string | null>(null);
+  const [destination, setDestination] = useState<string | null>(null);
 
-    return (
-        <IonGrid className='ion-padding'>
-              <IonRow>
-                <IonTitle>Where would you like to go?</IonTitle>
+
+  const updatePossibilities = async () => {
+    const response = await APIWrapper.fetchOrganizations(origin, destination)
+    if (response)
+      setPossible(await response.json()) 
+  } 
+
+  useEffect (()=>{
+    updatePossibilities()
+  },[origin, destination])
+  
+  return (
+      <IonGrid className='ion-padding'>
+            <IonRow>
+              <IonTitle>Where would you like to go?</IonTitle>
+            </IonRow>
+            <form>
+              <IonRow className='ion-padding'>
+                <IonCol>
+                  <IonSelect id='selectOrigin' label="From" labelPlacement="floating" fill="outline" interface="popover" onIonChange={(e) => setOrigin(e.detail.value)}>
+                    {possible.map((con) => <IonSelectOption>{con.origin}</IonSelectOption>)}
+                  </IonSelect>
+                </IonCol>
+                <IonCol>
+                  <IonSelect id='selectDestination' label="To" labelPlacement="floating" fill="outline" interface="popover" onIonChange={(e) => setDestination(e.detail.value)}>
+                    {possible.map((con) => <IonSelectOption>{con.destination}</IonSelectOption>)}
+                  </IonSelect>
+                </IonCol>
               </IonRow>
-              <form>
-                <IonRow className='ion-padding'>
-                  <IonCol>
-                    <IonSelect id='selectOrigin' label="Select Origin" labelPlacement="floating" fill="outline" interface="popover" onIonChange={() => updatePossibilities()}>
-                      {possible.map((con) => <IonSelectOption>{con.origin}</IonSelectOption>)}
-                    </IonSelect>
-                  </IonCol>
-                  <IonCol>
-                    <IonSelect id='selectDestination' label="Select Destination" labelPlacement="floating" fill="outline" interface="popover" onIonChange={() => updatePossibilities()}>
-                      {possible.map((con) => <IonSelectOption>{con.destination}</IonSelectOption>)}
-                    </IonSelect>
-                  </IonCol>
-                  
-                </IonRow>
-              </form>
-        </IonGrid>
-    );
+            </form>
+      </IonGrid>
+  );
 })
 
 export default SelectContainer;
