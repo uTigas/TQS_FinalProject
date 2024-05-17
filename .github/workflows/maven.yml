@@ -14,6 +14,9 @@ on:
   pull_request:
     branches: [ "main" ]
 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
 jobs:
   build:
 
@@ -28,8 +31,25 @@ jobs:
         distribution: 'temurin'
         cache: maven
         
+    - name: Setup Chrome
+      uses: browser-actions/setup-chrome@v1
+    - name: setup-chromedriver
+      uses: nanasess/setup-chromedriver@v2
+
     - name: Navigate to Backend Directory
       run: cd backend/chuchu
 
     - name: Start Docker Compose & Test App
-      run: docker-compose run app mvn test
+      run: docker-compose run app mvn -s $GITHUB_WORKSPACE/.github/workflows/maven-settings.xml clean compile test
+
+    - name: "Import results to Xray (cloud) using a GH action"
+        if: ${{ true }}
+        uses: mikepenz/xray-action@v2.4.5
+        with:
+           username: "${{ secrets.XRAYCLOUD_CLIENT_ID }}"
+           password: "${{ secrets.XRAYCLOUD_CLIENT_SECRET }}"
+           xrayCloud: "true"
+           testFormat: "junit"
+           testPaths: "**/reports/*.xml"
+           testPlanKey: "${{ secrets.XRAYCLOUD_TEST_PLAN_KEY }}"
+           projectKey: "${{ secrets.JIRACLOUD_PROJECT_KEY }}
