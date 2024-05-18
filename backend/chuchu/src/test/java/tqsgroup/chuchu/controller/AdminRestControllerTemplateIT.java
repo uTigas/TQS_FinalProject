@@ -1,37 +1,37 @@
 package tqsgroup.chuchu.controller;
 
-import org.checkerframework.checker.units.qual.s;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
-import io.cucumber.java.BeforeAll;
-import tqsgroup.chuchu.data.entity.*;
-import tqsgroup.chuchu.data.repository.*;
-
-import java.util.List;
-import java.util.ArrayList;
+import tqsgroup.chuchu.admin.dao.StationDAO;
+import tqsgroup.chuchu.data.entity.Role;
+import tqsgroup.chuchu.data.entity.User;
+import tqsgroup.chuchu.data.entity.Station;
+import tqsgroup.chuchu.data.repository.StationRepository;
+import tqsgroup.chuchu.data.repository.UserRepository;
+import tqsgroup.chuchu.data.repository.RoleRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations = "classpath:application-test.properties")
+import org.junit.jupiter.api.BeforeEach;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AdminRestControllerTemplateIT {
 
     @LocalServerPort
@@ -46,48 +46,116 @@ class AdminRestControllerTemplateIT {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     private static final String ADMIN_API = "/admin/api/v1";
 
-    @BeforeAll
-    void setup() {
-        Role role = new Role("ADMIN");
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ADMIN"));
-        User user = new User("admin", "$2a$10$GiseHkdvwOFr7A9KRWbeiOmg/PYPhWVjdm42puLfOzR/gIAQrsAGy", "email", role);
-        userRepository.save(user);
-
-        //TODO não sei bem como criar o user com o role ADMIN, já vi cenas com Mockuser mas não deu também
+    private String getUrl() {
+        return "http://localhost:" + randomServerPort;
     }
 
-    @Test
-    void testGetHelloEndpoint() {
-        ResponseEntity<String> response = restTemplate.withBasicAuth("admin", "password").getForEntity(ADMIN_API + "/hello", String.class);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(response.getBody().contains("Hello from SpringBoot Admin Rest API Controller"));
+    private String authenticateAndGetCookie() {
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+        requestBody.add("username", "admin");
+        requestBody.add("password", "password");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<String> authenticationResponse = restTemplate.postForEntity(
+            getUrl() + "/auth/login",
+            requestEntity,
+            String.class
+        );
+
+        String cookie = authenticationResponse.getHeaders().getFirst(HttpHeaders.SET_COOKIE);
+        return cookie;
     }
-
-
-    //TODO: command to run this - mvn clean integration-test -Dtest=AdminRestControllerTemplateIT
-
-
-    //TODO estes testes dão sempre 401 unauthorized
-    // @Test
-    // @WithMockUser(username = "admin", authorities = {"ADMIN"})
-    // void whenValidStation_thenCreateStation() {
-    //     Station station = new Station("Station 1", 10);
-    //     ResponseEntity<Station> response = restTemplate.postForEntity(ADMIN_API + "/stations", station, Station.class);
-    //     assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    // }
-
-    // @Test
-    // void whenInvalidStation_thenBadRequest() {
-    //     Station station = new Station("", 10);
-    //     ResponseEntity<Station> response = restTemplate.postForEntity(ADMIN_API + "/stations", station, Station.class);
-    //     assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    // }
 
     private void createTestStation(String name, int numberOfLines) {
         Station station = new Station(name, numberOfLines);
         stationRepository.save(station);
+    }
+
+    @BeforeEach
+    void setUp() {
+        stationRepository.deleteAll();
+        userRepository.deleteAll();
+        roleRepository.deleteAll();
+
+        Role adminRole = new Role("ADMIN");
+        roleRepository.save(adminRole);
+
+        User adminUser = new User("admin", "Admin User", "$2a$10$GiseHkdvwOFr7A9KRWbeiOmg/PYPhWVjdm42puLfOzR/gIAQrsAGy", adminRole);
+        userRepository.save(adminUser);
+
+        createTestStation("station 1", 5);
+        createTestStation("station 2", 3);
+        createTestStation("station 3", 7);
+    }
+
+    @Test
+    @Order(1)
+    void testGetHelloEndpoint() {
+        String cookie = authenticateAndGetCookie();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.COOKIE, cookie);
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+            getUrl() + ADMIN_API + "/hello",
+            HttpMethod.GET,
+            requestEntity,
+            String.class
+        );
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(response.getBody().contains("Hello from SpringBoot Admin Rest API Controller"));
+    }
+
+    @Test
+    @Order(2)
+    void whenValidStation_thenCreateStation() {
+        String cookie = authenticateAndGetCookie();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.COOKIE, cookie);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        StationDAO station = new StationDAO("new station", 10);
+        HttpEntity<StationDAO> requestEntity = new HttpEntity<>(station, headers);
+
+        ResponseEntity<StationDAO> response = restTemplate.exchange(
+            getUrl() + ADMIN_API + "/stations",
+            HttpMethod.POST,
+            requestEntity,
+            StationDAO.class
+        );
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    }
+
+    @Test
+    @Order(3)
+    void givenStations_whenGetStations_thenStatus200() {
+        String cookie = authenticateAndGetCookie();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.COOKIE, cookie);
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+
+        ResponseEntity<StationDAO[]> response = restTemplate.exchange(
+            getUrl() + ADMIN_API + "/stations",
+            HttpMethod.GET,
+            requestEntity,
+            StationDAO[].class
+        );
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(3, response.getBody().length);
     }
 }
