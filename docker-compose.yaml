@@ -54,7 +54,7 @@ services:
       - my_network
   
   admin_ionic:
-    build: ./frontend/portal
+    build: ./frontend/adm/admApp
     ports:
       - "8101:8101"
     networks:
