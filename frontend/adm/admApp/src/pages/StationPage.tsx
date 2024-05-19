@@ -82,6 +82,20 @@ const StationPage: React.FC = () => {
     return true;
   }
 
+  const handleNewStationNameChange = (e: CustomEvent) => {
+    e.preventDefault();
+    setStationName(e.detail.value);
+  }
+
+  const handleNewStationLinesChange = (e: CustomEvent) => {
+    e.preventDefault();
+    //if the input is not a number dont change the value
+    if (isNaN(parseInt(e.detail.value, 10))) {
+      return;
+    }
+    setStationLines(parseInt(e.detail.value, 10));
+  }
+
   const handleClear = () => {
     setStationName('');
     setStationLines(1);
@@ -152,14 +166,14 @@ const StationPage: React.FC = () => {
                   <IonInput
                     id="newStationName"
                     value={stationName}
-                    onIonChange={(e) => setStationName(e.detail.value!)}
+                    onIonChange={handleNewStationNameChange}
                   ></IonInput>
                   <IonLabel position="stacked">Number of lines</IonLabel>
                   <IonInput
                     id="newStationLines"
                     type="number"
                     value={stationLines}
-                    onIonChange={(e) => setStationLines(parseInt(e.detail.value!, 10))}
+                    onIonChange={handleNewStationLinesChange}
                   ></IonInput>
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <IonButton color="danger" onClick={handleClear}>Clear</IonButton>
