@@ -21,13 +21,8 @@ const Homepage: React.FC = () => {
 
   return (
     <IonPage>
-      <Header name='Homepage'/>
+      <Header name='Admin Dashboard'/>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Admin Dashboard</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <IonGrid>
           <IonRow>
             {renderCards()}

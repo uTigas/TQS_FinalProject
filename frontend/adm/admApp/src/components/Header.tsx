@@ -49,7 +49,7 @@ const Header: React.FC<HeaderProps> = ({ name }) => {
             </IonCol>
           ) : (
             <IonCol className="ion-text-end">
-              <IonButton className="normal-button" color={"success"} href={APIWrapper.backendURI + "auth/login"}>Login<IonIcon icon={logInOutline}></IonIcon></IonButton>
+              <IonButton id="login" className="normal-button" color={"success"} href={APIWrapper.backendURI + "auth/login"}>Login<IonIcon icon={logInOutline}></IonIcon></IonButton>
             </IonCol>
 
           )}

@@ -13,6 +13,7 @@ const StationPage: React.FC = () => {
   const [stationLines, setStationLines] = useState(1);
   const [selectedStation, setSelectedStation] = useState<StationData | null>(null);
   const [newErrorMessage, setNewErrorMessage] = useState<string>('');
+  const [newSuccessMessage, setNewSuccessMessage] = useState<string>('');
 
   const [stations, setStations] = useState<StationData[]>([]);
 
@@ -38,6 +39,7 @@ const StationPage: React.FC = () => {
     const newStation: StationData = { name: stationName, numberOfLines: stationLines };
     const validStation = checkValidStation(newStation);
     if (validStation !== true) {
+      setNewSuccessMessage('');
       setNewErrorMessage(validStation as string);
       return;
     }
@@ -57,6 +59,7 @@ const StationPage: React.FC = () => {
         setStationName('');
         setStationLines(1);
         setNewErrorMessage('');
+        setNewSuccessMessage('Station created successfully.');
       })
       .catch(error => {
         console.error('Error:', error);
@@ -146,14 +149,24 @@ const StationPage: React.FC = () => {
                 </IonCardHeader>
                 <IonCardContent style={{ gap: '20px' }}>
                   <IonLabel position="stacked">Enter station name</IonLabel>
-                  <IonInput value={stationName} onIonChange={(e) => setStationName(e.detail.value!)}></IonInput>
+                  <IonInput
+                    id="newStationName"
+                    value={stationName}
+                    onIonChange={(e) => setStationName(e.detail.value!)}
+                  ></IonInput>
                   <IonLabel position="stacked">Number of lines</IonLabel>
-                  <IonInput type="number" value={stationLines} onIonChange={(e) => setStationLines(parseInt(e.detail.value!, 10))}></IonInput>
+                  <IonInput
+                    id="newStationLines"
+                    type="number"
+                    value={stationLines}
+                    onIonChange={(e) => setStationLines(parseInt(e.detail.value!, 10))}
+                  ></IonInput>
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <IonButton color="danger" onClick={handleClear}>Clear</IonButton>
                     <IonButton color="success" slot="end" onClick={handleAddStation}>Add</IonButton>
                   </div>
                   {newErrorMessage && <p style={{ color: 'red' }}>{newErrorMessage}</p>}
+                  {newSuccessMessage && <p style={{ color: 'green' }}>{newSuccessMessage}</p>}
                 </IonCardContent>
               </IonCard>
             </IonCol>
