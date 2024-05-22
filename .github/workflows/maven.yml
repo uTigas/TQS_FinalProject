@@ -57,7 +57,11 @@ jobs:
         
         REVISON: ${{ github.ref_name}}
         TEST_ENVIRONMENT: java${{ matrix.java }}
-      run: docker-compose exec -T app mvn -s maven-settings.xml app.getxray:xray-maven-plugin:import-results -Dxray.clientId=${{ env.XRAYCLOUD_CLIENT_ID }} -Dxray.clientSecret=${{ env.XRAYCLOUD_CLIENT_SECRET }} -Dxray.testPlanKey=${{ env.XRAYCLOUD_TEST_PLAN_KEY }} -Dxray.revision=${{ env.REVISON }}
+      run: docker-compose exec -T app mvn -s maven-settings.xml app.getxray:xray-maven-plugin:import-results \
+           -Dxray.clientId=${{ env.XRAYCLOUD_CLIENT_ID }} \
+           -Dxray.clientSecret=${{ env.XRAYCLOUD_CLIENT_SECRET }} \
+           -Dxray.testPlanKey=${{ env.XRAYCLOUD_TEST_PLAN_KEY }} \
+           -Dxray.revision=${{ env.REVISION }}
     - name: Run Sonarcloud Static Analysis
       if: always()
       env:
