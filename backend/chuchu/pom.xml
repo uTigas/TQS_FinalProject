@@ -125,28 +125,28 @@
 
 		<!-- JUnit Platform Suite for organizing JUnit tests. -->
 		<dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-suite</artifactId>
-            <version>${junit-platform-suite.version}</version>
-            <scope>test</scope>
-        </dependency>
-
+	            <groupId>org.junit.platform</groupId>
+	            <artifactId>junit-platform-suite</artifactId>
+	            <version>${junit-platform-suite.version}</version>
+	            <scope>test</scope>
+	        </dependency>
+	
 		<!-- Cucumber-Java for writing Cucumber tests in Java. -->
 		<dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency>
-
+	            <groupId>io.cucumber</groupId>
+	            <artifactId>cucumber-java</artifactId>
+	            <version>${cucumber.version}</version>
+	            <scope>test</scope>
+	        </dependency>
+	
 		<!-- Cucumber JUnit Platform Engine for executing Cucumber tests on the JUnit Platform. -->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit-platform-engine</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency>
-
+	        <dependency>
+	            <groupId>io.cucumber</groupId>
+	            <artifactId>cucumber-junit-platform-engine</artifactId>
+	            <version>${cucumber.version}</version>
+	            <scope>test</scope>
+	        </dependency>
+	
 		<!-- Testcontainers library for running tests with Docker containers. -->
 		<dependency>
 			<groupId>org.testcontainers</groupId>
@@ -154,7 +154,7 @@
 			<version>1.19.7</version>
 			<scope>test</scope>
 		</dependency>
-
+	
 		<!-- Selenium module for Testcontainers, providing Selenium containers for testing. -->
 		<dependency>
 			<groupId>org.testcontainers</groupId>
@@ -191,44 +191,32 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.2.5</version>
 			</plugin>
-
+			<!-- Maven Failsafe Plugin for running integration tests -->
 			<plugin>
-		                <groupId>app.getxray</groupId>
-		                <artifactId>xray-maven-plugin</artifactId>
-		                <version>${xray-maven-plugin.version}</version>
-		                <configuration>
-		                    <cloud>true</cloud>
-		                    <projectKey>ST</projectKey>
-		                    <reportFormat>junit</reportFormat>
-		                    <reportFile>reports/TEST-junit-jupiter.xml</reportFile>
-		                </configuration>
-		            </plugin>
-			 <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.2.5</version>
-            </plugin>
+		                <artifactId>maven-failsafe-plugin</artifactId>
+		                <version>3.2.5</version>
+	                </plugin>	
 
 			<!--  Jacoco Maven Plugin for code coverage -->
 			<plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.8</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
+		                <groupId>org.jacoco</groupId>
+		                <artifactId>jacoco-maven-plugin</artifactId>
+		                <version>0.8.8</version>
+		                <executions>
+		                    <execution>
+		                        <goals>
+		                            <goal>prepare-agent</goal>
+		                        </goals>
+		                    </execution>
+		                    <execution>
+		                        <id>report</id>
+		                        <phase>prepare-package</phase>
+		                        <goals>
+		                            <goal>report</goal>
+		                        </goals>
+		                    </execution>
+		                </executions>
+	            	</plugin>
 		</plugins>
 	</build>
 
