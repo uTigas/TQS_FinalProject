@@ -42,15 +42,6 @@ jobs:
     - name: Start Docker Compose 
       run: docker-compose up -d
 
-    - name: Run Sonarcloud Static Analysis
-      if: always()
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: 06eb2137628096c9f5d0a5ac5cd55099c15f5b5b
-        PROJECT_KEY: uTigas_TQS_FinalProject
-        ORGANIZATION: utigas
-      run: docker compose exec -T app mvn sonar:sonar -Dsonar.projectKey=${{ env.PROJECT_KEY }}  -Dsonar.organization=${{ env.ORGANIZATION }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ env.SONAR_TOKEN }} -Dsonar.github.oauth=${{ env.GITHUB_TOKEN }} -Dsonar.java.binaries=target/classes  
-
     - name: Test App
       run: docker-compose exec -T app mvn -s maven-settings.xml -B package --file pom.xml
 
@@ -67,3 +58,11 @@ jobs:
         REVISON: ${{ github.ref_name}}
         TEST_ENVIRONMENT: java${{ matrix.java }}
       run: docker-compose exec -T app mvn -s maven-settings.xml app.getxray:xray-maven-plugin:import-results -Dxray.clientId=${{ env.XRAYCLOUD_CLIENT_ID }} -Dxray.clientSecret=${{ env.XRAYCLOUD_CLIENT_SECRET }} -Dxray.testPlanKey=${{ env.XRAYCLOUD_TEST_PLAN_KEY }} -Dxray.revision=${{ env.REVISON }}
+    - name: Run Sonarcloud Static Analysis
+      if: always()
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: 06eb2137628096c9f5d0a5ac5cd55099c15f5b5b
+        PROJECT_KEY: uTigas_TQS_FinalProject
+        ORGANIZATION: utigas
+      run: docker compose exec -T app mvn sonar:sonar -Dsonar.projectKey=${{ env.PROJECT_KEY }}  -Dsonar.organization=${{ env.ORGANIZATION }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ env.SONAR_TOKEN }} -Dsonar.github.oauth=${{ env.GITHUB_TOKEN }} -Dsonar.java.binaries=target/classes  
