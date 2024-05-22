@@ -164,13 +164,13 @@ const StationPage: React.FC = () => {
                 <IonCardContent style={{ gap: '20px' }}>
                   <IonLabel position="stacked">Enter station name</IonLabel>
                   <IonInput
-                    id="newStationName"
+                    name="newStationName"
                     value={stationName}
                     onIonChange={handleNewStationNameChange}
                   ></IonInput>
                   <IonLabel position="stacked">Number of lines</IonLabel>
                   <IonInput
-                    id="newStationLines"
+                    name="newStationLines"
                     type="number"
                     value={stationLines}
                     onIonChange={handleNewStationLinesChange}
