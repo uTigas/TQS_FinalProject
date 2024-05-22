@@ -39,14 +39,12 @@ jobs:
     - name: Start Docker Compose & Test App
       run: docker-compose run app mvn -s maven-settings.xml clean compile test
 
-    - name: Import results to Xray (cloud) using a GH action
-      if: ${{ true }}
-      uses: mikepenz/xray-action@v2.4.5
-      with:
-          username: "${{ secrets.XRAYCLOUD_CLIENT_ID }}"
-          password: "${{ secrets.XRAYCLOUD_CLIENT_SECRET }}"
-          xrayCloud: "true"
-          testFormat: "junit"
-          testPaths: "**/reports/*.xml"
-          testPlanKey: "${{ secrets.XRAYCLOUD_TEST_PLAN_KEY }}"
-          projectKey: "${{ secrets.JIRACLOUD_PROJECT_KEY }}"
+    - name: Push results to Xray on Jira Cloud
+      if: always()
+      env:
+        XRAYCLOUD_CLIENT_ID: ${{ secrets.XRAYCLOUD_CLIENT_ID }}
+        XRAYCLOUD_CLIENT_SECRET: ${{ secrets.XRAYCLOUD_CLIENT_SECRET }}
+        XRAYCLOUD_TEST_PLAN_KEY: ${{ secrets.XRAYCLOUD_TEST_PLAN_KEY }}
+        REVISON: ${{ github.ref_name}}
+        TEST_ENVIRONMENT: java${{ matrix.java }}
+      run: docker-compose run app mvn -Dxray.clientId=${{ env.XRAYCLOUD_CLIENT_ID }} -Dxray.clientSecret=${{ env.XRAYCLOUD_CLIENT_SECRET }} -Dxray.testEnvironment=${{ env.TEST_ENVIRONMENT }} -Dxray.testPlanKey=${{ env.XRAYCLOUD_TEST_PLAN_KEY }} -Dxray.revision=${{ env.REVISON }} xray:import-results  
