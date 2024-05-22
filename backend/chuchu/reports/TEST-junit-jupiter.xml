@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="JUnit Jupiter" tests="66" skipped="0" failures="0" errors="1" time="13" hostname="Tigas" timestamp="2024-05-22T16:37:07">
+<properties>
+<property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
+<property name="FILE_LOG_CHARSET" value="UTF-8"/>
+<property name="LOGGED_APPLICATION_NAME" value="[chuchu] "/>
+<property name="PID" value="85740"/>
+<property name="basedir" value="/home/tigas/TQS/TQS_FinalProject/backend/chuchu"/>
+<property name="com.zaxxer.hikari.pool_number" value="1"/>
+<property name="file.encoding" value="UTF-8"/>
+<property name="file.separator" value="/"/>
+<property name="java.awt.headless" value="true"/>
+<property name="java.class.path" value="/home/tigas/TQS/TQS_FinalProject/backend/chuchu/target/test-classes:/home/tigas/TQS/TQS_FinalProject/backend/chuchu/target/classes:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-thymeleaf/3.2.5/spring-boot-starter-thymeleaf-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.5/spring-boot-starter-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.5/spring-boot-starter-logging-3.2.5.jar:/home/tigas/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/home/tigas/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:/home/tigas/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar:/home/tigas/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar:/home/tigas/.m2/repository/org/slf4j/jul-to-slf4j/2.0.13/jul-to-slf4j-2.0.13.jar:/home/tigas/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/home/tigas/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/home/tigas/.m2/repository/org/thymeleaf/thymeleaf-spring6/3.1.2.RELEASE/thymeleaf-spring6-3.1.2.RELEASE.jar:/home/tigas/.m2/repository/org/thymeleaf/thymeleaf/3.1.2.RELEASE/thymeleaf-3.1.2.RELEASE.jar:/home/tigas/.m2/repository/org/attoparser/attoparser/2.0.7.RELEASE/attoparser-2.0.7.RELEASE.jar:/home/tigas/.m2/repository/org/unbescape/unbescape/1.1.6.RELEASE/unbescape-1.1.6.RELEASE.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-oauth2-resource-server/3.2.5/spring-boot-starter-oauth2-resource-server-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-config/6.2.4/spring-security-config-6.2.4.jar:/home/tigas/.m2/repository/org/springframework/spring-beans/6.1.6/spring-beans-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/spring-context/6.1.6/spring-context-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-core/6.2.4/spring-security-core-6.2.4.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-crypto/6.2.4/spring-security-crypto-6.2.4.jar:/home/tigas/.m2/repository/org/springframework/spring-expression/6.1.6/spring-expression-6.1.6.jar:/home/tigas/.m2/repository/io/micrometer/micrometer-observation/1.12.5/micrometer-observation-1.12.5.jar:/home/tigas/.m2/repository/io/micrometer/micrometer-commons/1.12.5/micrometer-commons-1.12.5.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-oauth2-resource-server/6.2.4/spring-security-oauth2-resource-server-6.2.4.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-oauth2-core/6.2.4/spring-security-oauth2-core-6.2.4.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-oauth2-jose/6.2.4/spring-security-oauth2-jose-6.2.4.jar:/home/tigas/.m2/repository/com/nimbusds/nimbus-jose-jwt/9.24.4/nimbus-jose-jwt-9.24.4.jar:/home/tigas/.m2/repository/com/github/stephenc/jcip/jcip-annotations/1.0-1/jcip-annotations-1.0-1.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.2.5/spring-boot-starter-data-jpa-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.2.5/spring-boot-starter-aop-3.2.5.jar:/home/tigas/.m2/repository/org/aspectj/aspectjweaver/1.9.22/aspectjweaver-1.9.22.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.2.5/spring-boot-starter-jdbc-3.2.5.jar:/home/tigas/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar:/home/tigas/.m2/repository/org/springframework/spring-jdbc/6.1.6/spring-jdbc-6.1.6.jar:/home/tigas/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar:/home/tigas/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/home/tigas/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/home/tigas/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/home/tigas/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar:/home/tigas/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar:/home/tigas/.m2/repository/com/fasterxml/classmate/1.6.0/classmate-1.6.0.jar:/home/tigas/.m2/repository/net/bytebuddy/byte-buddy/1.14.13/byte-buddy-1.14.13.jar:/home/tigas/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/home/tigas/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/home/tigas/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/home/tigas/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/home/tigas/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/home/tigas/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/home/tigas/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/home/tigas/.m2/repository/org/springframework/data/spring-data-jpa/3.2.5/spring-data-jpa-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/data/spring-data-commons/3.2.5/spring-data-commons-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/spring-orm/6.1.6/spring-orm-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/spring-tx/6.1.6/spring-tx-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/spring-aspects/6.1.6/spring-aspects-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-data-neo4j/3.2.5/spring-boot-starter-data-neo4j-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/data/spring-data-neo4j/7.2.5/spring-data-neo4j-7.2.5.jar:/home/tigas/.m2/repository/org/neo4j/neo4j-cypher-dsl/2023.2.0/neo4j-cypher-dsl-2023.2.0.jar:/home/tigas/.m2/repository/org/neo4j/neo4j-cypher-dsl-schema-name-support/2023.2.0/neo4j-cypher-dsl-schema-name-support-2023.2.0.jar:/home/tigas/.m2/repository/org/neo4j/driver/neo4j-java-driver/5.19.0/neo4j-java-driver-5.19.0.jar:/home/tigas/.m2/repository/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar:/home/tigas/.m2/repository/io/netty/netty-handler/4.1.109.Final/netty-handler-4.1.109.Final.jar:/home/tigas/.m2/repository/io/netty/netty-common/4.1.109.Final/netty-common-4.1.109.Final.jar:/home/tigas/.m2/repository/io/netty/netty-resolver/4.1.109.Final/netty-resolver-4.1.109.Final.jar:/home/tigas/.m2/repository/io/netty/netty-buffer/4.1.109.Final/netty-buffer-4.1.109.Final.jar:/home/tigas/.m2/repository/io/netty/netty-transport/4.1.109.Final/netty-transport-4.1.109.Final.jar:/home/tigas/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.109.Final/netty-transport-native-unix-common-4.1.109.Final.jar:/home/tigas/.m2/repository/io/netty/netty-codec/4.1.109.Final/netty-codec-4.1.109.Final.jar:/home/tigas/.m2/repository/io/netty/netty-tcnative-classes/2.0.65.Final/netty-tcnative-classes-2.0.65.Final.jar:/home/tigas/.m2/repository/io/projectreactor/reactor-core/3.6.5/reactor-core-3.6.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.2.5/spring-boot-starter-validation-3.2.5.jar:/home/tigas/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.20/tomcat-embed-el-10.1.20.jar:/home/tigas/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.1.Final/hibernate-validator-8.0.1.Final.jar:/home/tigas/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.2.5/spring-boot-starter-security-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/spring-aop/6.1.6/spring-aop-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-web/6.2.4/spring-security-web-6.2.4.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.2.5/spring-boot-starter-web-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.5/spring-boot-starter-json-3.2.5.jar:/home/tigas/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4.jar:/home/tigas/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4.jar:/home/tigas/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.4/jackson-datatype-jdk8-2.15.4.jar:/home/tigas/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.4/jackson-datatype-jsr310-2.15.4.jar:/home/tigas/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.4/jackson-module-parameter-names-2.15.4.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.2.5/spring-boot-starter-tomcat-3.2.5.jar:/home/tigas/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.20/tomcat-embed-core-10.1.20.jar:/home/tigas/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.20/tomcat-embed-websocket-10.1.20.jar:/home/tigas/.m2/repository/org/springframework/spring-web/6.1.6/spring-web-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/spring-webmvc/6.1.6/spring-webmvc-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/session/spring-session-core/3.2.2/spring-session-core-3.2.2.jar:/home/tigas/.m2/repository/org/springframework/spring-jcl/6.1.6/spring-jcl-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-devtools/3.2.5/spring-boot-devtools-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot/3.2.5/spring-boot-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.5/spring-boot-autoconfigure-3.2.5.jar:/home/tigas/.m2/repository/com/h2database/h2/2.2.224/h2-2.2.224.jar:/home/tigas/.m2/repository/org/postgresql/postgresql/42.6.2/postgresql-42.6.2.jar:/home/tigas/.m2/repository/org/checkerframework/checker-qual/3.31.0/checker-qual-3.31.0.jar:/home/tigas/.m2/repository/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.2.5/spring-boot-starter-test-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-test/3.2.5/spring-boot-test-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.2.5/spring-boot-test-autoconfigure-3.2.5.jar:/home/tigas/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/home/tigas/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/home/tigas/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/home/tigas/.m2/repository/net/minidev/json-smart/2.5.1/json-smart-2.5.1.jar:/home/tigas/.m2/repository/net/minidev/accessors-smart/2.5.1/accessors-smart-2.5.1.jar:/home/tigas/.m2/repository/org/ow2/asm/asm/9.6/asm-9.6.jar:/home/tigas/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/home/tigas/.m2/repository/org/awaitility/awaitility/4.2.1/awaitility-4.2.1.jar:/home/tigas/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/home/tigas/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/home/tigas/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/home/tigas/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/home/tigas/.m2/repository/org/mockito/mockito-core/5.7.0/mockito-core-5.7.0.jar:/home/tigas/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.13/byte-buddy-agent-1.14.13.jar:/home/tigas/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/tigas/.m2/repository/org/mockito/mockito-junit-jupiter/5.7.0/mockito-junit-jupiter-5.7.0.jar:/home/tigas/.m2/repository/org/skyscreamer/jsonassert/1.5.1/jsonassert-1.5.1.jar:/home/tigas/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/home/tigas/.m2/repository/org/springframework/spring-core/6.1.6/spring-core-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/spring-test/6.1.6/spring-test-6.1.6.jar:/home/tigas/.m2/repository/org/xmlunit/xmlunit-core/2.9.1/xmlunit-core-2.9.1.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-testcontainers/3.2.5/spring-boot-testcontainers-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-test/6.2.4/spring-security-test-6.2.4.jar:/home/tigas/.m2/repository/org/testcontainers/junit-jupiter/1.19.7/junit-jupiter-1.19.7.jar:/home/tigas/.m2/repository/org/testcontainers/postgresql/1.19.7/postgresql-1.19.7.jar:/home/tigas/.m2/repository/org/testcontainers/jdbc/1.19.7/jdbc-1.19.7.jar:/home/tigas/.m2/repository/org/testcontainers/database-commons/1.19.7/database-commons-1.19.7.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-java/4.20.0/selenium-java-4.20.0.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-api/4.14.1/selenium-api-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-chrome-driver/4.14.1/selenium-chrome-driver-4.14.1.jar:/home/tigas/.m2/repository/com/google/auto/service/auto-service-annotations/1.1.1/auto-service-annotations-1.1.1.jar:/home/tigas/.m2/repository/com/google/guava/guava/32.1.2-jre/guava-32.1.2-jre.jar:/home/tigas/.m2/repository/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar:/home/tigas/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/home/tigas/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar:/home/tigas/.m2/repository/com/google/errorprone/error_prone_annotations/2.18.0/error_prone_annotations-2.18.0.jar:/home/tigas/.m2/repository/com/google/j2objc/j2objc-annotations/2.8/j2objc-annotations-2.8.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-chromium-driver/4.14.1/selenium-chromium-driver-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-json/4.14.1/selenium-json-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-manager/4.14.1/selenium-manager-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v122/4.20.0/selenium-devtools-v122-4.20.0.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v123/4.20.0/selenium-devtools-v123-4.20.0.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v124/4.20.0/selenium-devtools-v124-4.20.0.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v85/4.14.1/selenium-devtools-v85-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-edge-driver/4.14.1/selenium-edge-driver-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-firefox-driver/4.14.1/selenium-firefox-driver-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-http/4.14.1/selenium-http-4.14.1.jar:/home/tigas/.m2/repository/dev/failsafe/failsafe/3.3.2/failsafe-3.3.2.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-ie-driver/4.14.1/selenium-ie-driver-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-remote-driver/4.14.1/selenium-remote-driver-4.14.1.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-api/1.31.0/opentelemetry-api-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-context/1.31.0/opentelemetry-context-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-exporter-logging/1.31.0/opentelemetry-exporter-logging-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-sdk-common/1.31.0/opentelemetry-sdk-common-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure-spi/1.31.0/opentelemetry-sdk-extension-autoconfigure-spi-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure/1.31.0/opentelemetry-sdk-extension-autoconfigure-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-api-events/1.31.0-alpha/opentelemetry-api-events-1.31.0-alpha.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-sdk-trace/1.31.0/opentelemetry-sdk-trace-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-sdk/1.31.0/opentelemetry-sdk-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-sdk-metrics/1.31.0/opentelemetry-sdk-metrics-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-extension-incubator/1.31.0-alpha/opentelemetry-extension-incubator-1.31.0-alpha.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-sdk-logs/1.31.0/opentelemetry-sdk-logs-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-semconv/1.28.0-alpha/opentelemetry-semconv-1.28.0-alpha.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-os/4.14.1/selenium-os-4.14.1.jar:/home/tigas/.m2/repository/org/apache/commons/commons-exec/1.3/commons-exec-1.3.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-safari-driver/4.14.1/selenium-safari-driver-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-support/4.14.1/selenium-support-4.14.1.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-suite/1.10.1/junit-platform-suite-1.10.1.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-suite-api/1.10.2/junit-platform-suite-api-1.10.2.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-suite-engine/1.10.2/junit-platform-suite-engine-1.10.2.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-suite-commons/1.10.2/junit-platform-suite-commons-1.10.2.jar:/home/tigas/.m2/repository/io/cucumber/cucumber-java/7.15.0/cucumber-java-7.15.0.jar:/home/tigas/.m2/repository/io/cucumber/cucumber-core/7.15.0/cucumber-core-7.15.0.jar:/home/tigas/.m2/repository/io/cucumber/cucumber-gherkin/7.15.0/cucumber-gherkin-7.15.0.jar:/home/tigas/.m2/repository/io/cucumber/cucumber-gherkin-messages/7.15.0/cucumber-gherkin-messages-7.15.0.jar:/home/tigas/.m2/repository/io/cucumber/gherkin/26.2.0/gherkin-26.2.0.jar:/home/tigas/.m2/repository/io/cucumber/messages/22.0.0/messages-22.0.0.jar:/home/tigas/.m2/repository/io/cucumber/tag-expressions/6.0.0/tag-expressions-6.0.0.jar:/home/tigas/.m2/repository/io/cucumber/cucumber-expressions/17.0.1/cucumber-expressions-17.0.1.jar:/home/tigas/.m2/repository/io/cucumber/datatable/7.15.0/datatable-7.15.0.jar:/home/tigas/.m2/repository/io/cucumber/cucumber-plugin/7.15.0/cucumber-plugin-7.15.0.jar:/home/tigas/.m2/repository/io/cucumber/docstring/7.15.0/docstring-7.15.0.jar:/home/tigas/.m2/repository/io/cucumber/html-formatter/20.4.0/html-formatter-20.4.0.jar:/home/tigas/.m2/repository/io/cucumber/junit-xml-formatter/0.2.0/junit-xml-formatter-0.2.0.jar:/home/tigas/.m2/repository/io/cucumber/ci-environment/10.0.0/ci-environment-10.0.0.jar:/home/tigas/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/tigas/.m2/repository/io/cucumber/cucumber-junit-platform-engine/7.15.0/cucumber-junit-platform-engine-7.15.0.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/home/tigas/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/tigas/.m2/repository/org/testcontainers/testcontainers/1.19.7/testcontainers-1.19.7.jar:/home/tigas/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/home/tigas/.m2/repository/org/hamcrest/hamcrest-core/2.2/hamcrest-core-2.2.jar:/home/tigas/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar:/home/tigas/.m2/repository/org/apache/commons/commons-compress/1.24.0/commons-compress-1.24.0.jar:/home/tigas/.m2/repository/org/rnorth/duct-tape/duct-tape/1.0.8/duct-tape-1.0.8.jar:/home/tigas/.m2/repository/org/jetbrains/annotations/17.0.0/annotations-17.0.0.jar:/home/tigas/.m2/repository/com/github/docker-java/docker-java-api/3.3.6/docker-java-api-3.3.6.jar:/home/tigas/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4.jar:/home/tigas/.m2/repository/com/github/docker-java/docker-java-transport-zerodep/3.3.6/docker-java-transport-zerodep-3.3.6.jar:/home/tigas/.m2/repository/com/github/docker-java/docker-java-transport/3.3.6/docker-java-transport-3.3.6.jar:/home/tigas/.m2/repository/net/java/dev/jna/jna/5.13.0/jna-5.13.0.jar:/home/tigas/.m2/repository/org/testcontainers/selenium/1.19.7/selenium-1.19.7.jar:/home/tigas/.m2/repository/app/getxray/xray-junit-extensions/0.7.3/xray-junit-extensions-0.7.3.jar:/home/tigas/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-reporting/1.10.2/junit-platform-reporting-1.10.2.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-launcher/1.10.2/junit-platform-launcher-1.10.2.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/home/tigas/.m2/repository/app/getxray/xray-maven-plugin/0.7.4/xray-maven-plugin-0.7.4.jar:/home/tigas/.m2/repository/com/squareup/okhttp3/okhttp/4.12.0/okhttp-4.12.0.jar:/home/tigas/.m2/repository/com/squareup/okio/okio/3.6.0/okio-3.6.0.jar:/home/tigas/.m2/repository/com/squareup/okio/okio-jvm/3.6.0/okio-jvm-3.6.0.jar:/home/tigas/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.9.23/kotlin-stdlib-common-1.9.23.jar:/home/tigas/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.9.23/kotlin-stdlib-jdk8-1.9.23.jar:/home/tigas/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.9.23/kotlin-stdlib-1.9.23.jar:/home/tigas/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.9.23/kotlin-stdlib-jdk7-1.9.23.jar:/home/tigas/.m2/repository/org/json/json/20231013/json-20231013.jar:/home/tigas/.m2/repository/org/codehaus/plexus/plexus-utils/3.4.1/plexus-utils-3.4.1.jar:/home/tigas/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.2.0/springdoc-openapi-starter-webmvc-ui-2.2.0.jar:/home/tigas/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.2.0/springdoc-openapi-starter-webmvc-api-2.2.0.jar:/home/tigas/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.2.0/springdoc-openapi-starter-common-2.2.0.jar:/home/tigas/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.15/swagger-core-jakarta-2.2.15.jar:/home/tigas/.m2/repository/org/apache/commons/commons-lang3/3.13.0/commons-lang3-3.13.0.jar:/home/tigas/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.15/swagger-annotations-jakarta-2.2.15.jar:/home/tigas/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.15/swagger-models-jakarta-2.2.15.jar:/home/tigas/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.15.4/jackson-dataformat-yaml-2.15.4.jar:/home/tigas/.m2/repository/org/webjars/swagger-ui/5.2.0/swagger-ui-5.2.0.jar:"/>
+<property name="java.class.version" value="61.0"/>
+<property name="java.home" value="/usr/lib/jvm/jdk-17-oracle-x64"/>
+<property name="java.io.tmpdir" value="/tmp"/>
+<property name="java.library.path" value="/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib"/>
+<property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+<property name="java.runtime.version" value="17.0.10+11-LTS-240"/>
+<property name="java.specification.name" value="Java Platform API Specification"/>
+<property name="java.specification.vendor" value="Oracle Corporation"/>
+<property name="java.specification.version" value="17"/>
+<property name="java.vendor" value="Oracle Corporation"/>
+<property name="java.vendor.url" value="https://java.oracle.com/"/>
+<property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+<property name="java.version" value="17.0.10"/>
+<property name="java.version.date" value="2024-01-16"/>
+<property name="java.vm.compressedOopsMode" value="32-bit"/>
+<property name="java.vm.info" value="mixed mode, sharing"/>
+<property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+<property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+<property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+<property name="java.vm.specification.version" value="17"/>
+<property name="java.vm.vendor" value="Oracle Corporation"/>
+<property name="java.vm.version" value="17.0.10+11-LTS-240"/>
+<property name="jdk.debug" value="release"/>
+<property name="line.separator" value="
+"/>
+<property name="localRepository" value="/home/tigas/.m2/repository"/>
+<property name="native.encoding" value="UTF-8"/>
+<property name="org.jboss.logging.provider" value="slf4j"/>
+<property name="os.arch" value="amd64"/>
+<property name="os.name" value="Linux"/>
+<property name="os.version" value="5.15.146.1-microsoft-standard-WSL2"/>
+<property name="path.separator" value=":"/>
+<property name="sun.arch.data.model" value="64"/>
+<property name="sun.boot.library.path" value="/usr/lib/jvm/jdk-17-oracle-x64/lib"/>
+<property name="sun.cpu.endian" value="little"/>
+<property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+<property name="sun.java.command" value="/home/tigas/TQS/TQS_FinalProject/backend/chuchu/target/surefire/surefirebooter-20240522163653106_3.jar /home/tigas/TQS/TQS_FinalProject/backend/chuchu/target/surefire 2024-05-22T16-36-53_024-jvmRun1 surefire-20240522163653106_1tmp surefire_0-20240522163653106_2tmp"/>
+<property name="sun.java.launcher" value="SUN_STANDARD"/>
+<property name="sun.jnu.encoding" value="UTF-8"/>
+<property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+<property name="surefire.real.class.path" value="/home/tigas/TQS/TQS_FinalProject/backend/chuchu/target/surefire/surefirebooter-20240522163653106_3.jar"/>
+<property name="surefire.test.class.path" value="/home/tigas/TQS/TQS_FinalProject/backend/chuchu/target/test-classes:/home/tigas/TQS/TQS_FinalProject/backend/chuchu/target/classes:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-thymeleaf/3.2.5/spring-boot-starter-thymeleaf-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.5/spring-boot-starter-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.5/spring-boot-starter-logging-3.2.5.jar:/home/tigas/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/home/tigas/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:/home/tigas/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar:/home/tigas/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar:/home/tigas/.m2/repository/org/slf4j/jul-to-slf4j/2.0.13/jul-to-slf4j-2.0.13.jar:/home/tigas/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/home/tigas/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/home/tigas/.m2/repository/org/thymeleaf/thymeleaf-spring6/3.1.2.RELEASE/thymeleaf-spring6-3.1.2.RELEASE.jar:/home/tigas/.m2/repository/org/thymeleaf/thymeleaf/3.1.2.RELEASE/thymeleaf-3.1.2.RELEASE.jar:/home/tigas/.m2/repository/org/attoparser/attoparser/2.0.7.RELEASE/attoparser-2.0.7.RELEASE.jar:/home/tigas/.m2/repository/org/unbescape/unbescape/1.1.6.RELEASE/unbescape-1.1.6.RELEASE.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-oauth2-resource-server/3.2.5/spring-boot-starter-oauth2-resource-server-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-config/6.2.4/spring-security-config-6.2.4.jar:/home/tigas/.m2/repository/org/springframework/spring-beans/6.1.6/spring-beans-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/spring-context/6.1.6/spring-context-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-core/6.2.4/spring-security-core-6.2.4.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-crypto/6.2.4/spring-security-crypto-6.2.4.jar:/home/tigas/.m2/repository/org/springframework/spring-expression/6.1.6/spring-expression-6.1.6.jar:/home/tigas/.m2/repository/io/micrometer/micrometer-observation/1.12.5/micrometer-observation-1.12.5.jar:/home/tigas/.m2/repository/io/micrometer/micrometer-commons/1.12.5/micrometer-commons-1.12.5.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-oauth2-resource-server/6.2.4/spring-security-oauth2-resource-server-6.2.4.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-oauth2-core/6.2.4/spring-security-oauth2-core-6.2.4.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-oauth2-jose/6.2.4/spring-security-oauth2-jose-6.2.4.jar:/home/tigas/.m2/repository/com/nimbusds/nimbus-jose-jwt/9.24.4/nimbus-jose-jwt-9.24.4.jar:/home/tigas/.m2/repository/com/github/stephenc/jcip/jcip-annotations/1.0-1/jcip-annotations-1.0-1.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.2.5/spring-boot-starter-data-jpa-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.2.5/spring-boot-starter-aop-3.2.5.jar:/home/tigas/.m2/repository/org/aspectj/aspectjweaver/1.9.22/aspectjweaver-1.9.22.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.2.5/spring-boot-starter-jdbc-3.2.5.jar:/home/tigas/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar:/home/tigas/.m2/repository/org/springframework/spring-jdbc/6.1.6/spring-jdbc-6.1.6.jar:/home/tigas/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar:/home/tigas/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/home/tigas/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/home/tigas/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/home/tigas/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar:/home/tigas/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar:/home/tigas/.m2/repository/com/fasterxml/classmate/1.6.0/classmate-1.6.0.jar:/home/tigas/.m2/repository/net/bytebuddy/byte-buddy/1.14.13/byte-buddy-1.14.13.jar:/home/tigas/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/home/tigas/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/home/tigas/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/home/tigas/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/home/tigas/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/home/tigas/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/home/tigas/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/home/tigas/.m2/repository/org/springframework/data/spring-data-jpa/3.2.5/spring-data-jpa-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/data/spring-data-commons/3.2.5/spring-data-commons-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/spring-orm/6.1.6/spring-orm-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/spring-tx/6.1.6/spring-tx-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/spring-aspects/6.1.6/spring-aspects-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-data-neo4j/3.2.5/spring-boot-starter-data-neo4j-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/data/spring-data-neo4j/7.2.5/spring-data-neo4j-7.2.5.jar:/home/tigas/.m2/repository/org/neo4j/neo4j-cypher-dsl/2023.2.0/neo4j-cypher-dsl-2023.2.0.jar:/home/tigas/.m2/repository/org/neo4j/neo4j-cypher-dsl-schema-name-support/2023.2.0/neo4j-cypher-dsl-schema-name-support-2023.2.0.jar:/home/tigas/.m2/repository/org/neo4j/driver/neo4j-java-driver/5.19.0/neo4j-java-driver-5.19.0.jar:/home/tigas/.m2/repository/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar:/home/tigas/.m2/repository/io/netty/netty-handler/4.1.109.Final/netty-handler-4.1.109.Final.jar:/home/tigas/.m2/repository/io/netty/netty-common/4.1.109.Final/netty-common-4.1.109.Final.jar:/home/tigas/.m2/repository/io/netty/netty-resolver/4.1.109.Final/netty-resolver-4.1.109.Final.jar:/home/tigas/.m2/repository/io/netty/netty-buffer/4.1.109.Final/netty-buffer-4.1.109.Final.jar:/home/tigas/.m2/repository/io/netty/netty-transport/4.1.109.Final/netty-transport-4.1.109.Final.jar:/home/tigas/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.109.Final/netty-transport-native-unix-common-4.1.109.Final.jar:/home/tigas/.m2/repository/io/netty/netty-codec/4.1.109.Final/netty-codec-4.1.109.Final.jar:/home/tigas/.m2/repository/io/netty/netty-tcnative-classes/2.0.65.Final/netty-tcnative-classes-2.0.65.Final.jar:/home/tigas/.m2/repository/io/projectreactor/reactor-core/3.6.5/reactor-core-3.6.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.2.5/spring-boot-starter-validation-3.2.5.jar:/home/tigas/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.20/tomcat-embed-el-10.1.20.jar:/home/tigas/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.1.Final/hibernate-validator-8.0.1.Final.jar:/home/tigas/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.2.5/spring-boot-starter-security-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/spring-aop/6.1.6/spring-aop-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-web/6.2.4/spring-security-web-6.2.4.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.2.5/spring-boot-starter-web-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.5/spring-boot-starter-json-3.2.5.jar:/home/tigas/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4.jar:/home/tigas/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4.jar:/home/tigas/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.4/jackson-datatype-jdk8-2.15.4.jar:/home/tigas/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.4/jackson-datatype-jsr310-2.15.4.jar:/home/tigas/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.4/jackson-module-parameter-names-2.15.4.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.2.5/spring-boot-starter-tomcat-3.2.5.jar:/home/tigas/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.20/tomcat-embed-core-10.1.20.jar:/home/tigas/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.20/tomcat-embed-websocket-10.1.20.jar:/home/tigas/.m2/repository/org/springframework/spring-web/6.1.6/spring-web-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/spring-webmvc/6.1.6/spring-webmvc-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/session/spring-session-core/3.2.2/spring-session-core-3.2.2.jar:/home/tigas/.m2/repository/org/springframework/spring-jcl/6.1.6/spring-jcl-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-devtools/3.2.5/spring-boot-devtools-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot/3.2.5/spring-boot-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.5/spring-boot-autoconfigure-3.2.5.jar:/home/tigas/.m2/repository/com/h2database/h2/2.2.224/h2-2.2.224.jar:/home/tigas/.m2/repository/org/postgresql/postgresql/42.6.2/postgresql-42.6.2.jar:/home/tigas/.m2/repository/org/checkerframework/checker-qual/3.31.0/checker-qual-3.31.0.jar:/home/tigas/.m2/repository/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.2.5/spring-boot-starter-test-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-test/3.2.5/spring-boot-test-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.2.5/spring-boot-test-autoconfigure-3.2.5.jar:/home/tigas/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/home/tigas/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/home/tigas/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/home/tigas/.m2/repository/net/minidev/json-smart/2.5.1/json-smart-2.5.1.jar:/home/tigas/.m2/repository/net/minidev/accessors-smart/2.5.1/accessors-smart-2.5.1.jar:/home/tigas/.m2/repository/org/ow2/asm/asm/9.6/asm-9.6.jar:/home/tigas/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/home/tigas/.m2/repository/org/awaitility/awaitility/4.2.1/awaitility-4.2.1.jar:/home/tigas/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/home/tigas/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/home/tigas/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/home/tigas/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/home/tigas/.m2/repository/org/mockito/mockito-core/5.7.0/mockito-core-5.7.0.jar:/home/tigas/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.13/byte-buddy-agent-1.14.13.jar:/home/tigas/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/tigas/.m2/repository/org/mockito/mockito-junit-jupiter/5.7.0/mockito-junit-jupiter-5.7.0.jar:/home/tigas/.m2/repository/org/skyscreamer/jsonassert/1.5.1/jsonassert-1.5.1.jar:/home/tigas/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/home/tigas/.m2/repository/org/springframework/spring-core/6.1.6/spring-core-6.1.6.jar:/home/tigas/.m2/repository/org/springframework/spring-test/6.1.6/spring-test-6.1.6.jar:/home/tigas/.m2/repository/org/xmlunit/xmlunit-core/2.9.1/xmlunit-core-2.9.1.jar:/home/tigas/.m2/repository/org/springframework/boot/spring-boot-testcontainers/3.2.5/spring-boot-testcontainers-3.2.5.jar:/home/tigas/.m2/repository/org/springframework/security/spring-security-test/6.2.4/spring-security-test-6.2.4.jar:/home/tigas/.m2/repository/org/testcontainers/junit-jupiter/1.19.7/junit-jupiter-1.19.7.jar:/home/tigas/.m2/repository/org/testcontainers/postgresql/1.19.7/postgresql-1.19.7.jar:/home/tigas/.m2/repository/org/testcontainers/jdbc/1.19.7/jdbc-1.19.7.jar:/home/tigas/.m2/repository/org/testcontainers/database-commons/1.19.7/database-commons-1.19.7.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-java/4.20.0/selenium-java-4.20.0.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-api/4.14.1/selenium-api-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-chrome-driver/4.14.1/selenium-chrome-driver-4.14.1.jar:/home/tigas/.m2/repository/com/google/auto/service/auto-service-annotations/1.1.1/auto-service-annotations-1.1.1.jar:/home/tigas/.m2/repository/com/google/guava/guava/32.1.2-jre/guava-32.1.2-jre.jar:/home/tigas/.m2/repository/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar:/home/tigas/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/home/tigas/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar:/home/tigas/.m2/repository/com/google/errorprone/error_prone_annotations/2.18.0/error_prone_annotations-2.18.0.jar:/home/tigas/.m2/repository/com/google/j2objc/j2objc-annotations/2.8/j2objc-annotations-2.8.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-chromium-driver/4.14.1/selenium-chromium-driver-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-json/4.14.1/selenium-json-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-manager/4.14.1/selenium-manager-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v122/4.20.0/selenium-devtools-v122-4.20.0.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v123/4.20.0/selenium-devtools-v123-4.20.0.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v124/4.20.0/selenium-devtools-v124-4.20.0.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v85/4.14.1/selenium-devtools-v85-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-edge-driver/4.14.1/selenium-edge-driver-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-firefox-driver/4.14.1/selenium-firefox-driver-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-http/4.14.1/selenium-http-4.14.1.jar:/home/tigas/.m2/repository/dev/failsafe/failsafe/3.3.2/failsafe-3.3.2.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-ie-driver/4.14.1/selenium-ie-driver-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-remote-driver/4.14.1/selenium-remote-driver-4.14.1.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-api/1.31.0/opentelemetry-api-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-context/1.31.0/opentelemetry-context-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-exporter-logging/1.31.0/opentelemetry-exporter-logging-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-sdk-common/1.31.0/opentelemetry-sdk-common-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure-spi/1.31.0/opentelemetry-sdk-extension-autoconfigure-spi-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure/1.31.0/opentelemetry-sdk-extension-autoconfigure-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-api-events/1.31.0-alpha/opentelemetry-api-events-1.31.0-alpha.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-sdk-trace/1.31.0/opentelemetry-sdk-trace-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-sdk/1.31.0/opentelemetry-sdk-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-sdk-metrics/1.31.0/opentelemetry-sdk-metrics-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-extension-incubator/1.31.0-alpha/opentelemetry-extension-incubator-1.31.0-alpha.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-sdk-logs/1.31.0/opentelemetry-sdk-logs-1.31.0.jar:/home/tigas/.m2/repository/io/opentelemetry/opentelemetry-semconv/1.28.0-alpha/opentelemetry-semconv-1.28.0-alpha.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-os/4.14.1/selenium-os-4.14.1.jar:/home/tigas/.m2/repository/org/apache/commons/commons-exec/1.3/commons-exec-1.3.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-safari-driver/4.14.1/selenium-safari-driver-4.14.1.jar:/home/tigas/.m2/repository/org/seleniumhq/selenium/selenium-support/4.14.1/selenium-support-4.14.1.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-suite/1.10.1/junit-platform-suite-1.10.1.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-suite-api/1.10.2/junit-platform-suite-api-1.10.2.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-suite-engine/1.10.2/junit-platform-suite-engine-1.10.2.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-suite-commons/1.10.2/junit-platform-suite-commons-1.10.2.jar:/home/tigas/.m2/repository/io/cucumber/cucumber-java/7.15.0/cucumber-java-7.15.0.jar:/home/tigas/.m2/repository/io/cucumber/cucumber-core/7.15.0/cucumber-core-7.15.0.jar:/home/tigas/.m2/repository/io/cucumber/cucumber-gherkin/7.15.0/cucumber-gherkin-7.15.0.jar:/home/tigas/.m2/repository/io/cucumber/cucumber-gherkin-messages/7.15.0/cucumber-gherkin-messages-7.15.0.jar:/home/tigas/.m2/repository/io/cucumber/gherkin/26.2.0/gherkin-26.2.0.jar:/home/tigas/.m2/repository/io/cucumber/messages/22.0.0/messages-22.0.0.jar:/home/tigas/.m2/repository/io/cucumber/tag-expressions/6.0.0/tag-expressions-6.0.0.jar:/home/tigas/.m2/repository/io/cucumber/cucumber-expressions/17.0.1/cucumber-expressions-17.0.1.jar:/home/tigas/.m2/repository/io/cucumber/datatable/7.15.0/datatable-7.15.0.jar:/home/tigas/.m2/repository/io/cucumber/cucumber-plugin/7.15.0/cucumber-plugin-7.15.0.jar:/home/tigas/.m2/repository/io/cucumber/docstring/7.15.0/docstring-7.15.0.jar:/home/tigas/.m2/repository/io/cucumber/html-formatter/20.4.0/html-formatter-20.4.0.jar:/home/tigas/.m2/repository/io/cucumber/junit-xml-formatter/0.2.0/junit-xml-formatter-0.2.0.jar:/home/tigas/.m2/repository/io/cucumber/ci-environment/10.0.0/ci-environment-10.0.0.jar:/home/tigas/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/tigas/.m2/repository/io/cucumber/cucumber-junit-platform-engine/7.15.0/cucumber-junit-platform-engine-7.15.0.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/home/tigas/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/tigas/.m2/repository/org/testcontainers/testcontainers/1.19.7/testcontainers-1.19.7.jar:/home/tigas/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/home/tigas/.m2/repository/org/hamcrest/hamcrest-core/2.2/hamcrest-core-2.2.jar:/home/tigas/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar:/home/tigas/.m2/repository/org/apache/commons/commons-compress/1.24.0/commons-compress-1.24.0.jar:/home/tigas/.m2/repository/org/rnorth/duct-tape/duct-tape/1.0.8/duct-tape-1.0.8.jar:/home/tigas/.m2/repository/org/jetbrains/annotations/17.0.0/annotations-17.0.0.jar:/home/tigas/.m2/repository/com/github/docker-java/docker-java-api/3.3.6/docker-java-api-3.3.6.jar:/home/tigas/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4.jar:/home/tigas/.m2/repository/com/github/docker-java/docker-java-transport-zerodep/3.3.6/docker-java-transport-zerodep-3.3.6.jar:/home/tigas/.m2/repository/com/github/docker-java/docker-java-transport/3.3.6/docker-java-transport-3.3.6.jar:/home/tigas/.m2/repository/net/java/dev/jna/jna/5.13.0/jna-5.13.0.jar:/home/tigas/.m2/repository/org/testcontainers/selenium/1.19.7/selenium-1.19.7.jar:/home/tigas/.m2/repository/app/getxray/xray-junit-extensions/0.7.3/xray-junit-extensions-0.7.3.jar:/home/tigas/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-reporting/1.10.2/junit-platform-reporting-1.10.2.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-launcher/1.10.2/junit-platform-launcher-1.10.2.jar:/home/tigas/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/home/tigas/.m2/repository/app/getxray/xray-maven-plugin/0.7.4/xray-maven-plugin-0.7.4.jar:/home/tigas/.m2/repository/com/squareup/okhttp3/okhttp/4.12.0/okhttp-4.12.0.jar:/home/tigas/.m2/repository/com/squareup/okio/okio/3.6.0/okio-3.6.0.jar:/home/tigas/.m2/repository/com/squareup/okio/okio-jvm/3.6.0/okio-jvm-3.6.0.jar:/home/tigas/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.9.23/kotlin-stdlib-common-1.9.23.jar:/home/tigas/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.9.23/kotlin-stdlib-jdk8-1.9.23.jar:/home/tigas/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.9.23/kotlin-stdlib-1.9.23.jar:/home/tigas/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.9.23/kotlin-stdlib-jdk7-1.9.23.jar:/home/tigas/.m2/repository/org/json/json/20231013/json-20231013.jar:/home/tigas/.m2/repository/org/codehaus/plexus/plexus-utils/3.4.1/plexus-utils-3.4.1.jar:/home/tigas/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.2.0/springdoc-openapi-starter-webmvc-ui-2.2.0.jar:/home/tigas/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.2.0/springdoc-openapi-starter-webmvc-api-2.2.0.jar:/home/tigas/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.2.0/springdoc-openapi-starter-common-2.2.0.jar:/home/tigas/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.15/swagger-core-jakarta-2.2.15.jar:/home/tigas/.m2/repository/org/apache/commons/commons-lang3/3.13.0/commons-lang3-3.13.0.jar:/home/tigas/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.15/swagger-annotations-jakarta-2.2.15.jar:/home/tigas/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.15/swagger-models-jakarta-2.2.15.jar:/home/tigas/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.15.4/jackson-dataformat-yaml-2.15.4.jar:/home/tigas/.m2/repository/org/webjars/swagger-ui/5.2.0/swagger-ui-5.2.0.jar:"/>
+<property name="user.dir" value="/home/tigas/TQS/TQS_FinalProject/backend/chuchu"/>
+<property name="user.home" value="/home/tigas"/>
+<property name="user.language" value="en"/>
+<property name="user.name" value="tigas"/>
+<property name="user.timezone" value="Europe/Lisbon"/>
+</properties>
+<testcase name="whenFindSeatReservationBySeat_thenSeatReservationShouldBeFound" classname="tqsgroup.chuchu.service.SeatReservationServiceTest" time="0" started-at="2024-05-22T15:37:07.332005719" finished-at="2024-05-22T15:37:07.437436956">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatReservationServiceTest]/[method:whenFindSeatReservationBySeat_thenSeatReservationShouldBeFound()]
+display-name: whenFindSeatReservationBySeat_thenSeatReservationShouldBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveValidSeat_thenSeatIsSaved" classname="tqsgroup.chuchu.service.SeatServiceTest" time="0" started-at="2024-05-22T15:37:06.761337693" finished-at="2024-05-22T15:37:06.777804998">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatServiceTest]/[method:whenSaveValidSeat_thenSeatIsSaved()]
+display-name: whenSaveValidSeat_thenSeatIsSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchValidOriginAndDestination_thenConnectionsShouldBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.13176716" finished-at="2024-05-22T15:37:07.13476591">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchValidOriginAndDestination_thenConnectionsShouldBeFound()]
+display-name: whenSearchValidOriginAndDestination_thenConnectionsShouldBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveConnectionWithInvalidStations_thenConnectionShouldNotBeSaved" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.129300431" finished-at="2024-05-22T15:37:07.13123111">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSaveConnectionWithInvalidStations_thenConnectionShouldNotBeSaved()]
+display-name: whenSaveConnectionWithInvalidStations_thenConnectionShouldNotBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenFindAllByCarriage_thenSeatsAreReturned" classname="tqsgroup.chuchu.service.SeatServiceTest" time="1" started-at="2024-05-22T15:37:05.493944429" finished-at="2024-05-22T15:37:06.760498967">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatServiceTest]/[method:whenFindAllByCarriage_thenSeatsAreReturned()]
+display-name: whenFindAllByCarriage_thenSeatsAreReturned()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveConnectionWithInvalidTimestamps_thenConnectionShouldNotBeSaved" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.139773996" finished-at="2024-05-22T15:37:07.141877375">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSaveConnectionWithInvalidTimestamps_thenConnectionShouldNotBeSaved()]
+display-name: whenSaveConnectionWithInvalidTimestamps_thenConnectionShouldNotBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchValidTrain_thenConnectionsShouldBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.142405965" finished-at="2024-05-22T15:37:07.145222404">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchValidTrain_thenConnectionsShouldBeFound()]
+display-name: whenSearchValidTrain_thenConnectionsShouldBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchValidPriceRange_thenConnectionsShouldBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.114428294" finished-at="2024-05-22T15:37:07.116389373">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchValidPriceRange_thenConnectionsShouldBeFound()]
+display-name: whenSearchValidPriceRange_thenConnectionsShouldBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveStationWithInvalidName_thenStationShouldNotBeSaved" classname="tqsgroup.chuchu.service.StationServiceTest" time="0" started-at="2024-05-22T15:37:07.704548755" finished-at="2024-05-22T15:37:07.7124579">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.StationServiceTest]/[method:whenSaveStationWithInvalidName_thenStationShouldNotBeSaved()]
+display-name: whenSaveStationWithInvalidName_thenStationShouldNotBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="testNeo4jConnection" classname="tqsgroup.chuchu.databases.Neo4jDatabaseTest" time="0" started-at="2024-05-22T15:37:05.417646824" finished-at="2024-05-22T15:37:05.444748742">
+<error message="Failed to load ApplicationContext for [WebMergedContextConfiguration@29de58ec testClass = tqsgroup.chuchu.databases.Neo4jDatabaseTest, locations = [], classes = [tqsgroup.chuchu.ChuchuApplication], contextInitializerClasses = [], activeProfiles = [], propertySourceDescriptors = [], propertySourceProperties = [&quot;org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true&quot;], contextCustomizers = [org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@4eed2acf, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@6428591a, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@39fa8ad2, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@65f2f9b0, org.springframework.boot.testcontainers.service.connection.ServiceConnectionContextCustomizer@0, org.springframework.boot.test.context.SpringBootTestAnnotation@5a53f4d8], resourceBasePath = &quot;src/main/webapp&quot;, contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]" type="java.lang.IllegalStateException"><![CDATA[java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@29de58ec testClass = tqsgroup.chuchu.databases.Neo4jDatabaseTest, locations = [], classes = [tqsgroup.chuchu.ChuchuApplication], contextInitializerClasses = [], activeProfiles = [], propertySourceDescriptors = [], propertySourceProperties = ["org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true"], contextCustomizers = [org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@4eed2acf, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@6428591a, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@39fa8ad2, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@65f2f9b0, org.springframework.boot.testcontainers.service.connection.ServiceConnectionContextCustomizer@0, org.springframework.boot.test.context.SpringBootTestAnnotation@5a53f4d8], resourceBasePath = "src/main/webapp", contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:180)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130)
+	at org.springframework.test.context.web.ServletTestExecutionListener.setUpRequestContextIfNecessary(ServletTestExecutionListener.java:191)
+	at org.springframework.test.context.web.ServletTestExecutionListener.prepareTestInstance(ServletTestExecutionListener.java:130)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260)
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:163)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.forEachRemaining(StreamSpliterators.java:310)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:735)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:734)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [The connection attempt failed.] [n/a]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1786)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1234)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:952)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1454)
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:553)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:225)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:152)
+	... 17 more
+Caused by: jakarta.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [The connection attempt failed.] [n/a]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:421)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1833)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1782)
+	... 38 more
+Caused by: org.hibernate.exception.JDBCConnectionException: Unable to open JDBC Connection for DDL execution [The connection attempt failed.] [n/a]
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:100)
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:58)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:108)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:94)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:74)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:39)
+	at org.hibernate.tool.schema.internal.exec.ImprovedExtractionContextImpl.getJdbcConnection(ImprovedExtractionContextImpl.java:63)
+	at org.hibernate.tool.schema.extract.spi.ExtractionContext.getQueryResults(ExtractionContext.java:43)
+	at org.hibernate.tool.schema.extract.internal.SequenceInformationExtractorLegacyImpl.extractMetadata(SequenceInformationExtractorLegacyImpl.java:39)
+	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.initializeSequences(DatabaseInformationImpl.java:66)
+	at org.hibernate.tool.schema.extract.internal.DatabaseInformationImpl.<init>(DatabaseInformationImpl.java:60)
+	at org.hibernate.tool.schema.internal.Helper.buildDatabaseInformation(Helper.java:185)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:98)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:286)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:145)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:142)
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37)
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:315)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:450)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1507)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:75)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	... 42 more
+Caused by: org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:354)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:263)
+	at org.postgresql.Driver.makeConnection(Driver.java:443)
+	at org.postgresql.Driver.connect(Driver.java:297)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:359)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:201)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:470)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:100)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:428)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:46)
+	... 62 more
+Caused by: java.net.UnknownHostException: postgres
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:572)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:633)
+	at org.postgresql.core.PGStream.createSocket(PGStream.java:243)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:98)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:132)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:258)
+	... 76 more
+]]></error>
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.databases.Neo4jDatabaseTest]/[method:testNeo4jConnection()]
+display-name: testNeo4jConnection()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchInvalidDepartureTime_thenConnectionsShouldNotBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.170548377" finished-at="2024-05-22T15:37:07.172110707">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchInvalidDepartureTime_thenConnectionsShouldNotBeFound()]
+display-name: whenSearchInvalidDepartureTime_thenConnectionsShouldNotBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchEmptyName_thenStationShouldNotBeFound" classname="tqsgroup.chuchu.service.StationServiceTest" time="0" started-at="2024-05-22T15:37:07.67030775" finished-at="2024-05-22T15:37:07.675809258">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.StationServiceTest]/[method:whenSearchEmptyName_thenStationShouldNotBeFound()]
+display-name: whenSearchEmptyName_thenStationShouldNotBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchValidOriginAndLineNumber_thenConnectionsShouldBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.044307353" finished-at="2024-05-22T15:37:07.114065447">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchValidOriginAndLineNumber_thenConnectionsShouldBeFound()]
+display-name: whenSearchValidOriginAndLineNumber_thenConnectionsShouldBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchInvalidTrain_thenConnectionsShouldNotBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.125896568" finished-at="2024-05-22T15:37:07.128867064">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchInvalidTrain_thenConnectionsShouldNotBeFound()]
+display-name: whenSearchInvalidTrain_thenConnectionsShouldNotBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchInvalidArrivalTime_thenConnectionsShouldNotBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.154452926" finished-at="2024-05-22T15:37:07.15767352">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchInvalidArrivalTime_thenConnectionsShouldNotBeFound()]
+display-name: whenSearchInvalidArrivalTime_thenConnectionsShouldNotBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveConnectionWithInvalidPrice_thenConnectionShouldNotBeSaved" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.122708265" finished-at="2024-05-22T15:37:07.125159263">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSaveConnectionWithInvalidPrice_thenConnectionShouldNotBeSaved()]
+display-name: whenSaveConnectionWithInvalidPrice_thenConnectionShouldNotBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveTrainWithInvalidNumber_thenTrainShouldNotBeSaved" classname="tqsgroup.chuchu.service.TrainServiceTest" time="0" started-at="2024-05-22T15:37:06.948188476" finished-at="2024-05-22T15:37:06.951258806">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.TrainServiceTest]/[method:whenSaveTrainWithInvalidNumber_thenTrainShouldNotBeSaved()]
+display-name: whenSaveTrainWithInvalidNumber_thenTrainShouldNotBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenFindByUserId_thenTicketShouldBeReturned" classname="tqsgroup.chuchu.service.TicketServiceTest" time="0" started-at="2024-05-22T15:37:07.32316266" finished-at="2024-05-22T15:37:07.326435942">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.TicketServiceTest]/[method:whenFindByUserId_thenTicketShouldBeReturned()]
+display-name: whenFindByUserId_thenTicketShouldBeReturned()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchValidOrigin_thenConnectionsShouldBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.163440157" finished-at="2024-05-22T15:37:07.165285405">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchValidOrigin_thenConnectionsShouldBeFound()]
+display-name: whenSearchValidOrigin_thenConnectionsShouldBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveTicketWithInvalidRoute_thenTicketShouldNotBeSaved" classname="tqsgroup.chuchu.service.TicketServiceTest" time="0" started-at="2024-05-22T15:37:07.28704266" finished-at="2024-05-22T15:37:07.305740616">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.TicketServiceTest]/[method:whenSaveTicketWithInvalidRoute_thenTicketShouldNotBeSaved()]
+display-name: whenSaveTicketWithInvalidRoute_thenTicketShouldNotBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenReleaseReservedSeat_thenSeatShouldBeReleased" classname="tqsgroup.chuchu.service.SeatReservationServiceTest" time="0" started-at="2024-05-22T15:37:07.447054981" finished-at="2024-05-22T15:37:07.460146451">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatReservationServiceTest]/[method:whenReleaseReservedSeat_thenSeatShouldBeReleased()]
+display-name: whenReleaseReservedSeat_thenSeatShouldBeReleased()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchNonExistingName_thenStationShouldNotBeFound" classname="tqsgroup.chuchu.service.StationServiceTest" time="0" started-at="2024-05-22T15:37:07.661704439" finished-at="2024-05-22T15:37:07.669160061">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.StationServiceTest]/[method:whenSearchNonExistingName_thenStationShouldNotBeFound()]
+display-name: whenSearchNonExistingName_thenStationShouldNotBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchValidArrivalTime_thenConnectionsShouldBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.119990943" finished-at="2024-05-22T15:37:07.122281893">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchValidArrivalTime_thenConnectionsShouldBeFound()]
+display-name: whenSearchValidArrivalTime_thenConnectionsShouldBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchValidName_thenStationShouldBeFound" classname="tqsgroup.chuchu.service.StationServiceTest" time="0" started-at="2024-05-22T15:37:07.695590762" finished-at="2024-05-22T15:37:07.703482034">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.StationServiceTest]/[method:whenSearchValidName_thenStationShouldBeFound()]
+display-name: whenSearchValidName_thenStationShouldBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveSeatWithoutCarriage_thenSeatIsNotSaved" classname="tqsgroup.chuchu.service.SeatServiceTest" time="0" started-at="2024-05-22T15:37:06.77887456" finished-at="2024-05-22T15:37:06.795524557">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatServiceTest]/[method:whenSaveSeatWithoutCarriage_thenSeatIsNotSaved()]
+display-name: whenSaveSeatWithoutCarriage_thenSeatIsNotSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveStationWithValidName_thenStationShouldBeSaved" classname="tqsgroup.chuchu.service.StationServiceTest" time="0" started-at="2024-05-22T15:37:07.677068614" finished-at="2024-05-22T15:37:07.686682541">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.StationServiceTest]/[method:whenSaveStationWithValidName_thenStationShouldBeSaved()]
+display-name: whenSaveStationWithValidName_thenStationShouldBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveValidSeatReservation_thenSeatReservationShouldBeSaved" classname="tqsgroup.chuchu.service.SeatReservationServiceTest" time="0" started-at="2024-05-22T15:37:07.438374732" finished-at="2024-05-22T15:37:07.44534755">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatReservationServiceTest]/[method:whenSaveValidSeatReservation_thenSeatReservationShouldBeSaved()]
+display-name: whenSaveValidSeatReservation_thenSeatReservationShouldBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchInvalidOriginAndDestination_thenConnectionsShouldNotBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.135207548" finished-at="2024-05-22T15:37:07.137481832">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchInvalidOriginAndDestination_thenConnectionsShouldNotBeFound()]
+display-name: whenSearchInvalidOriginAndDestination_thenConnectionsShouldNotBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchInvalidPriceRange_thenException" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.168386859" finished-at="2024-05-22T15:37:07.170226245">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchInvalidPriceRange_thenException()]
+display-name: whenSearchInvalidPriceRange_thenException()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchInvalidOrigin_thenConnectionsShouldNotBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.116774645" finished-at="2024-05-22T15:37:07.119426744">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchInvalidOrigin_thenConnectionsShouldNotBeFound()]
+display-name: whenSearchInvalidOrigin_thenConnectionsShouldNotBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchInvalidDestination_thenConnectionsShouldNotBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.145706449" finished-at="2024-05-22T15:37:07.148474746">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchInvalidDestination_thenConnectionsShouldNotBeFound()]
+display-name: whenSearchInvalidDestination_thenConnectionsShouldNotBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenGetAllCarriages_thenAllCarriagesShouldBeReturned" classname="tqsgroup.chuchu.service.CarriageServiceTest" time="0" started-at="2024-05-22T15:37:07.025913405" finished-at="2024-05-22T15:37:07.028853537">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.CarriageServiceTest]/[method:whenGetAllCarriages_thenAllCarriagesShouldBeReturned()]
+display-name: whenGetAllCarriages_thenAllCarriagesShouldBeReturned()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveSeatReservationWithInvalidConnection_thenSeatReservationShouldNotBeSaved" classname="tqsgroup.chuchu.service.SeatReservationServiceTest" time="0" started-at="2024-05-22T15:37:07.532211131" finished-at="2024-05-22T15:37:07.535938402">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatReservationServiceTest]/[method:whenSaveSeatReservationWithInvalidConnection_thenSeatReservationShouldNotBeSaved()]
+display-name: whenSaveSeatReservationWithInvalidConnection_thenSeatReservationShouldNotBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveValidConnection_thenConnectionShouldBeSaved" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.137821769" finished-at="2024-05-22T15:37:07.13941048">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSaveValidConnection_thenConnectionShouldBeSaved()]
+display-name: whenSaveValidConnection_thenConnectionShouldBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchValidDepartureTime_thenConnectionsShouldBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.160860524" finished-at="2024-05-22T15:37:07.163074564">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchValidDepartureTime_thenConnectionsShouldBeFound()]
+display-name: whenSearchValidDepartureTime_thenConnectionsShouldBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchValidNumber_thenTrainShouldBeFound" classname="tqsgroup.chuchu.service.TrainServiceTest" time="0" started-at="2024-05-22T15:37:06.940600607" finished-at="2024-05-22T15:37:06.947679801">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.TrainServiceTest]/[method:whenSearchValidNumber_thenTrainShouldBeFound()]
+display-name: whenSearchValidNumber_thenTrainShouldBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchNonExistingType_thenCarriageShouldNotBeFound" classname="tqsgroup.chuchu.service.CarriageServiceTest" time="0" started-at="2024-05-22T15:37:06.961018896" finished-at="2024-05-22T15:37:07.020249754">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.CarriageServiceTest]/[method:whenSearchNonExistingType_thenCarriageShouldNotBeFound()]
+display-name: whenSearchNonExistingType_thenCarriageShouldNotBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveTrainWithValidNumber_thenTrainShouldBeSaved" classname="tqsgroup.chuchu.service.TrainServiceTest" time="0" started-at="2024-05-22T15:37:06.951681415" finished-at="2024-05-22T15:37:06.954345794">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.TrainServiceTest]/[method:whenSaveTrainWithValidNumber_thenTrainShouldBeSaved()]
+display-name: whenSaveTrainWithValidNumber_thenTrainShouldBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenGetAllStations_thenAllStationsShouldBeReturned" classname="tqsgroup.chuchu.service.StationServiceTest" time="0" started-at="2024-05-22T15:37:07.713309127" finished-at="2024-05-22T15:37:07.717952976">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.StationServiceTest]/[method:whenGetAllStations_thenAllStationsShouldBeReturned()]
+display-name: whenGetAllStations_thenAllStationsShouldBeReturned()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveTrainWithNonUniqueNumber_thenTrainShouldNotBeSaved" classname="tqsgroup.chuchu.service.TrainServiceTest" time="0" started-at="2024-05-22T15:37:06.925088719" finished-at="2024-05-22T15:37:06.928366895">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.TrainServiceTest]/[method:whenSaveTrainWithNonUniqueNumber_thenTrainShouldNotBeSaved()]
+display-name: whenSaveTrainWithNonUniqueNumber_thenTrainShouldNotBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenFindByNumberAndCarriage_thenSeatIsReturned" classname="tqsgroup.chuchu.service.SeatServiceTest" time="0" started-at="2024-05-22T15:37:06.801937017" finished-at="2024-05-22T15:37:06.806877162">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatServiceTest]/[method:whenFindByNumberAndCarriage_thenSeatIsReturned()]
+display-name: whenFindByNumberAndCarriage_thenSeatIsReturned()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchValidType_thenCarriageShouldBeFound" classname="tqsgroup.chuchu.service.CarriageServiceTest" time="0" started-at="2024-05-22T15:37:07.020628012" finished-at="2024-05-22T15:37:07.023164071">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.CarriageServiceTest]/[method:whenSearchValidType_thenCarriageShouldBeFound()]
+display-name: whenSearchValidType_thenCarriageShouldBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveConnectionWithInvalidLineNumber_thenConnectionShouldNotBeSaved" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.148877421" finished-at="2024-05-22T15:37:07.150708427">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSaveConnectionWithInvalidLineNumber_thenConnectionShouldNotBeSaved()]
+display-name: whenSaveConnectionWithInvalidLineNumber_thenConnectionShouldNotBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenReserveOccupiedSeat_thenSeatShouldNotBeReserved" classname="tqsgroup.chuchu.service.SeatReservationServiceTest" time="0" started-at="2024-05-22T15:37:07.526831631" finished-at="2024-05-22T15:37:07.531233205">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatReservationServiceTest]/[method:whenReserveOccupiedSeat_thenSeatShouldNotBeReserved()]
+display-name: whenReserveOccupiedSeat_thenSeatShouldNotBeReserved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchInvalidNumber_thenTrainShouldNotBeFound" classname="tqsgroup.chuchu.service.TrainServiceTest" time="0" started-at="2024-05-22T15:37:06.954678268" finished-at="2024-05-22T15:37:06.957228833">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.TrainServiceTest]/[method:whenSearchInvalidNumber_thenTrainShouldNotBeFound()]
+display-name: whenSearchInvalidNumber_thenTrainShouldNotBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveValidCarriage_thenCarriageShouldBeSaved" classname="tqsgroup.chuchu.service.CarriageServiceTest" time="0" started-at="2024-05-22T15:37:07.023529017" finished-at="2024-05-22T15:37:07.025586435">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.CarriageServiceTest]/[method:whenSaveValidCarriage_thenCarriageShouldBeSaved()]
+display-name: whenSaveValidCarriage_thenCarriageShouldBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveStationWithInvalidNumberOfLines_thenStationShouldNotBeSaved" classname="tqsgroup.chuchu.service.StationServiceTest" time="0" started-at="2024-05-22T15:37:07.688462665" finished-at="2024-05-22T15:37:07.695067092">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.StationServiceTest]/[method:whenSaveStationWithInvalidNumberOfLines_thenStationShouldNotBeSaved()]
+display-name: whenSaveStationWithInvalidNumberOfLines_thenStationShouldNotBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenGetAllTickets_thenAllTicketsShouldBeReturned" classname="tqsgroup.chuchu.service.TicketServiceTest" time="0" started-at="2024-05-22T15:37:07.176585675" finished-at="2024-05-22T15:37:07.283705164">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.TicketServiceTest]/[method:whenGetAllTickets_thenAllTicketsShouldBeReturned()]
+display-name: whenGetAllTickets_thenAllTicketsShouldBeReturned()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchInvalidOriginAndLineNumber_thenConnectionsShouldNotBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.151110138" finished-at="2024-05-22T15:37:07.153598241">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchInvalidOriginAndLineNumber_thenConnectionsShouldNotBeFound()]
+display-name: whenSearchInvalidOriginAndLineNumber_thenConnectionsShouldNotBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchValidDestination_thenConnectionsShouldBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.158069758" finished-at="2024-05-22T15:37:07.160563544">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchValidDestination_thenConnectionsShouldBeFound()]
+display-name: whenSearchValidDestination_thenConnectionsShouldBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveStationWithNonUniqueName_thenStationShouldNotBeSaved" classname="tqsgroup.chuchu.service.StationServiceTest" time="0" started-at="2024-05-22T15:37:07.541343961" finished-at="2024-05-22T15:37:07.660267302">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.StationServiceTest]/[method:whenSaveStationWithNonUniqueName_thenStationShouldNotBeSaved()]
+display-name: whenSaveStationWithNonUniqueName_thenStationShouldNotBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveCarriageWithInvalidType_thenCarriageShouldNotBeSaved" classname="tqsgroup.chuchu.service.CarriageServiceTest" time="0" started-at="2024-05-22T15:37:07.029170624" finished-at="2024-05-22T15:37:07.031836345">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.CarriageServiceTest]/[method:whenSaveCarriageWithInvalidType_thenCarriageShouldNotBeSaved()]
+display-name: whenSaveCarriageWithInvalidType_thenCarriageShouldNotBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchValidTrain_thenCarriageShouldBeFound" classname="tqsgroup.chuchu.service.CarriageServiceTest" time="0" started-at="2024-05-22T15:37:07.037068387" finished-at="2024-05-22T15:37:07.040082874">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.CarriageServiceTest]/[method:whenSearchValidTrain_thenCarriageShouldBeFound()]
+display-name: whenSearchValidTrain_thenCarriageShouldBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenFindSeatReservationByInvalidSeat_thenSeatReservationShouldNotBeFound" classname="tqsgroup.chuchu.service.SeatReservationServiceTest" time="0" started-at="2024-05-22T15:37:07.47553563" finished-at="2024-05-22T15:37:07.484000296">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatReservationServiceTest]/[method:whenFindSeatReservationByInvalidSeat_thenSeatReservationShouldNotBeFound()]
+display-name: whenFindSeatReservationByInvalidSeat_thenSeatReservationShouldNotBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenFindAllSeatReservationsByConnection_thenSeatReservationsShouldBeFound" classname="tqsgroup.chuchu.service.SeatReservationServiceTest" time="0" started-at="2024-05-22T15:37:07.486068" finished-at="2024-05-22T15:37:07.495418859">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatReservationServiceTest]/[method:whenFindAllSeatReservationsByConnection_thenSeatReservationsShouldBeFound()]
+display-name: whenFindAllSeatReservationsByConnection_thenSeatReservationsShouldBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveSeatWithInvalidNumber_thenSeatIsNotSaved" classname="tqsgroup.chuchu.service.SeatServiceTest" time="0" started-at="2024-05-22T15:37:06.797332617" finished-at="2024-05-22T15:37:06.801356989">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatServiceTest]/[method:whenSaveSeatWithInvalidNumber_thenSeatIsNotSaved()]
+display-name: whenSaveSeatWithInvalidNumber_thenSeatIsNotSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveValidTicket_thenTicketShouldBeSaved" classname="tqsgroup.chuchu.service.TicketServiceTest" time="0" started-at="2024-05-22T15:37:07.307206584" finished-at="2024-05-22T15:37:07.316718892">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.TicketServiceTest]/[method:whenSaveValidTicket_thenTicketShouldBeSaved()]
+display-name: whenSaveValidTicket_thenTicketShouldBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchAllConnections_thenAllConnectionsShouldBeFound" classname="tqsgroup.chuchu.service.ConnectionServiceTest" time="0" started-at="2024-05-22T15:37:07.16563266" finished-at="2024-05-22T15:37:07.168016517">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.ConnectionServiceTest]/[method:whenSearchAllConnections_thenAllConnectionsShouldBeFound()]
+display-name: whenSearchAllConnections_thenAllConnectionsShouldBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSearchNonExistingNumber_thenTrainShouldNotBeFound" classname="tqsgroup.chuchu.service.TrainServiceTest" time="0" started-at="2024-05-22T15:37:06.812048044" finished-at="2024-05-22T15:37:06.92468319">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.TrainServiceTest]/[method:whenSearchNonExistingNumber_thenTrainShouldNotBeFound()]
+display-name: whenSearchNonExistingNumber_thenTrainShouldNotBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenFindAllSeatReservationsByInvalidConnection_thenSeatReservationsShouldNotBeFound" classname="tqsgroup.chuchu.service.SeatReservationServiceTest" time="0" started-at="2024-05-22T15:37:07.497073051" finished-at="2024-05-22T15:37:07.506223295">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatReservationServiceTest]/[method:whenFindAllSeatReservationsByInvalidConnection_thenSeatReservationsShouldNotBeFound()]
+display-name: whenFindAllSeatReservationsByInvalidConnection_thenSeatReservationsShouldNotBeFound()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenReleaseFreeSeat_thenSeatShouldNotBeReleased" classname="tqsgroup.chuchu.service.SeatReservationServiceTest" time="0" started-at="2024-05-22T15:37:07.507994008" finished-at="2024-05-22T15:37:07.518296445">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatReservationServiceTest]/[method:whenReleaseFreeSeat_thenSeatShouldNotBeReleased()]
+display-name: whenReleaseFreeSeat_thenSeatShouldNotBeReleased()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenReserveFreeSeat_thenSeatShouldBeReserved" classname="tqsgroup.chuchu.service.SeatReservationServiceTest" time="0" started-at="2024-05-22T15:37:07.51930021" finished-at="2024-05-22T15:37:07.526078957">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatReservationServiceTest]/[method:whenReserveFreeSeat_thenSeatShouldBeReserved()]
+display-name: whenReserveFreeSeat_thenSeatShouldBeReserved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveSeatReservationWithInvalidSeat_thenSeatReservationShouldNotBeSaved" classname="tqsgroup.chuchu.service.SeatReservationServiceTest" time="0" started-at="2024-05-22T15:37:07.461671895" finished-at="2024-05-22T15:37:07.47388413">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.SeatReservationServiceTest]/[method:whenSaveSeatReservationWithInvalidSeat_thenSeatReservationShouldNotBeSaved()]
+display-name: whenSaveSeatReservationWithInvalidSeat_thenSeatReservationShouldNotBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveTicketWithEmptyRoute_thenTicketShouldNotBeSaved" classname="tqsgroup.chuchu.service.TicketServiceTest" time="0" started-at="2024-05-22T15:37:07.317919983" finished-at="2024-05-22T15:37:07.322246217">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.TicketServiceTest]/[method:whenSaveTicketWithEmptyRoute_thenTicketShouldNotBeSaved()]
+display-name: whenSaveTicketWithEmptyRoute_thenTicketShouldNotBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenGetAllTrains_thenAllTrainsShouldBeReturned" classname="tqsgroup.chuchu.service.TrainServiceTest" time="0" started-at="2024-05-22T15:37:06.928763982" finished-at="2024-05-22T15:37:06.940148082">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.TrainServiceTest]/[method:whenGetAllTrains_thenAllTrainsShouldBeReturned()]
+display-name: whenGetAllTrains_thenAllTrainsShouldBeReturned()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<testcase name="whenSaveCarriageWithInvalidCapacity_thenCarriageShouldNotBeSaved" classname="tqsgroup.chuchu.service.CarriageServiceTest" time="0" started-at="2024-05-22T15:37:07.032379466" finished-at="2024-05-22T15:37:07.036634223">
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:tqsgroup.chuchu.service.CarriageServiceTest]/[method:whenSaveCarriageWithInvalidCapacity_thenCarriageShouldNotBeSaved()]
+display-name: whenSaveCarriageWithInvalidCapacity_thenCarriageShouldNotBeSaved()
+]]></system-out>
+<properties>
+<property name="_dummy_" value=""/>
+</properties>
+</testcase>
+<system-out><![CDATA[
+unique-id: [engine:junit-jupiter]
+display-name: JUnit Jupiter
+]]></system-out>
+</testsuite>

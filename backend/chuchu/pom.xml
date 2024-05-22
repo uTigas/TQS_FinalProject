@@ -177,7 +177,6 @@
 			<artifactId>selenium</artifactId>
 			<version>1.19.7</version>
 		</dependency>
-<<<<<<< HEAD
 
 		<!-- Xray JUnit Extensions for integrating JUnit tests with Xray. -->
 		<dependency>
@@ -194,14 +193,12 @@
             <version>${xray-maven-plugin.version}</version>
         </dependency>
 
-=======
 		<!-- swagger api documentation -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.2.0</version>
 		</dependency>
->>>>>>> b9b7b1f7264f4d1404bd5e0f6d725cf43e4cddf8
 	</dependencies>
 
 	<build>

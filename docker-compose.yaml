@@ -9,7 +9,10 @@ services:
     environment:
       - NEO4J_AUTH=none
     volumes:
-      - ./data:/data
+      - neo-data:/var/lib/neo4j/data
+    networks:
+      - my_network
+
   postgres:
     image: postgres:latest
     ports:
@@ -78,3 +81,4 @@ networks:
 
 volumes:
   pg-data:
+  neo-data:
