@@ -261,7 +261,7 @@
 				<version>${xray-maven-plugin.version}</version>
 				<configuration>
 					<cloud>true</cloud>
-					<projectKey>ST</projectKey>
+					<projectKey>TP</projectKey>
 					<reportFormat>junit</reportFormat>
 					<reportFile>reports/TEST-junit-jupiter.xml</reportFile>
 				</configuration>
