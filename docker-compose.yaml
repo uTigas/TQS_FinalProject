@@ -1,7 +1,15 @@
 version: "3.8"
 
 services:
-
+  neo4j:
+    image: neo4j:latest
+    ports:
+      - 7474:7474
+      - 7687:7687
+    environment:
+      - NEO4J_AUTH=none
+    volumes:
+      - ./data:/data
   postgres:
     image: postgres:latest
     ports:
@@ -46,7 +54,7 @@ services:
       - my_network
   
   admin_ionic:
-    build: ./frontend/portal
+    build: ./frontend/adm/admApp
     ports:
       - "8101:8101"
     networks:
