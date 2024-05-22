@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.data.neo4j.core.Neo4jClient;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import tqsgroup.chuchu.data.entity.Station;
+import tqsgroup.chuchu.data.repository.StationRepository;
+
+import static org.junit.Assert.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -16,12 +18,18 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class Neo4jDatabaseTest {
 
     @Autowired
-    private Neo4jClient neo4jClient;
+    private StationRepository stationRepository;
 
     @Test
     public void testNeo4jConnection() {
+        int prevSize = stationRepository.findAll().size();
+
+        Station newStation = new Station();
+        newStation.setName("Test Station");
+        newStation.setNumberOfLines(999);
+        stationRepository.save(newStation);
         // Perform a simple query to verify the connection
-        assertNotNull(neo4jClient.query("MATCH (n) RETURN n").fetch().one(), "Connected to Neo4j database successfully");
+        assertEquals(stationRepository.findAll().size(), prevSize + 1);
         
     }
 }
