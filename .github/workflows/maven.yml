@@ -43,10 +43,10 @@ jobs:
       run: docker-compose up -d
 
     - name: Test App
-      run: docker-compose exec -T app mvn -B package --file pom.xml
+      run: docker-compose exec -T app mvn -s maven-settings.xml -B package --file pom.xml
 
     - name: Run integration tests
-      run: docker-compose exec -T app mvn -B failsafe:integration-test failsafe:verify --file pom.xml
+      run: docker-compose exec -T app mvn -s maven-settings.xml -B failsafe:integration-test failsafe:verify --file pom.xml
 
     - name: Push results to Xray on Jira Cloud
       if: always()
