@@ -11,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import tqsgroup.chuchu.data.entity.Station;
-import tqsgroup.chuchu.data.repository.StationRepository;
+import tqsgroup.chuchu.data.neo4j.repository.StationRepository;
 import tqsgroup.chuchu.data.service.StationService;
 
 import static org.assertj.core.api.Assertions.assertThat;

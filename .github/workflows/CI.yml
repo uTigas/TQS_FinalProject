@@ -38,14 +38,20 @@ jobs:
       uses: browser-actions/setup-chrome@v1
       
     - name: Start Docker Compose 
-      run: docker-compose up -d
+      run: docker compose up -d
 
-    - name: Test App
-      run: docker-compose exec -T app mvn -s maven-settings.xml -B package --file pom.xml
-
-    - name: Run integration tests
-      run: docker-compose exec -T app mvn -s maven-settings.xml -B failsafe:integration-test failsafe:verify --file pom.xml
-
+    - name: Build with Maven
+      run: docker compose exec -T app mvn -B -Dgpg.skip=true clean compile verify package --file pom.xml
+    
+    - name: Run Sonarcloud Static Analysis
+      if: always()
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: 06eb2137628096c9f5d0a5ac5cd55099c15f5b5b
+        PROJECT_KEY: uTigas_TQS_FinalProject
+        ORGANIZATION: utigas
+      run: docker compose exec -T app mvn sonar:sonar -Dsonar.projectKey=${{ env.PROJECT_KEY }}  -Dsonar.organization=${{ env.ORGANIZATION }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ env.SONAR_TOKEN }} -Dsonar.github.oauth=${{ env.GITHUB_TOKEN }} -Dsonar.java.binaries=target/classes  -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco.xml
+    
     - name: Push results to Xray on Jira Cloud
       if: always()
       env:
@@ -55,12 +61,5 @@ jobs:
         
         REVISION: ${{ github.ref_name}}
         TEST_ENVIRONMENT: java${{ matrix.java }}
-      run: docker-compose exec -T app mvn -s maven-settings.xml app.getxray:xray-maven-plugin:import-results '-Dxray.clientId=${{ env.XRAYCLOUD_CLIENT_ID }}' '-Dxray.clientSecret=${{ env.XRAYCLOUD_CLIENT_SECRET }}' '-Dxray.testPlanKey=${{ env.XRAYCLOUD_TEST_PLAN_KEY }}' '-Dxray.revision=${{ env.REVISION }}'
-    - name: Run Sonarcloud Static Analysis
-      if: always()
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: 06eb2137628096c9f5d0a5ac5cd55099c15f5b5b
-        PROJECT_KEY: uTigas_TQS_FinalProject
-        ORGANIZATION: utigas
-      run: docker compose exec -T app mvn sonar:sonar -Dsonar.projectKey=${{ env.PROJECT_KEY }}  -Dsonar.organization=${{ env.ORGANIZATION }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ env.SONAR_TOKEN }} -Dsonar.github.oauth=${{ env.GITHUB_TOKEN }} -Dsonar.java.binaries=target/classes  
+      run: docker-compose exec -T app mvn -Dxray.clientId=${{ env.XRAYCLOUD_CLIENT_ID }} -Dxray.clientSecret=${{ env.XRAYCLOUD_CLIENT_SECRET }} -Dxray.testPlanKey=${{ env.XRAYCLOUD_TEST_PLAN_KEY }} -Dxray.revision=${{ env.REVISION }} xray:import-results
+    

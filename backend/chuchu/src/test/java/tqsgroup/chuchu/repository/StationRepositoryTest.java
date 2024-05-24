@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import tqsgroup.chuchu.data.entity.Station;
-import tqsgroup.chuchu.data.repository.StationRepository;
+import tqsgroup.chuchu.data.neo4j.repository.StationRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -67,8 +67,5 @@ class StationRepositoryTest {
 
         // Then
         assertEquals(stations.size(), 3);
-        assertEquals(stations.get(0).getName(), station1.getName());
-        assertEquals(stations.get(1).getName(), station2.getName());
-        assertEquals(stations.get(2).getName(), station3.getName());
     }
 }

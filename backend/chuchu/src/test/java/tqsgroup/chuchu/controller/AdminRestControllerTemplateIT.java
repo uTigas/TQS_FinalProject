@@ -20,16 +20,17 @@ import org.springframework.util.MultiValueMap;
 import tqsgroup.chuchu.admin.dao.StationDAO;
 import tqsgroup.chuchu.data.entity.Role;
 import tqsgroup.chuchu.data.entity.User;
+import tqsgroup.chuchu.data.neo4j.repository.StationRepository;
 import tqsgroup.chuchu.data.entity.Station;
-import tqsgroup.chuchu.data.repository.StationRepository;
 import tqsgroup.chuchu.data.repository.UserRepository;
 import tqsgroup.chuchu.data.repository.RoleRepository;
+import tqsgroup.chuchu.data.repository.SeatRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -49,6 +50,9 @@ class AdminRestControllerTemplateIT {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    SeatRepository seatRepository;
 
     private static final String ADMIN_API = "/admin/api/v1";
 
@@ -86,7 +90,7 @@ class AdminRestControllerTemplateIT {
         stationRepository.deleteAll();
         userRepository.deleteAll();
         roleRepository.deleteAll();
-
+        
         Role adminRole = new Role("ADMIN");
         roleRepository.save(adminRole);
 
@@ -98,7 +102,7 @@ class AdminRestControllerTemplateIT {
         createTestStation("station 3", 7);
     }
 
-    @AfterAll
+    @AfterEach
     void tearDown() {
         stationRepository.deleteAll();
         userRepository.deleteAll();
@@ -109,7 +113,6 @@ class AdminRestControllerTemplateIT {
     @Order(1)
     void testGetHelloEndpoint() {
         String cookie = authenticateAndGetCookie();
-
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.COOKIE, cookie);
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);

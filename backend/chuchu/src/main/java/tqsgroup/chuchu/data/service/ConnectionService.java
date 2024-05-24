@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import tqsgroup.chuchu.data.entity.Connection;
 import tqsgroup.chuchu.data.entity.Station;
 import tqsgroup.chuchu.data.entity.Train;
-import tqsgroup.chuchu.data.repository.ConnectionRepository;
+import tqsgroup.chuchu.data.neo4j.repository.ConnectionRepository;
 
 import java.time.LocalTime;
 import java.util.List;
