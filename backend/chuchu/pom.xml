@@ -240,34 +240,42 @@
 
 			<!--  Jacoco Maven Plugin for code coverage -->
 			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.8</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
 			<plugin>
 				<groupId>app.getxray</groupId>
 				<artifactId>xray-maven-plugin</artifactId>
 				<version>${xray-maven-plugin.version}</version>
 				<configuration>
-					<cloud>true</cloud>
-					<projectKey>TP</projectKey>
-					<reportFormat>junit</reportFormat>
-					<reportFile>reports/TEST-junit-jupiter.xml</reportFile>
+					<xrayClientConfig>
+                        <clientId>${env.XRAYCLOUD_CLIENT_ID}</clientId>
+                        <clientSecret>${env.XRAYCLOUD_CLIENT_SECRET}</clientSecret>
+                    </xrayClientConfig>
+                    <xrayTestExecutionConfig>
+                        <testPlanKey>${env.XRAYCLOUD_TEST_PLAN_KEY}</testPlanKey>
+                        <revision>${env.REVISION}</revision>
+						<codeCoverageConfig>
+                            <format>JACOCO</format>
+                            <reportPath>${project.build.directory}/target/jacoco.exec</reportPath>
+                        </codeCoverageConfig>
+                    </xrayTestExecutionConfig>
 				</configuration>
 			</plugin>
 		</plugins>
