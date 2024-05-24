@@ -3,7 +3,7 @@ package tqsgroup.chuchu.data.service;
 import org.springframework.stereotype.Service;
 
 import tqsgroup.chuchu.data.entity.Station;
-import tqsgroup.chuchu.data.neo4j.repository.StationRepository;
+import tqsgroup.chuchu.data.repository.neo.StationRepository;
 
 import java.util.List;
 

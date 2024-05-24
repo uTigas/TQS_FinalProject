@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import tqsgroup.chuchu.data.entity.Station;
-import tqsgroup.chuchu.data.neo4j.repository.StationRepository;
+import tqsgroup.chuchu.data.repository.neo.StationRepository;
 
 import static org.junit.Assert.assertEquals;
 

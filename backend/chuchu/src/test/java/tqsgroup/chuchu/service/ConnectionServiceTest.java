@@ -13,7 +13,7 @@ import tqsgroup.chuchu.data.entity.Connection;
 import tqsgroup.chuchu.data.entity.Station;
 import tqsgroup.chuchu.data.entity.Train;
 import tqsgroup.chuchu.data.entity.TrainType;
-import tqsgroup.chuchu.data.neo4j.repository.ConnectionRepository;
+import tqsgroup.chuchu.data.repository.neo.ConnectionRepository;
 import tqsgroup.chuchu.data.service.ConnectionService;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -3,10 +3,10 @@ package tqsgroup.chuchu.data.service;
 import org.springframework.stereotype.Service;
 
 import tqsgroup.chuchu.data.entity.SeatReservation;
-import tqsgroup.chuchu.data.neo4j.repository.ConnectionRepository;
 import tqsgroup.chuchu.data.entity.Seat;
 import tqsgroup.chuchu.data.entity.Connection;
 import tqsgroup.chuchu.data.repository.SeatReservationRepository;
+import tqsgroup.chuchu.data.repository.neo.ConnectionRepository;
 import tqsgroup.chuchu.data.repository.SeatRepository;
 
 import java.util.List;

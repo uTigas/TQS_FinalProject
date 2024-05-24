@@ -14,13 +14,13 @@ import tqsgroup.chuchu.data.entity.SeatReservation;
 import tqsgroup.chuchu.data.entity.Station;
 import tqsgroup.chuchu.data.entity.Train;
 import tqsgroup.chuchu.data.entity.TrainType;
-import tqsgroup.chuchu.data.neo4j.repository.ConnectionRepository;
 import tqsgroup.chuchu.data.entity.Connection;
 import tqsgroup.chuchu.data.entity.Carriage;
 import tqsgroup.chuchu.data.entity.CarriageType;
 import tqsgroup.chuchu.data.entity.Seat;
 import tqsgroup.chuchu.data.repository.SeatRepository;
 import tqsgroup.chuchu.data.repository.SeatReservationRepository;
+import tqsgroup.chuchu.data.repository.neo.ConnectionRepository;
 import tqsgroup.chuchu.data.service.SeatReservationService;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -11,8 +11,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import tqsgroup.chuchu.data.entity.Role;
 import tqsgroup.chuchu.data.entity.Station;
-import tqsgroup.chuchu.data.neo4j.repository.StationRepository;
 import tqsgroup.chuchu.data.repository.RoleRepository;
+import tqsgroup.chuchu.data.repository.neo.StationRepository;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
