@@ -264,10 +264,12 @@
 				<artifactId>xray-maven-plugin</artifactId>
 				<version>${xray-maven-plugin.version}</version>
 				<configuration>
+					<reportFormat>junit</reportFormat>
+					<reportFile>reports/TEST-junit-jupiter.xml</reportFile>
 					<xrayClientConfig>
                         <clientId>${env.XRAYCLOUD_CLIENT_ID}</clientId>
                         <clientSecret>${env.XRAYCLOUD_CLIENT_SECRET}</clientSecret>
-                    </xrayClientConfig>
+                    </xrayClientConfig>	
                     <xrayTestExecutionConfig>
                         <testPlanKey>${env.XRAYCLOUD_TEST_PLAN_KEY}</testPlanKey>
                         <revision>${env.REVISION}</revision>
