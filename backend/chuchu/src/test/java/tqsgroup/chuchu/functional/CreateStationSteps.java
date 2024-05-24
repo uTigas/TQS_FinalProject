@@ -60,21 +60,27 @@ public class CreateStationSteps {
 
     @When("I fill in the {string} field with {string}")
     public void iFillInTheFieldWith(String fieldName, String value) {
-        WebElement field = driver.findElement(By.id(fieldName));
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        executor.executeScript("arguments[0].setAttribute('value', '" + value + "')", field);
+        WebElement field = driver.findElement(By.xpath("//input[@name='" + fieldName + "']"));
+        field.click();
+        field.clear();
+        field.sendKeys(value);
+        wait.until(ExpectedConditions.attributeToBe(field, "value", value));
     }
 
     @And("I click the {string} button")
     public void iClickTheButton(String buttonName) {
-        WebElement button = driver.findElement(By.cssSelector("ion-button[color='success']"));
+        // Click outside the input field, so values are saved
+        WebElement outsideElement = driver.findElement(By.tagName("body"));
+        outsideElement.click();
+
+        WebElement button = driver.findElement(By.xpath("//ion-button[contains(text(),'" + buttonName + "')]"));
         button.click();
     }
 
     @Then("I should see the success message {string}")
     public void iShouldSeeTheSuccessMessage(String successMessage) {
-        WebElement successMessageElement = driver
-                .findElement(By.xpath("//p[contains(text(),'" + successMessage + "')]"));
+        // Wait for the success message to be visible
+        WebElement successMessageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'" + successMessage + "')]")));
         assertTrue("Success message not displayed", successMessageElement.isDisplayed());
         driver.quit();
     }
