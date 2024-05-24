@@ -1,12 +1,15 @@
 package tqsgroup.chuchu.functional;
 
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testcontainers.containers.BrowserWebDriverContainer;
+import org.testcontainers.junit.jupiter.Container;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 import io.cucumber.java.en.*;
 
 import static org.junit.Assert.assertTrue;
@@ -14,13 +17,23 @@ import static org.junit.Assert.assertTrue;
 import java.time.Duration;
 
 public class CreateStationSteps {
+
+    @Container 
+    public BrowserWebDriverContainer<?> chromeContainer = new BrowserWebDriverContainer<>().
+        withCapabilities(new ChromeOptions().addArguments("--headless", "--no-sandbox")) ;
+
     private WebDriver driver;
     private WebDriverWait wait;
 
+    private static final String BASE_URL = "http://host.docker.internal";
+
     @Given("I access the url {string}")
     public void iAccessTheUrl(String url) {
-        driver = new ChromeDriver();
-        driver.get(url);
+        // Start the container
+        chromeContainer.start();
+        driver = new RemoteWebDriver( chromeContainer.getSeleniumAddress(), new ChromeOptions());
+
+        driver.get(BASE_URL+url);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
@@ -30,7 +43,7 @@ public class CreateStationSteps {
         loginButton.click();
 
         // Wait to be redirected to the login page
-        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/auth/login"));
+        wait.until(ExpectedConditions.urlToBe(BASE_URL+"/auth/login"));
 
         WebElement usernameField = driver.findElement(By.name("username"));
         WebElement passwordField = driver.findElement(By.name("password"));
@@ -43,7 +56,7 @@ public class CreateStationSteps {
 
     @Then("I should be redirected back to the {string} page")
     public void iShouldBeRedirectedBackToPage(String pageName) {
-        wait.until(ExpectedConditions.urlToBe("http://localhost:8101/" + pageName));
+        wait.until(ExpectedConditions.urlToBe(BASE_URL+":8101/" + pageName));
     }
 
     @And("I switch to the {string} page")
@@ -54,8 +67,7 @@ public class CreateStationSteps {
 
     @Given("I am on the {string} page")
     public void iAmOnThePage(String pageName) {
-        // Wait until the URL is as expected
-        wait.until(ExpectedConditions.urlToBe("http://localhost:8101/" + pageName));
+        wait.until(ExpectedConditions.urlToBe(BASE_URL+":8101/" + pageName));
     }
 
     @When("I fill in the {string} field with {string}")

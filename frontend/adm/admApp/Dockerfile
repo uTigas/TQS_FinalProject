@@ -23,4 +23,4 @@ RUN ionic build
 EXPOSE 8101
 
 # Set the command to run your app
-CMD ["ionic", "serve", "--host", "0.0.0.0"]
+CMD ["ionic", "serve", "--host", "0.0.0.0","--port", "8101"]

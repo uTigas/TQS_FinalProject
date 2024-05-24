@@ -2,7 +2,7 @@
 Feature: Create a Station in the Admin Dashboard
 
   Background:
-    Given I access the url "http://localhost:8101"
+    Given I access the url ":8101"
     When I log in as an admin
     Then I should be redirected back to the "dashboard" page
     And I switch to the "Stations" page

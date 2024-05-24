@@ -203,6 +203,12 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.2.0</version>
 		</dependency>
+
+		<!-- Flyway for database migrations -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -219,12 +225,6 @@
 						</exclude>
 					</excludes>
 				</configuration>
-			</plugin>
-
-			<!-- Flyway Maven Plugin for database migrations -->
-			<plugin>
-				<groupId>org.flywaydb</groupId>
-				<artifactId>flyway-maven-plugin</artifactId>
 			</plugin>
 
 			<!-- Maven Surefire Plugin for running unit tests -->
@@ -280,6 +280,7 @@
                     </xrayTestExecutionConfig>
 				</configuration>
 			</plugin>
+			
 		</plugins>
 	</build>
 
