@@ -41,7 +41,7 @@ jobs:
       run: docker compose up -d
 
     - name: Build with Maven
-      run: docker compose exec -T app mvn -B -Dgpg.skip=true clean compile verify package --file pom.xml
+      run: docker compose exec -T app mvn clean compile verify package --file pom.xml
     
     - name: Run Sonarcloud Static Analysis
       if: always()
@@ -50,7 +50,7 @@ jobs:
         SONAR_TOKEN: 06eb2137628096c9f5d0a5ac5cd55099c15f5b5b
         PROJECT_KEY: uTigas_TQS_FinalProject
         ORGANIZATION: utigas
-      run: docker compose exec -T app mvn sonar:sonar -Dsonar.projectKey=${{ env.PROJECT_KEY }}  -Dsonar.organization=${{ env.ORGANIZATION }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ env.SONAR_TOKEN }} -Dsonar.github.oauth=${{ env.GITHUB_TOKEN }} -Dsonar.java.binaries=target/classes  -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco.xml
+      run: docker compose exec -T app mvn -Dsonar.host.url=https://sonarcloud.io sonar:sonar -Dsonar.projectKey=${{ env.PROJECT_KEY }}  -Dsonar.organization=${{ env.ORGANIZATION }} -Dsonar.login=${{ env.SONAR_TOKEN }} -Dsonar.github.oauth=${{ env.GITHUB_TOKEN }} -Dsonar.java.binaries=target/classes  -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco.xml
     
     - name: Push results to Xray on Jira Cloud
       if: always()

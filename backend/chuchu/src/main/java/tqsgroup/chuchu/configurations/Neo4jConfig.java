@@ -12,7 +12,7 @@ import org.neo4j.driver.Driver;
 
 @Configuration
 @EnableTransactionManagement
-@EnableNeo4jRepositories(basePackages = "tqsgroup.chuchu.data.neo4j.repository")
+@EnableNeo4jRepositories(basePackages = "tqsgroup.chuchu.data.repository.neo")
 public class Neo4jConfig {
 
     @Autowired
