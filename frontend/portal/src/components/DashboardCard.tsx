@@ -12,7 +12,7 @@ const DashboardCard: React.FC<{ data: CardData }> = ({ data }) => {
     const lowerCaseTitle = title.toLowerCase();
 
     const goToManagementPage = () => {
-        window.location.href = `/${lowerCaseTitle}`;
+        window.location.href = `/admin/${lowerCaseTitle}`;
     };
   
     return (

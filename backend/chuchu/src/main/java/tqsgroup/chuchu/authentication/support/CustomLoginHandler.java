@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -20,12 +19,13 @@ import jakarta.servlet.http.HttpSession;
 public class CustomLoginHandler
   implements AuthenticationSuccessHandler {
  
-    @Value("${admin.ionic}")
-    private String adminIonic;
+    private static Map<String, String> roleTargetUrlMap = new HashMap<>();
 
-    @Value("${user.ionic}")
-    private String userIonic;
-
+    static {
+        roleTargetUrlMap.put("USER", "/");
+        roleTargetUrlMap.put("ADMIN", "/admin");
+    } 
+      
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
@@ -52,11 +52,6 @@ public class CustomLoginHandler
     }
     
     protected String determineTargetUrl(final Authentication authentication) {
-
-      Map<String, String> roleTargetUrlMap = new HashMap<>();
-      roleTargetUrlMap.put("USER", userIonic);
-      roleTargetUrlMap.put("ADMIN", adminIonic);
-  
       final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
       for (final GrantedAuthority grantedAuthority : authorities) {
           String authorityName = grantedAuthority.getAuthority();

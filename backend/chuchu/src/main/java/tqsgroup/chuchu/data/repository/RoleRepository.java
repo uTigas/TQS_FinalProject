@@ -7,4 +7,5 @@ import tqsgroup.chuchu.data.entity.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, String> {
+    Role findByRole(String role);
 }

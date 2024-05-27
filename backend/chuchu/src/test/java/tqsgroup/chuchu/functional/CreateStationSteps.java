@@ -1,7 +1,9 @@
 package tqsgroup.chuchu.functional;
 
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testcontainers.Testcontainers;
 import org.testcontainers.containers.BrowserWebDriverContainer;
+import org.testcontainers.containers.BrowserWebDriverContainer.VncRecordingMode;
 import org.testcontainers.junit.jupiter.Container;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.By;
@@ -20,16 +22,18 @@ public class CreateStationSteps {
 
     @Container 
     public BrowserWebDriverContainer<?> chromeContainer = new BrowserWebDriverContainer<>().
-        withCapabilities(new ChromeOptions().addArguments("--headless", "--no-sandbox")) ;
+        withCapabilities(new ChromeOptions().addArguments("--no-sandbox","--headless"));
 
     private WebDriver driver;
     private WebDriverWait wait;
 
-    private static final String BASE_URL = "http://host.docker.internal";
+    private static final String BASE_URL = "http://host.testcontainers.internal";
 
     @Given("I access the url {string}")
     public void iAccessTheUrl(String url) {
         // Start the container
+        Testcontainers.exposeHostPorts(80);
+
         chromeContainer.start();
         driver = new RemoteWebDriver( chromeContainer.getSeleniumAddress(), new ChromeOptions());
 
@@ -56,7 +60,7 @@ public class CreateStationSteps {
 
     @Then("I should be redirected back to the {string} page")
     public void iShouldBeRedirectedBackToPage(String pageName) {
-        wait.until(ExpectedConditions.urlToBe(BASE_URL+":8101/" + pageName));
+        wait.until(ExpectedConditions.urlToBe(BASE_URL + pageName));
     }
 
     @And("I switch to the {string} page")
@@ -67,7 +71,7 @@ public class CreateStationSteps {
 
     @Given("I am on the {string} page")
     public void iAmOnThePage(String pageName) {
-        wait.until(ExpectedConditions.urlToBe(BASE_URL+":8101/" + pageName));
+        wait.until(ExpectedConditions.urlToBe(BASE_URL + pageName));
     }
 
     @When("I fill in the {string} field with {string}")
@@ -95,5 +99,6 @@ public class CreateStationSteps {
         WebElement successMessageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'" + successMessage + "')]")));
         assertTrue("Success message not displayed", successMessageElement.isDisplayed());
         driver.quit();
+        chromeContainer.stop();
     }
 }

@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import tqsgroup.chuchu.data.entity.Role;
@@ -16,6 +17,12 @@ public class UserService {
     @Autowired
     UserRepository repo;
 
+    @Autowired
+    RoleService roleService;
+
+    @Autowired 
+    private PasswordEncoder passwordEncoder;
+
     public Optional<User> findByUsername(String username){
         return repo.findByUsername(username);
     }
@@ -26,10 +33,16 @@ public class UserService {
 
         @EventListener(ApplicationReadyEvent.class)
         public void insertAdminUser() {
+            
+            Role adminRole = new Role("ADMIN");
+            roleService.save(adminRole);
+            Role userRole = new Role("USER");
+            roleService.save(userRole);
+
             User admin = new User();
             admin.setUsername("admin");
-            admin.setPassword("password");
-            admin.setRole(new Role("ADMIN"));
+            admin.setPassword(passwordEncoder.encode("password"));
+            admin.setRole(adminRole);
             admin.setName("Admin User");
             
             repo.save(admin);

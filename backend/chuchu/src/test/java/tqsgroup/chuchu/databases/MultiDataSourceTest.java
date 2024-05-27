@@ -38,7 +38,7 @@ public class MultiDataSourceTest {
     @AfterEach
     void teardown() {
         // Clean up the data created during the test
-        roleRepository.deleteAll();
+        roleRepository.delete( roleRepository.findByRole("TEST") );
         stationRepository.deleteAll();
     }
 

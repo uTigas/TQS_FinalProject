@@ -29,6 +29,7 @@ services:
   app:
     depends_on:
       - postgres
+      - neo4j
     build: ./backend/chuchu
     restart: on-failure
     env_file: ./.env
@@ -55,24 +56,17 @@ services:
     networks:
       - my_network
   
-  admin_ionic:
-    build: ./frontend/adm/admApp
+  nginx:
+    image: nginx:latest
     ports:
-      - "8101:8101"
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+      - ionic
     networks:
       - my_network
-
-  # nginx:
-  #   image: nginx:latest
-  #   ports:
-  #     - "80:80"
-  #   volumes:
-  #     - ./nginx.conf:/etc/nginx/nginx.conf
-  #   depends_on:
-  #     - app
-  #     - ionic
-  #   networks:
-  #     - my_network
   
 networks:
   my_network:

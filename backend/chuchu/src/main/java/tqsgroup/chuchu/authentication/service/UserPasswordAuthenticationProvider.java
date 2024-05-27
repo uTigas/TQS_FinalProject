@@ -37,7 +37,6 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
             User cUser = user.get();
             List<GrantedAuthority> roles = new ArrayList<>();
             
-            
             if (cUser.getRole().getRole().matches("ADMIN"))
                 roles.add(new SimpleGrantedAuthority("ADMIN"));
             else

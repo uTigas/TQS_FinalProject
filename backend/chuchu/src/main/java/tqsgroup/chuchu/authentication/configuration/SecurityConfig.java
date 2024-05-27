@@ -30,9 +30,6 @@ import tqsgroup.chuchu.authentication.support.CustomLoginHandler;
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     
-    @Value("${admin.ionic}")
-    private String adminIonic;
-
     @Value("${user.ionic}")
     private String userIonic;
 
@@ -60,7 +57,7 @@ public class SecurityConfig {
         )
         .logout((logout) -> logout
         .logoutUrl("/auth/logout")
-        .logoutSuccessUrl("http://localhost:8100")
+        .logoutSuccessUrl("/")
         .deleteCookies("JSESSIONID")
         .permitAll()
         );
