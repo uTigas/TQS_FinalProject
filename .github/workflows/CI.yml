@@ -64,5 +64,5 @@ jobs:
         
         REVISION: ${{ github.ref_name}}
         TEST_ENVIRONMENT: java${{ matrix.java }}
-      run: docker-compose exec -T app mvn -Dxray.clientId=${{ env.XRAYCLOUD_CLIENT_ID }} -Dxray.clientSecret=${{ env.XRAYCLOUD_CLIENT_SECRET }} -Dxray.testPlanKey=${{ env.XRAYCLOUD_TEST_PLAN_KEY }} -Dxray.revision=${{ env.REVISION }} xray:import-results
+      run: docker-compose exec -T app mvn xray:import-results -Dxray.clientId=${{ env.XRAYCLOUD_CLIENT_ID }} -Dxray.clientSecret=${{ env.XRAYCLOUD_CLIENT_SECRET }} -Dxray.testPlanKey=${{ env.XRAYCLOUD_TEST_PLAN_KEY }} -Dxray.revision=${{ env.REVISION }}
     
