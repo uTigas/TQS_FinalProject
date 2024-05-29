@@ -41,7 +41,8 @@ const APIWrapper = {
     } catch (error) {
       console.error('Error adding Station', error);
     }
-  }
+  },
+  
     fetchOrganizations : async (origin : string|null = null, destination : string|null = null) => {
       try{
         let originArg
@@ -52,8 +53,7 @@ const APIWrapper = {
       } catch (error){
         console.error('Error fetching Organizations', error);
       }
-    },
-
+    }
 
 }
 export default APIWrapper;
