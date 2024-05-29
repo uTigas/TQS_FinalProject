@@ -6,9 +6,11 @@ import tqsgroup.chuchu.data.entity.SeatReservation;
 import tqsgroup.chuchu.data.entity.Seat;
 import tqsgroup.chuchu.data.entity.Connection;
 import tqsgroup.chuchu.data.repository.SeatReservationRepository;
+import tqsgroup.chuchu.data.repository.neo.ConnectionRepository;
 import tqsgroup.chuchu.data.repository.SeatRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SeatReservationService {
@@ -18,14 +20,21 @@ public class SeatReservationService {
     
     final SeatReservationRepository seatReservationRepository;
     final SeatRepository seatRepository;
+    final ConnectionRepository connectionRepository;
 
-    public SeatReservationService(SeatReservationRepository seatReservationRepository, SeatRepository seatRepository) {
+    public SeatReservationService(SeatReservationRepository seatReservationRepository, SeatRepository seatRepository, ConnectionRepository connectionRepository) {
         this.seatReservationRepository = seatReservationRepository;
         this.seatRepository = seatRepository;
+        this.connectionRepository = connectionRepository;
     }
 
     public SeatReservation saveSeatReservation(SeatReservation seatReservation) {
-        Long seatReservationPrice = calculateSeatReservationPrice(seatReservation.getSeat(), seatReservation.getConnection());
+        Optional<Connection> temp = connectionRepository.findById(seatReservation.getConnection());
+        Connection con = null;
+        if (temp.isPresent())
+            con = temp.get();
+
+        Long seatReservationPrice = calculateSeatReservationPrice(seatReservation.getSeat(), con);
         checkValidPrice(seatReservationPrice);
         seatReservation.setSeatPrice(seatReservationPrice);
         return seatReservationRepository.save(seatReservation);
@@ -37,7 +46,7 @@ public class SeatReservationService {
             return false; // Seat is already reserved
         }
 
-        SeatReservation newReservation = new SeatReservation(seat, connection);
+        SeatReservation newReservation = new SeatReservation(seat, connection.getId());
         seat.setReserved(true);
         seatRepository.save(seat);
         seatReservationRepository.save(newReservation);
@@ -80,6 +89,15 @@ public class SeatReservationService {
         if (price < MIN_PRICE || price > MAX_PRICE) {
             throw new IllegalArgumentException("Price must be between " + MIN_PRICE + " and " + MAX_PRICE + " inclusive");
         }
+    }
+
+    public boolean isConnectionValid(SeatReservation prev, SeatReservation next) {
+        // Check timestamps and stations
+        
+        if (connectionRepository.findById(prev.getConnection()).get().getDepartureTime().isAfter(connectionRepository.findById(next.getConnection()).get().getArrivalTime())) {
+            return false;
+        }
+        return connectionRepository.findById(prev.getConnection()).get().getDestination().equals(connectionRepository.findById(next.getConnection()).get().getOrigin());
     }
 
 }

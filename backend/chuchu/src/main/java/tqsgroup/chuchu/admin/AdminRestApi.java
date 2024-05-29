@@ -7,14 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import tqsgroup.chuchu.data.entity.User;
 
 import tqsgroup.chuchu.admin.dao.*; //Get all admin request and response templates
 import tqsgroup.chuchu.data.entity.*;
@@ -40,10 +38,17 @@ public class AdminRestApi {
     private final StationService stationService;
     private final TrainService trainService;
     private final ConnectionService connectionService;
-    
+
     @GetMapping("/hello")
     public String hello() {
         return "Hello from SpringBoot Admin Rest API Controller";
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<User> fetchAdmin(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user =(User) authentication.getPrincipal();
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     /* Station endpoints */
@@ -55,7 +60,7 @@ public class AdminRestApi {
         @ApiResponse(responseCode = "400", description = "Invalid input while attempting to create station",
             content = @Content) })
     @PostMapping("/stations")
-    public ResponseEntity<Object> createStation(StationDAO request) {
+    public ResponseEntity<Object> createStation(@RequestBody StationDAO request) {
         try {
             logger.info("Creating Station with name: {}", request.getName());
             Station station = stationService.saveStation(new Station(request.getName(), request.getNumberOfLines()));
@@ -278,11 +283,4 @@ public class AdminRestApi {
                 .build();
     }
     /* End of Connection endpoints */
-
-    @GetMapping("/admin")
-    public ResponseEntity<User> fetchAdmin(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user =(User) authentication.getPrincipal();
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
 }

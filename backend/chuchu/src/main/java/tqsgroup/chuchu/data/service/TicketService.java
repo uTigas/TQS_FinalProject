@@ -14,10 +14,13 @@ public class TicketService {
     private static final long MIN_PRICE = 0L;
     private static final long MAX_PRICE = 100_000L;
 
+    final SeatReservationService reservationService;
+
     final TicketRepository ticketRepository;
 
-    public TicketService(TicketRepository ticketRepository) {
+    public TicketService(TicketRepository ticketRepository, SeatReservationService reservationService) {
         this.ticketRepository = ticketRepository;
+        this.reservationService = reservationService;
     }
 
     public Ticket saveTicket(Ticket ticket) {
@@ -44,7 +47,7 @@ public class TicketService {
 
         // Check if all connections from seat reservation connect with each other
         for (int i = 0; i < ticket.getRoute().length - 1; i++) {
-            if (!ticket.getRoute()[i].isConnectionValid(ticket.getRoute()[i + 1])) {
+            if (!reservationService.isConnectionValid(ticket.getRoute()[i],ticket.getRoute()[i + 1])) {
                 throw new IllegalArgumentException("Seat reservations must be consecutive in the route");
             }
         }

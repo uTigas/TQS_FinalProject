@@ -3,6 +3,7 @@ package tqsgroup.chuchu.service;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import org.mockito.Mock;
@@ -19,12 +20,14 @@ import tqsgroup.chuchu.data.entity.CarriageType;
 import tqsgroup.chuchu.data.entity.Seat;
 import tqsgroup.chuchu.data.repository.SeatRepository;
 import tqsgroup.chuchu.data.repository.SeatReservationRepository;
+import tqsgroup.chuchu.data.repository.neo.ConnectionRepository;
 import tqsgroup.chuchu.data.service.SeatReservationService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class SeatReservationServiceTest {
@@ -35,17 +38,21 @@ class SeatReservationServiceTest {
     @Mock(lenient = true)
     private SeatRepository seatRepository;
 
+    @Mock(lenient = true)
+    private ConnectionRepository connectionRepository;
+
     @InjectMocks
     private SeatReservationService seatReservationService;
 
     Carriage carriage = new Carriage(CarriageType.NORMAL, 50, new Train(TrainType.URBAN, 2));
     Seat seat = new Seat(1, carriage);
     Connection connection = new Connection(new Station("D", 4), new Station("E", 5), new Train(TrainType.ALPHA, 3), LocalTime.of(14, 0), LocalTime.of(15, 0), 3, 1L);
-    SeatReservation seatReservation = new SeatReservation(seat, connection);
+    SeatReservation seatReservation = new SeatReservation(seat, connection.getId());
 
 
     @Test
     void whenSaveValidSeatReservation_thenSeatReservationShouldBeSaved() {
+        when(connectionRepository.findById(seatReservation.getConnection())).thenReturn(Optional.of(connection));
         when(seatReservationRepository.save(seatReservation)).thenReturn(seatReservation);
         seatReservationService.saveSeatReservation(seatReservation);
         verify(seatReservationRepository, times(1)).save(seatReservation);
@@ -54,7 +61,8 @@ class SeatReservationServiceTest {
     @Test
     void whenSaveSeatReservationWithInvalidSeat_thenSeatReservationShouldNotBeSaved() {
         Seat nullSeat = null;
-        SeatReservation badSeatReservation = new SeatReservation(nullSeat, connection);
+        SeatReservation badSeatReservation = new SeatReservation(nullSeat, connection.getId());
+        when(connectionRepository.findById(connection.getId())).thenReturn(Optional.of(connection));
         when(seatReservationRepository.save(badSeatReservation)).thenReturn(null);
         try {
             seatReservationService.saveSeatReservation(badSeatReservation);
@@ -66,8 +74,8 @@ class SeatReservationServiceTest {
 
     @Test
     void whenSaveSeatReservationWithInvalidConnection_thenSeatReservationShouldNotBeSaved() {
-        Connection nullConnection = null;
-        SeatReservation badConnectionReservation = new SeatReservation(seat, nullConnection);
+        SeatReservation badConnectionReservation = new SeatReservation(seat, null);
+        when(connectionRepository.findById(badConnectionReservation.getConnection())).thenReturn(Optional.empty());
         when(seatReservationRepository.save(badConnectionReservation)).thenReturn(null);
         try {
             seatReservationService.saveSeatReservation(badConnectionReservation);
@@ -95,7 +103,7 @@ class SeatReservationServiceTest {
     void whenReserveOccupiedSeat_thenSeatShouldNotBeReserved() {
         Seat reservedSeat = new Seat(2, carriage);
         reservedSeat.setReserved(true);
-        SeatReservation reservedSeatReservation = new SeatReservation(reservedSeat, connection);
+        SeatReservation reservedSeatReservation = new SeatReservation(reservedSeat, connection.getId());
         when(seatReservationRepository.findBySeat(reservedSeat)).thenReturn(reservedSeatReservation);
 
         assertThat(reservedSeat.isReserved()).isTrue();
@@ -110,7 +118,7 @@ class SeatReservationServiceTest {
     void whenReleaseReservedSeat_thenSeatShouldBeReleased() {
         Seat reservedSeat = new Seat(2, carriage);
         reservedSeat.setReserved(true);
-        SeatReservation reservedSeatReservation = new SeatReservation(reservedSeat, connection);
+        SeatReservation reservedSeatReservation = new SeatReservation(reservedSeat, connection.getId());
         when(seatReservationRepository.findBySeat(reservedSeat)).thenReturn(reservedSeatReservation);
         when(seatRepository.save(reservedSeat)).thenReturn(reservedSeat);
 

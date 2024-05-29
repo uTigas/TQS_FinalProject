@@ -1,6 +1,17 @@
 version: "3.8"
 
 services:
+  neo4j:
+    image: neo4j:latest
+    ports:
+      - 7474:7474
+      - 7687:7687
+    environment:
+      - NEO4J_AUTH=none
+    volumes:
+      - neo-data:/var/lib/neo4j/data
+    networks:
+      - my_network
 
   postgres:
     image: postgres:latest
@@ -18,21 +29,21 @@ services:
   app:
     depends_on:
       - postgres
+      - neo4j
     build: ./backend/chuchu
     restart: on-failure
     env_file: ./.env
     ports:
-      - "$SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT"
+      - "$SPRING_LOCAL_PORT:8080"
     environment:
-      SPRING_APPLICATION_JSON: '{
-          "spring.datasource.url"  : "jdbc:postgresql://postgres:5432/$POSTGRES_DATABASE?sslmode=disable",
-          "spring.datasource.username" : "$POSTGRES_USER",
-          "spring.datasource.password" : "$POSTGRES_PASSWORD",
-          "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.PostgreSQLDialect",
-          "spring.jpa.hibernate.ddl-auto" : "update"
-        }'
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - TESTCONTAINERS_RYUK_DISABLED=true
+      - TESTCONTAINERS_HOST_OVERRIDE=host.docker.internal
+      - SPRING_APPLICATION_JSON={"spring.datasource.url":"jdbc:postgresql://postgres:5432/${POSTGRES_DATABASE}?sslmode=disable","spring.datasource.username":"${POSTGRES_USER}","spring.datasource.password":"${POSTGRES_PASSWORD}","spring.jpa.properties.hibernate.dialect":"org.hibernate.dialect.PostgreSQLDialect","spring.jpa.hibernate.ddl-auto":"update"}
+      
     volumes:
       - .m2:/root/.m2
+      - /var/run/docker.sock:/var/run/docker.sock
     stdin_open: true
     tty: true
     networks:
@@ -45,13 +56,6 @@ services:
     networks:
       - my_network
   
-  admin_ionic:
-    build: ./frontend/portal
-    ports:
-      - "8101:8101"
-    networks:
-      - my_network
-
   nginx:
     image: nginx:latest
     ports:
@@ -70,3 +74,4 @@ networks:
 
 volumes:
   pg-data:
+  neo-data:

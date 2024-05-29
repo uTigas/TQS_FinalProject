@@ -3,7 +3,7 @@ package tqsgroup.chuchu.data.service;
 import org.springframework.stereotype.Service;
 
 import tqsgroup.chuchu.data.entity.Station;
-import tqsgroup.chuchu.data.repository.StationRepository;
+import tqsgroup.chuchu.data.repository.neo.StationRepository;
 
 import java.util.List;
 
@@ -26,6 +26,10 @@ public class StationService {
     public Station getStationByName(String name) {
         checkEmptyStationName(name);
         return stationRepository.findByName(name);
+    }
+
+    public Station getStationById(Long id) {
+        return stationRepository.findById(id).get();
     }
 
     public List<Station> getAllStations() {

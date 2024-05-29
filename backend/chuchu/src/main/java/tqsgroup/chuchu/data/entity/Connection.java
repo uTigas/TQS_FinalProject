@@ -1,55 +1,37 @@
 package tqsgroup.chuchu.data.entity;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Max;
 
 import java.time.LocalTime;
 
-@Entity
-@Table(name = "CONNECTIONS")
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Relationship;
+
+@Node
 public class Connection {
-
-    private static final int MIN_LINE_NUMBER = 1;
-    private static final int MAX_LINE_NUMBER = 30;
-
-    private static final long MIN_PRICE = 0L;
-    private static final long MAX_PRICE = 1_000L;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "origin_id")
+    @Relationship(type = "ORIGIN")
     private Station origin;
 
-    @ManyToOne
-    @JoinColumn(name = "destination_id")
+    @Relationship(type = "DESTINATION")
     private Station destination;
 
-    @ManyToOne
-    @JoinColumn(name = "train_id")
+    @NotNull
     private Train train;
 
-    @Column(name = "departureTime")
     @NotNull
     private LocalTime departureTime;
 
-    @Column(name = "arrivalTime")
     @NotNull
     private LocalTime arrivalTime;
 
-    @Column(name = "lineNumber")
-    @Min(MIN_LINE_NUMBER)
-    @Max(MAX_LINE_NUMBER)
     @NotNull
     private int lineNumber; // Line number from the origin Station
 
-    @Column(name = "price")
-    @Min(MIN_PRICE)
-    @Max(MAX_PRICE)
     @NotNull
     private long price;
 
