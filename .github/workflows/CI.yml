@@ -34,14 +34,24 @@ jobs:
         distribution: 'temurin'
         cache: maven
         
-    - name: Setup Chrome
-      uses: browser-actions/setup-chrome@v1
-      
+    - name: Install Firefox
+      run: |
+        sudo snap remove firefox
+        wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
+        echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
+        echo '
+        Package: *
+        Pin: origin packages.mozilla.org
+        Pin-Priority: 1000
+        ' | sudo tee /etc/apt/preferences.d/mozilla
+        sudo apt update
+        sudo apt install firefox -y --allow-downgrades
+
     - name: Start Docker Compose 
       run: docker compose up -d
 
     - name: Wait for Docker Compose to start
-      run: sleep 15s
+      run: sleep 30s
 
     - name: Build with Maven
       run: docker compose exec -T app mvn test --file pom.xml -Dtest=*
