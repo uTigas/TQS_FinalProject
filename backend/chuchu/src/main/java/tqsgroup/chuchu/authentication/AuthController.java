@@ -39,6 +39,7 @@ public class AuthController {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         authenticationService.createUser(newUser);
         logger.info("User registered successfully: {}", newUser.getUsername());
+        logger.info("User registered successfully: {}", newUser.getUsername());
         return "login";
     }
 

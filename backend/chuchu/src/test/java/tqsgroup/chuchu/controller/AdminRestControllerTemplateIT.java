@@ -17,13 +17,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import tqsgroup.chuchu.authentication.service.SecurityService;
 import tqsgroup.chuchu.data.entity.Station;
 import tqsgroup.chuchu.data.repository.UserRepository;
+import tqsgroup.chuchu.data.repository.neo.StationRepository;
 import tqsgroup.chuchu.data.repository.RoleRepository;
 import tqsgroup.chuchu.data.repository.SeatRepository;
-import tqsgroup.chuchu.data.repository.StationRepository;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
-
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
@@ -51,7 +50,9 @@ class AdminRestControllerTemplateIT {
     @Autowired
     SeatRepository seatRepository;
 
+
     private static final String ADMIN_API = "/admin/api/v1";
+    
     
     private void createTestStation(String name, int numberOfLines) {
         Station station = new Station(name, numberOfLines);
@@ -60,6 +61,8 @@ class AdminRestControllerTemplateIT {
     
     @BeforeEach
     void setUp() {
+        when(securityService.hasRole("ADMIN")).thenReturn(true);
+        
         when(securityService.hasRole("ADMIN")).thenReturn(true);
         
         createTestStation("station 1", 5);
@@ -77,6 +80,10 @@ class AdminRestControllerTemplateIT {
     @Test
     @Order(1)
     void testGetHelloEndpoint() {
+        RestAssuredMockMvc.given().mockMvc(mockMvc)
+                          .when().get(ADMIN_API + "/hello")
+                          .then().statusCode(HttpStatus.OK.value())
+                          .body(is("Hello from SpringBoot Admin Rest API Controller"));
         RestAssuredMockMvc.given().mockMvc(mockMvc)
                           .when().get(ADMIN_API + "/hello")
                           .then().statusCode(HttpStatus.OK.value())

@@ -1,27 +1,31 @@
 package tqsgroup.chuchu.databases;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.data.neo4j.core.Neo4jClient;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import tqsgroup.chuchu.data.entity.Station;
+import tqsgroup.chuchu.data.repository.neo.StationRepository;
 
-@ExtendWith(SpringExtension.class)
+import static org.junit.Assert.assertEquals;
+
 @SpringBootTest
-@Transactional
 public class Neo4jDatabaseTest {
 
     @Autowired
-    private Neo4jClient neo4jClient;
+    private StationRepository stationRepository;
 
     @Test
     public void testNeo4jConnection() {
+        int prevSize = stationRepository.findAll().size();
+
+        Station newStation = new Station();
+        newStation.setName("Test Station");
+        newStation.setNumberOfLines(999);
+        stationRepository.save(newStation);
         // Perform a simple query to verify the connection
-        assertNotNull(neo4jClient.query("MATCH (n) RETURN n").fetch().one(), "Connected to Neo4j database successfully");
+        assertEquals(stationRepository.findAll().size(), prevSize + 1);
         
+        stationRepository.delete(stationRepository.findByName("Test Station"));
     }
 }
