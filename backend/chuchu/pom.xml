@@ -143,6 +143,13 @@
 			<version>4.20.0</version>
 		</dependency>
 
+		<!-- Selenium WebDriver Java bindings for automating web browsers. -->
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>selenium-jupiter</artifactId>
+			<version>5.1.0</version>
+		</dependency>
+	  
 		<!-- JUnit Platform Suite for organizing JUnit tests. -->
 		<dependency>
 			<groupId>org.junit.platform</groupId>

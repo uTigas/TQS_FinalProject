@@ -1,6 +1,6 @@
 
 const APIWrapper = {
-  backendURI: "/", // TODO: Check if this is necessary
+  backendURI: "http://localhost:8080/", 
   privateAPI: "private/api/v1/",
   adminAPI: "admin/api/v1/",
 

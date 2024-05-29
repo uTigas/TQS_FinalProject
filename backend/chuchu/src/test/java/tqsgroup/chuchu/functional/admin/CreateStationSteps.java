@@ -14,8 +14,8 @@ import static org.junit.Assert.assertTrue;
 public class CreateStationSteps {
 
     private final WebDriver driver = CucumberTest.getDriver();
-    private Wait<WebDriver> wait;
-    private static final String BASE_URL = "http://localhost:";
+    private final Wait<WebDriver> wait = CucumberTest.wait;
+    private static final String BASE_URL = "http://localhost:" + CucumberTest.ionicPort;
 
     @And("I switch to the {string} page")
     public void iSwitchToThePage(String pageName) {
@@ -25,7 +25,6 @@ public class CreateStationSteps {
 
     @Given("I am on the {string} page")
     public void iAmOnThePage(String pageName) {
-        wait.until(ExpectedConditions.urlToBe(BASE_URL + pageName));
         wait.until(ExpectedConditions.urlToBe(BASE_URL + pageName));
     }
 
@@ -54,6 +53,5 @@ public class CreateStationSteps {
         WebElement successMessageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'" + successMessage + "')]")));
         assertTrue("Success message not displayed", successMessageElement.isDisplayed());
         driver.quit();
-        chromeContainer.stop();
     }
 }

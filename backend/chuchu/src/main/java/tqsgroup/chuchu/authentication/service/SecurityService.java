@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 public class SecurityService {
 
     public boolean hasRole(String roleName) {
-        System.out.println("CHECKING ROLES @ SECURITY SERVICE");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getAuthorities().stream()
             .anyMatch(a -> a.getAuthority().equals(roleName));
     }
