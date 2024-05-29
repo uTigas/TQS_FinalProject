@@ -27,7 +27,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalTime;
 import java.util.Arrays;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)

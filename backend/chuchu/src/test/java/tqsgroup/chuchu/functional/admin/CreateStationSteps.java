@@ -1,50 +1,21 @@
-package tqsgroup.chuchu.functional;
+package tqsgroup.chuchu.functional.admin;
 
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+
 import io.cucumber.java.en.*;
+import tqsgroup.chuchu.CucumberTest;
 
 import static org.junit.Assert.assertTrue;
 
-import java.time.Duration;
-
 public class CreateStationSteps {
-    private WebDriver driver;
-    private WebDriverWait wait;
 
-    @Given("I access the url {string}")
-    public void iAccessTheUrl(String url) {
-        driver = new ChromeDriver();
-        driver.get(url);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    }
-
-    @When("I log in as an admin")
-    public void iLogInAsAnAdmin() {
-        WebElement loginButton = driver.findElement(By.id("login"));
-        loginButton.click();
-
-        // Wait to be redirected to the login page
-        wait.until(ExpectedConditions.urlToBe("http://localhost:8080/auth/login"));
-
-        WebElement usernameField = driver.findElement(By.name("username"));
-        WebElement passwordField = driver.findElement(By.name("password"));
-        WebElement submitButton = driver.findElement(By.cssSelector("button[type='submit']"));
-
-        usernameField.sendKeys("admin");
-        passwordField.sendKeys("password");
-        submitButton.click();
-    }
-
-    @Then("I should be redirected back to the {string} page")
-    public void iShouldBeRedirectedBackToPage(String pageName) {
-        wait.until(ExpectedConditions.urlToBe("http://localhost:8101/" + pageName));
-    }
+    private final WebDriver driver = CucumberTest.getDriver();
+    private Wait<WebDriver> wait;
+    private static final String BASE_URL = "http://localhost:";
 
     @And("I switch to the {string} page")
     public void iSwitchToThePage(String pageName) {
@@ -54,8 +25,7 @@ public class CreateStationSteps {
 
     @Given("I am on the {string} page")
     public void iAmOnThePage(String pageName) {
-        // Wait until the URL is as expected
-        wait.until(ExpectedConditions.urlToBe("http://localhost:8101/" + pageName));
+        wait.until(ExpectedConditions.urlToBe(BASE_URL + pageName));
     }
 
     @When("I fill in the {string} field with {string}")
