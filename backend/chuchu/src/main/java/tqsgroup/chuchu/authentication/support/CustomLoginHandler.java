@@ -32,6 +32,7 @@ public class CustomLoginHandler
     public void onAuthenticationSuccess(HttpServletRequest request, 
       HttpServletResponse response, Authentication authentication)
       throws IOException {
+        System.out.println("REDIRECTING ON AUTH SUCCESS @CUSTOMLOGINHANDLER");
         handle(request, response, authentication);
         clearAuthenticationAttributes(request);
     }
