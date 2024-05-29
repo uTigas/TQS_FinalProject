@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.2.5</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>tqsgroup</groupId>
 	<artifactId>chuchu</artifactId>
@@ -15,17 +16,30 @@
 	<description>TQS group project UA 2024</description>
 	<properties>
 		<java.version>17</java.version>
+		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
+		<maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
 		<cucumber.version>7.15.0</cucumber.version>
-        <junit-platform-suite.version>1.10.1</junit-platform-suite.version>
+		<junit-platform-suite.version>1.10.1</junit-platform-suite.version>
+		<xray-maven-plugin.version>0.7.4</xray-maven-plugin.version>
+		<xray-junit-extensions.version>0.7.3</xray-junit-extensions.version>
+		<sonar.organization>utigas</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<jacoco.version>0.8.11</jacoco.version>
+		<unit.coverage.file>${project.build.directory}/jacoco-output/jacoco-unit-tests.exec</unit.coverage.file>
+		<it.coverage.file>${project.build.directory}/jacoco-output/jacoco-it-tests.exec</it.coverage.file>
+		<merged.coverage.file>${project.build.directory}/jacoco-output/merged.exec</merged.coverage.file>
+		<jacoco.maven.opts>-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${it.coverage.file},append=true</jacoco.maven.opts>
 	</properties>
 
 	<dependencies>
 
 		<!-- Provides Thymeleaf HTML render support. -->
 		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
 
 		<!-- Provides OAuth 2.0 Resource Server support. -->
 		<dependency>
@@ -42,12 +56,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-neo4j</artifactId>
 		</dependency>
-		
+
 		<!-- Provides Spring Security features, including authentication and authorization. -->
 		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -71,13 +85,6 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
-		</dependency>
-
-		<!-- H2 Database Engine for in-memory databases, often used in development environments. -->
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 
 		<!-- PostgreSQL JDBC driver for connecting to PostgreSQL databases. -->
@@ -138,27 +145,27 @@
 
 		<!-- JUnit Platform Suite for organizing JUnit tests. -->
 		<dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-suite</artifactId>
-            <version>${junit-platform-suite.version}</version>
-            <scope>test</scope>
-        </dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-suite</artifactId>
+			<version>${junit-platform-suite.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- Cucumber-Java for writing Cucumber tests in Java. -->
 		<dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- Cucumber JUnit Platform Engine for executing Cucumber tests on the JUnit Platform. -->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit-platform-engine</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit-platform-engine</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- Testcontainers library for running tests with Docker containers. -->
 		<dependency>
@@ -174,12 +181,57 @@
 			<artifactId>selenium</artifactId>
 			<version>1.19.7</version>
 		</dependency>
+
+		<!-- Xray JUnit Extensions for integrating JUnit tests with Xray. -->
+		<dependency>
+			<groupId>app.getxray</groupId>
+			<artifactId>xray-junit-extensions</artifactId>
+			<version>${xray-junit-extensions.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Xray Maven Plugin for integrating Maven builds with Xray. -->
+		<dependency>
+			<groupId>app.getxray</groupId>
+			<artifactId>xray-maven-plugin</artifactId>
+			<version>${xray-maven-plugin.version}</version>
+		</dependency>
+
 		<!-- swagger api documentation -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.2.0</version>
 		</dependency>
+
+		<!-- Flyway for database migrations -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+
+		<!-- RestAssured for simplistic testing and validating of REST services  -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>5.4.0</version>
+			<scope>test</scope>
+		  </dependency>
+		  
+		<!-- RestAssuredMockMvc for expressive REST Controllers testing -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>spring-mock-mvc</artifactId>
+		</dependency>
+
+		<!-- Hamcrest to effectively evaluate responses -->
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest</artifactId>
+			<version>2.2</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -197,44 +249,177 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			
-			<!-- Flyway Maven Plugin for database migrations -->
-			<plugin>
-				<groupId>org.flywaydb</groupId>
-				<artifactId>flyway-maven-plugin</artifactId>
-			</plugin>
 
 			<!-- Maven Surefire Plugin for running unit tests -->
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.2.5</version>
+				<version>${maven-surefire-plugin.version}</version>
+				<configuration>
+					<argLine>${surefire.jacoco.args}</argLine>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+					<excludes>
+						<exclude>**/*IT.java</exclude>
+					</excludes>
+
+					<testFailureIgnore>false</testFailureIgnore>
+					<disableXmlReport>true</disableXmlReport>
+					<useFile>false</useFile>
+				</configuration>
 			</plugin>
-			 <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.2.5</version>
-            </plugin>
+
+			<!-- Maven Failsafe Plugin for running integration tests -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>${maven-failsafe-plugin.version}</version>
+				<configuration>
+					<!--
+						check if the following ones are actually needed or not to run the integration tests
+						-->
+					<systemProperties>
+						<maven.version>${maven.version}</maven.version>
+						<maven.home>${maven.home}</maven.home>
+					</systemProperties>
+
+					<argLine>${failsafe.jacoco.args}</argLine>
+					<includes>
+						<include>**/*IT.java</include>
+					</includes>
+					<excludes>
+						<exclude>**/*Test.java</exclude>
+					</excludes>
+
+					<!-- based on https://github.com/khmarbaise/maven-it-extension/discussions/328 ,
+					to be able to track coverage of IT tests -->
+					<environmentVariables>
+						<MAVEN_OPTS>${jacoco.maven.opts}</MAVEN_OPTS>
+					</environmentVariables>
+
+					<properties>
+						<configurationParameters>
+							<!--
+							these are the default values, but we want to make sure that they are not changed by the user
+							https://maven.apache.org/surefire/maven-failsafe-plugin/examples/junit-platform.html
+							--> junit.jupiter.execution.parallel.enabled = false
+							junit.jupiter.execution.parallel.mode.default = same_thread
+							junit.jupiter.execution.parallel.mode.classes.default = same_thread </configurationParameters>
+					</properties>
+
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
 			<!--  Jacoco Maven Plugin for code coverage -->
 			<plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.8</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
 
+				<executions>
+					<execution>
+						<id>before-unit-test-execution</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<destFile>${unit.coverage.file}</destFile>
+							<propertyName>surefire.jacoco.args</propertyName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>after-unit-test-execution</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<dataFile>${unit.coverage.file}</dataFile>
+							<outputDirectory>
+								${project.reporting.outputDirectory}/jacoco-unit-test-coverage-report</outputDirectory>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>before-integration-test-execution</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>prepare-agent-integration</goal>
+						</goals>
+						<configuration>
+							<destFile>${it.coverage.file}</destFile>
+							<propertyName>failsafe.jacoco.args</propertyName>
+							<classDumpDir>${project.build.directory}/jacoco-dump</classDumpDir>
+							<append>true</append>
+						</configuration>
+					</execution>
+					<execution>
+						<id>after-integration-test-execution</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<dataFile>${it.coverage.file}</dataFile>
+							<outputDirectory>
+								${project.reporting.outputDirectory}/jacoco-it-coverage-report</outputDirectory>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>merge-unit-and-integration</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>merge</goal>
+						</goals>
+						<configuration>
+							<fileSets>
+								<fileSet>
+									<directory>${project.build.directory}/jacoco-output/</directory>
+									<includes>
+										<include>*.exec</include>
+									</includes>
+								</fileSet>
+							</fileSets>
+							<destFile>merged.coverage.file</destFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>create-merged-report</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<dataFile>merged.coverage.file</dataFile>
+							<outputDirectory>
+								${project.reporting.outputDirectory}/jacoco-merged-test-coverage-report</outputDirectory>
+						</configuration>
+					</execution>
+
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>app.getxray</groupId>
+				<artifactId>xray-maven-plugin</artifactId>
+				<version>${xray-maven-plugin.version}</version>
+				<configuration>
+					<cloud>true</cloud>
+					<reportFormat>junit</reportFormat>
+					<reportFile>reports/*.xml</reportFile>
+				</configuration>
+			</plugin>
+			
 		</plugins>
 	</build>
 
