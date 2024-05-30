@@ -60,9 +60,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: 06eb2137628096c9f5d0a5ac5cd55099c15f5b5b
-      run: |
-        mvn -B '-Dtest=!CucumberTest' verify failsafe:integration-test' sonar:sonar \
-        -Dsonar.projectKey=uTigas_TQS_FinalProject
+      run: mvn -B '-Dtest=!CucumberTest' verify failsafe:integration-test sonar:sonar -Dsonar.projectKey=uTigas_TQS_FinalProject
 
     - name: Push results to Xray on Jira Cloud
       uses: mikepenz/xray-action@v3
