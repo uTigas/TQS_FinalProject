@@ -6,4 +6,4 @@ WORKDIR /backend
 COPY . .
 RUN mvn --fail-never clean compile
 
-CMD mvn spring-boot:run -Dspring-boot.run.arguments="--deploy=true"
+CMD mvn spring-boot:run
