@@ -75,6 +75,7 @@ jobs:
       run: mvn -f backend/chuchu/pom.xml test -Dtest=CucumberTest
       
     - name: Push results to Xray on Jira Cloud
+      if: always()
       uses: mikepenz/xray-action@v3
       with:
         username: ${{ secrets.XRAYCLOUD_CLIENT_ID }}

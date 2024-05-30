@@ -50,7 +50,7 @@ public class CreateStationSteps {
     @Then("I should see the success message {string}")
     public void iShouldSeeTheSuccessMessage(String successMessage) {
         // Wait for the success message to be visible
-        WebElement successMessageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText(successMessage)));
+        WebElement successMessageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'" + successMessage + "')]")));
         assertTrue("Success message not displayed", successMessageElement.isDisplayed());
         driver.quit();
     }
