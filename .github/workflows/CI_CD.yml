@@ -54,7 +54,7 @@ jobs:
       run: sleep 30s
 
     - name: Build with Maven
-      run: mvn test --file backend/chuchu/pom.xml -Dtest=!CucumberTest
+      run: mvn test -f backend/chuchu/pom.xml -Dtest=!CucumberTest
     
     - name: Build and analyze with SonarCloud
       env:
@@ -73,10 +73,10 @@ jobs:
         projectKey: "TP"
 
     - name: Run App
-      run: mvn spring-boot:run  
+      run: mvn -f backend/chuchu/pom.xml spring-boot:run  
     
     - name: Wait for Spring Boot App to start
       run: sleep 20s
 
     - name: Run Functional Tests
-      run: mvn test -Dtest=CucumberTest
+      run: mvn -f backend/chuchu/pom.xml test -Dtest=CucumberTest
