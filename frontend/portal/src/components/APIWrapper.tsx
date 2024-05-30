@@ -41,7 +41,22 @@ const APIWrapper = {
     } catch (error) {
       console.error('Error adding Station', error);
     }
-  }
+  },
+
+  editStation: async (oldStationName: string, newStationName: string, stationLines: number) => {
+    try {
+      return await fetch(`${APIWrapper.backendURI + APIWrapper.adminAPI}stations/${oldStationName}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name: newStationName, numberOfLines: stationLines })
+      });
+    } catch (error) {
+      console.error('Error editing Station', error);
+    }
+  },
 
 }
 export default APIWrapper;
