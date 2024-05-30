@@ -26,6 +26,8 @@ public class ChuchuApplication {
                 if (Boolean.parseBoolean(deployValue)) {
                     System.setProperty("spring.port", "");
                     System.setProperty("ionic.port", "");
+                    System.setProperty("neo.source", "neo");
+                    System.setProperty("postgres.source", "postgres");
                 }
                 else
                     logger.info("Entered Development Mode.");

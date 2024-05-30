@@ -10,7 +10,7 @@ services:
     environment:
       - NEO4J_AUTH=none
     volumes:
-      - neo-data:/var/lib/neo4j/data
+      - neo-data1:/var/lib/neo4j/data
     networks:
       - my_network
 
@@ -24,7 +24,7 @@ services:
       - POSTGRES_USER=$POSTGRES_USER
       - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
     volumes:
-      - pg-data:/var/lib/postgresql/data
+      - pg-data1:/var/lib/postgresql/data
     networks:
       - my_network
 

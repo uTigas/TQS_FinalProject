@@ -19,6 +19,8 @@ import tqsgroup.chuchu.data.entity.User;
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
+    private String loginForm = "login";
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -39,19 +41,18 @@ public class AuthController {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         authenticationService.createUser(newUser);
         logger.info("User registered successfully: {}", newUser.getUsername());
-        logger.info("User registered successfully: {}", newUser.getUsername());
-        return "login";
+        return loginForm;
     }
 
     @GetMapping("/login")
     public String getLogin(Model model) {
         logger.info("Received request to get login form.");
-        return "login";
+        return loginForm;
     }
 
     @PostMapping("/login")
     public String postLogin(Model model) {
         logger.info("Received request to process login form.");
-        return "login";
+        return loginForm;
     }
 }
