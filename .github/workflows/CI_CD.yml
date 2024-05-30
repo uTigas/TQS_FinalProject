@@ -54,25 +54,31 @@ jobs:
       run: sleep 30s
 
     - name: Build with Maven
-      run: docker compose exec -T app mvn test --file pom.xml -Dtest=*
+      run: mvn test --file backend/chuchu/pom.xml -Dtest=!CucumberTest
     
-    - name: Run Sonarcloud Static Analysis
-      if: always()
+    - name: Build and analyze with SonarCloud
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: 06eb2137628096c9f5d0a5ac5cd55099c15f5b5b
-        PROJECT_KEY: uTigas_TQS_FinalProject
-        ORGANIZATION: utigas
-      run: docker compose exec -T app mvn -Dsonar.host.url=https://sonarcloud.io sonar:sonar -Dsonar.projectKey=${{ env.PROJECT_KEY }}  -Dsonar.organization=${{ env.ORGANIZATION }} -Dsonar.login=${{ env.SONAR_TOKEN }} -Dsonar.github.oauth=${{ env.GITHUB_TOKEN }} -Dsonar.java.binaries=target/classes  -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco.xml
-    
+      run: |
+        mvn -B '-Dtest=!CucumberTest' verify failsafe:integration-test' sonar:sonar \
+        -Dsonar.projectKey=uTigas_TQS_FinalProject
+
     - name: Push results to Xray on Jira Cloud
-      if: always()
-      env:
-        XRAYCLOUD_CLIENT_ID: ${{ secrets.XRAYCLOUD_CLIENT_ID }}
-        XRAYCLOUD_CLIENT_SECRET: ${{ secrets.XRAYCLOUD_CLIENT_SECRET }}
-        XRAYCLOUD_TEST_PLAN_KEY: ${{ secrets.XRAYCLOUD_TEST_PLAN_KEY }}
-        
-        REVISION: ${{ github.ref_name}}
-        TEST_ENVIRONMENT: java${{ matrix.java }}
-      run: docker-compose exec -T app mvn xray:import-results -Dxray.clientId=${{ env.XRAYCLOUD_CLIENT_ID }} -Dxray.clientSecret=${{ env.XRAYCLOUD_CLIENT_SECRET }} -Dxray.testPlanKey=${{ env.XRAYCLOUD_TEST_PLAN_KEY }} -Dxray.revision=${{ env.REVISION }}
+      uses: mikepenz/xray-action@v3
+      with:
+        username: ${{ secrets.XRAYCLOUD_CLIENT_ID }}
+        password: ${{ secrets.XRAYCLOUD_CLIENT_SECRET }}
+        testFormat: "junit"
+        testPaths: "**/surefire-reports/TEST-*.xml"
+        testExecKey: "TP-27"
+        projectKey: "TP"
+
+    - name: Run App
+      run: mvn spring-boot:run  
     
+    - name: Wait for Spring Boot App to start
+      run: sleep 20s
+
+    - name: Run Functional Tests
+      run: mvn test -Dtest=CucumberTest

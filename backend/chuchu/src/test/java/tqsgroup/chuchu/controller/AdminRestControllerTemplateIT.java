@@ -106,6 +106,6 @@ class AdminRestControllerTemplateIT {
         RestAssuredMockMvc.given().mockMvc(mockMvc)
                 .when().get(ADMIN_API + "/stations")
                 .then().statusCode(HttpStatus.OK.value())
-                .body("$.length()", is(3));
+                .body("$.size()", is(3));
     }
 }
