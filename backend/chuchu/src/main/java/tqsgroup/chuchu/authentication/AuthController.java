@@ -35,12 +35,12 @@ public class AuthController {
 
     @PostMapping("/register")
     public String registerUser(User newUser) {
-        logger.info("Received request to register a new user: {}", newUser.getUsername());
+        logger.info("Received request to register a new user");
         Role userRole = authenticationService.getRole("USER").get();
         newUser.setRole(userRole);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         authenticationService.createUser(newUser);
-        logger.info("User registered successfully: {}", newUser.getUsername());
+        logger.info("User registered successfully");
         return loginForm;
     }
 

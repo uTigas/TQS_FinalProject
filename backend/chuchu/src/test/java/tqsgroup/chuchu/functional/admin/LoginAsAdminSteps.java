@@ -15,7 +15,7 @@ public class LoginAsAdminSteps {
 
     private final WebDriver driver = CucumberTest.getDriver();
     private final Wait<WebDriver> wait = CucumberTest.wait;
-    private static final String BASE_URL = "http://localhost:";
+    private static final String BASE_URL = "http://localhost";
     
     @Given("I access the url {string}")
     public void iAccessTheUrl(String url) {

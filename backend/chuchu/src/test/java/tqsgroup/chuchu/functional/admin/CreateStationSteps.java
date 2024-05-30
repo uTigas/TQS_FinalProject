@@ -15,7 +15,7 @@ public class CreateStationSteps {
 
     private final WebDriver driver = CucumberTest.getDriver();
     private final Wait<WebDriver> wait = CucumberTest.wait;
-    private static final String BASE_URL = "http://localhost:" + CucumberTest.ionicPort;
+    private static final String BASE_URL = "http://localhost" + CucumberTest.ionicPort;
 
     @And("I switch to the {string} page")
     public void iSwitchToThePage(String pageName) {
