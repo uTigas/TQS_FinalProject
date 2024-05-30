@@ -33,5 +33,5 @@ networks:
     driver: bridge
 
 volumes:
-  pg-data:
-  neo-data:
+  pg-data1:
+  neo-data1:
