@@ -21,19 +21,24 @@ public class ChuchuApplication {
     public CommandLineRunner commandLineRunner(ApplicationArguments args) {
         return arg -> {
             if (args.containsOption("deploy")) {
-                logger.info("Entered Deploy Mode.");
                 String deployValue = args.getOptionValues("deploy").get(0);
                 if (Boolean.parseBoolean(deployValue)) {
+                    logger.info("Entered Deploy Mode.");
                     System.setProperty("spring.port", "");
                     System.setProperty("ionic.port", "");
-                    System.setProperty("neo.source", "neo");
-                    System.setProperty("postgres.source", "postgres");
+                    System.setProperty("spring.data.neo4j.uri", "bolt://neo:7687");
+                    System.setProperty("spring.datasource.url", "jdbc:postgresql://postgres:5432/chuchu");
                 }
                 else
                     logger.info("Entered Development Mode.");
             }
-            else
+            else{
                 logger.info("Entered Development Mode.");
+                System.setProperty("spring.port", "8080");
+                System.setProperty("ionic.port", "8100");
+                System.setProperty("spring.datasource.url", "jdbc:postgresql://localhost:5432/chuchu");
+                System.setProperty("spring.data.neo4j.uri", "bolt://localhost:7687");
+            }
 
         };
     }
