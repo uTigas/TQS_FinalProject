@@ -31,6 +31,11 @@
 		<it.coverage.file>${project.build.directory}/jacoco-output/jacoco-it-tests.exec</it.coverage.file>
 		<merged.coverage.file>${project.build.directory}/jacoco-output/merged.exec</merged.coverage.file>
 		<jacoco.maven.opts>-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${it.coverage.file},append=true</jacoco.maven.opts>
+		<sonar.organization>utigas</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.exclusions>**/authentication/**</sonar.exclusions>
+		<sonar.inclusions>**/src/main**</sonar.inclusions>
+
 	</properties>
 
 	<dependencies>
@@ -143,6 +148,13 @@
 			<version>4.20.0</version>
 		</dependency>
 
+		<!-- Selenium WebDriver Java bindings for automating web browsers. -->
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>selenium-jupiter</artifactId>
+			<version>5.1.0</version>
+		</dependency>
+	  
 		<!-- JUnit Platform Suite for organizing JUnit tests. -->
 		<dependency>
 			<groupId>org.junit.platform</groupId>
@@ -250,175 +262,72 @@
 				</configuration>
 			</plugin>
 
-			<!-- Maven Surefire Plugin for running unit tests -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven-surefire-plugin.version}</version>
-				<configuration>
-					<argLine>${surefire.jacoco.args}</argLine>
-					<includes>
-						<include>**/*Test.java</include>
-					</includes>
-					<excludes>
-						<exclude>**/*IT.java</exclude>
-					</excludes>
-
-					<testFailureIgnore>false</testFailureIgnore>
-					<disableXmlReport>true</disableXmlReport>
-					<useFile>false</useFile>
-				</configuration>
-			</plugin>
-
 			<!-- Maven Failsafe Plugin for running integration tests -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>${maven-failsafe-plugin.version}</version>
-				<configuration>
-					<!--
-						check if the following ones are actually needed or not to run the integration tests
-						-->
-					<systemProperties>
-						<maven.version>${maven.version}</maven.version>
-						<maven.home>${maven.home}</maven.home>
-					</systemProperties>
-
-					<argLine>${failsafe.jacoco.args}</argLine>
-					<includes>
-						<include>**/*IT.java</include>
-					</includes>
-					<excludes>
-						<exclude>**/*Test.java</exclude>
-					</excludes>
-
-					<!-- based on https://github.com/khmarbaise/maven-it-extension/discussions/328 ,
-					to be able to track coverage of IT tests -->
-					<environmentVariables>
-						<MAVEN_OPTS>${jacoco.maven.opts}</MAVEN_OPTS>
-					</environmentVariables>
-
-					<properties>
-						<configurationParameters>
-							<!--
-							these are the default values, but we want to make sure that they are not changed by the user
-							https://maven.apache.org/surefire/maven-failsafe-plugin/examples/junit-platform.html
-							--> junit.jupiter.execution.parallel.enabled = false
-							junit.jupiter.execution.parallel.mode.default = same_thread
-							junit.jupiter.execution.parallel.mode.classes.default = same_thread </configurationParameters>
-					</properties>
-
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!--  Jacoco Maven Plugin for code coverage -->
-			<plugin>
+				<version>3.2.5</version>
+				<goals>
+				  <goal>integration-test</goal>
+				  <goal>verify</goal>
+				</goals>
+			  </plugin>
+		
+			  <plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
-
+				<version>0.8.11</version>
 				<executions>
-					<execution>
-						<id>before-unit-test-execution</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-						<configuration>
-							<destFile>${unit.coverage.file}</destFile>
-							<propertyName>surefire.jacoco.args</propertyName>
-						</configuration>
-					</execution>
-					<execution>
-						<id>after-unit-test-execution</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-						<configuration>
-							<dataFile>${unit.coverage.file}</dataFile>
-							<outputDirectory>
-								${project.reporting.outputDirectory}/jacoco-unit-test-coverage-report</outputDirectory>
-						</configuration>
-					</execution>
-
-					<execution>
-						<id>before-integration-test-execution</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>prepare-agent-integration</goal>
-						</goals>
-						<configuration>
-							<destFile>${it.coverage.file}</destFile>
-							<propertyName>failsafe.jacoco.args</propertyName>
-							<classDumpDir>${project.build.directory}/jacoco-dump</classDumpDir>
-							<append>true</append>
-						</configuration>
-					</execution>
-					<execution>
-						<id>after-integration-test-execution</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-						<configuration>
-							<dataFile>${it.coverage.file}</dataFile>
-							<outputDirectory>
-								${project.reporting.outputDirectory}/jacoco-it-coverage-report</outputDirectory>
-						</configuration>
-					</execution>
-
-					<execution>
-						<id>merge-unit-and-integration</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>merge</goal>
-						</goals>
-						<configuration>
-							<fileSets>
-								<fileSet>
-									<directory>${project.build.directory}/jacoco-output/</directory>
-									<includes>
-										<include>*.exec</include>
-									</includes>
-								</fileSet>
-							</fileSets>
-							<destFile>merged.coverage.file</destFile>
-						</configuration>
-					</execution>
-					<execution>
-						<id>create-merged-report</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-						<configuration>
-							<dataFile>merged.coverage.file</dataFile>
-							<outputDirectory>
-								${project.reporting.outputDirectory}/jacoco-merged-test-coverage-report</outputDirectory>
-						</configuration>
-					</execution>
-
+				<!-- Prepare JaCoCo agent for unit tests -->
+				  <execution> <!-- 1 -->
+					<goals>
+					  <goal>prepare-agent</goal>
+					</goals>
+					<configuration>
+					  <destFile>${project.build.directory}/jacoco-ut.exec</destFile>
+					</configuration>
+				  </execution>
+				<!-- Prepare JaCoCo agent for integration tests -->
+				  <execution> <!-- 2 -->
+					<id>pre-integration-prepare</id>
+					<goals>
+					  <goal>prepare-agent-integration</goal>
+					</goals>
+				  </execution>
+				<!-- Merge JaCoCo coverage reports -->
+				  <execution> <!-- 3 -->
+					<id>report</id>
+					<phase>post-integration-test</phase>
+					<goals>
+					  <goal>merge</goal>
+					</goals>
+					<configuration>
+					  <fileSets>
+						<fileSet>
+						  <directory>${project.build.directory}</directory>
+						  <includes>
+							<include>*.exec</include>
+						  </includes>
+						</fileSet>
+					  </fileSets>
+					</configuration>
+				  </execution>
+				<!-- Generate JaCoCo merged coverage report -->
+				  <execution> <!-- 4 -->
+					<id>merged-report-generation</id>
+					<phase>verify</phase>
+					<goals>
+					  <goal>report</goal>
+					</goals>
+				  </execution>
 				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>app.getxray</groupId>
-				<artifactId>xray-maven-plugin</artifactId>
-				<version>${xray-maven-plugin.version}</version>
-				<configuration>
-					<cloud>true</cloud>
-					<reportFormat>junit</reportFormat>
-					<reportFile>reports/*.xml</reportFile>
-				</configuration>
-			</plugin>
+			  </plugin>
+		
+			  <plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.7.0.1746</version>
+			  </plugin>
 			
 		</plugins>
 	</build>

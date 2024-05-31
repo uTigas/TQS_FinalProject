@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -16,59 +17,57 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class CustomLoginHandler
-  implements AuthenticationSuccessHandler {
- 
-    private static Map<String, String> roleTargetUrlMap = new HashMap<>();
+public class CustomLoginHandler implements AuthenticationSuccessHandler {
+	
 
-    static {
-        roleTargetUrlMap.put("USER", "/");
-        roleTargetUrlMap.put("ADMIN", "/admin");
-    } 
-      
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    @Value("${ionic.port}")
+    private String ionicPort;
 
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, 
-      HttpServletResponse response, Authentication authentication)
-      throws IOException {
-        System.out.println("REDIRECTING ON AUTH SUCCESS @CUSTOMLOGINHANDLER");
-        handle(request, response, authentication);
-        clearAuthenticationAttributes(request);
-    }
+	private  Map<String, String> roleTargetUrlMap = new HashMap<>();
 
-    protected void handle(
-      HttpServletRequest request,
-      HttpServletResponse response, 
-      Authentication authentication
-    ) throws IOException {
+	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-      String targetUrl = determineTargetUrl(authentication);
+	@Override
+	public void onAuthenticationSuccess(HttpServletRequest request,
+			HttpServletResponse response, Authentication authentication)
+			throws IOException {
+				handle(request, response, authentication);
+		clearAuthenticationAttributes(request);
+	}
 
-      if (response.isCommitted()) {
-          return;
-      }
+	protected void handle(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Authentication authentication) throws IOException {
 
-      redirectStrategy.sendRedirect(request, response, targetUrl);
-    }
-    
-    protected String determineTargetUrl(final Authentication authentication) {
-      final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-      for (final GrantedAuthority grantedAuthority : authorities) {
-          String authorityName = grantedAuthority.getAuthority();
-          if(roleTargetUrlMap.containsKey(authorityName)) {
-              return roleTargetUrlMap.get(authorityName);
-          }
-      }
-  
-      throw new IllegalStateException();
-  }
+		String targetUrl = determineTargetUrl(authentication);
 
-  protected void clearAuthenticationAttributes(HttpServletRequest request) {
-    HttpSession session = request.getSession(false);
-    if (session == null) {
-        return;
-    }
-    session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-  }
+		if (response.isCommitted()) {
+			return;
+		}
+
+		redirectStrategy.sendRedirect(request, response, targetUrl);
+	}
+
+	protected String determineTargetUrl(final Authentication authentication) {
+		roleTargetUrlMap.put("USER", new StringBuilder().append("http://localhost:").append(ionicPort).append("/").toString());
+		roleTargetUrlMap.put("ADMIN", new StringBuilder().append("http://localhost:").append(ionicPort).append("/admin").toString());
+		final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+		for (final GrantedAuthority grantedAuthority : authorities) {
+			String authorityName = grantedAuthority.getAuthority();
+			if (roleTargetUrlMap.containsKey(authorityName)) {
+				return roleTargetUrlMap.get(authorityName);
+			}
+		}
+
+		throw new IllegalStateException();
+	}
+
+	protected void clearAuthenticationAttributes(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			return;
+		}
+		session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+	}
 }

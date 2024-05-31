@@ -1,6 +1,7 @@
 package tqsgroup.chuchu.repository;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -70,9 +71,15 @@ class StationRepositoryTest {
         assertEquals(stations.size(), 3);
     }
 
-    @AfterAll
+    @AfterEach
     void tearDown() {
+        System.out.println("AQUI");
         // Delete all stations
+        stationRepository.deleteAll();
+    }
+
+    @AfterAll
+    void t1(){
         stationRepository.deleteAll();
     }
 }

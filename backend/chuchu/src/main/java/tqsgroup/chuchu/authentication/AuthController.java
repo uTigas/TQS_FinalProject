@@ -19,32 +19,40 @@ import tqsgroup.chuchu.data.entity.User;
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-    @Autowired 
+    private String loginForm = "login";
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private AuthenticationService authenticationService;
-    
+
     @GetMapping("/register")
-    public String getRegisterForm(Model model){
-        logger.info("Rendering register form");
+    public String getRegisterForm(Model model) {
+        logger.info("Received request to get register form.");
         return "register";
     }
 
     @PostMapping("/register")
-    public String registerUser(User newUser){
-        logger.info("Received registration request for user: {}", newUser.getUsername());
+    public String registerUser(User newUser) {
+        logger.info("Received request to register a new user");
         Role userRole = authenticationService.getRole("USER").get();
         newUser.setRole(userRole);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         authenticationService.createUser(newUser);
-        logger.info("User registered successfully: {}", newUser.getUsername());
-        return "login";
+        logger.info("User registered successfully");
+        return loginForm;
     }
 
     @GetMapping("/login")
     public String getLogin(Model model) {
-        logger.info("Rendering login form");
-        return "login";
+        logger.info("Received request to get login form.");
+        return loginForm;
+    }
+
+    @PostMapping("/login")
+    public String postLogin(Model model) {
+        logger.info("Received request to process login form.");
+        return loginForm;
     }
 }

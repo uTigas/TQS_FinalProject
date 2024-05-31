@@ -28,8 +28,7 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        System.out.println("AT UserPasswordAuthenticationProvider authenticate METHOD");
-        String username = authentication.getName();
+                String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
         Optional<User> user = userService.findByUsername(username);
@@ -42,21 +41,17 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
                 roles.add(new SimpleGrantedAuthority("ADMIN"));
             else
                 roles.add(new SimpleGrantedAuthority("USER"));
-            System.out.println("AUTHENTICATION DETAILS: " + authentication.getName() + " " + authentication.getAuthorities() + " " + authentication.getCredentials() + " " + authentication.getDetails() + " " + authentication.getPrincipal());
-            System.out.println("AT UserPasswordAuthenticationProvider CORRECT CREDENTIALS");
-
+                        
             return new UsernamePasswordAuthenticationToken(cUser, password, roles);
         }
         else{
-            System.out.println("AT UserPasswordAuthenticationProvider BAD CREDENTIALS");
-            throw new BadCredentialsException("Incorrect username or password");
+                        throw new BadCredentialsException("Incorrect username or password");
         }
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        System.out.println("AT UserPasswordAuthenticationProvider Check ir SUPPORTS METHOD");
-
+        
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
 }
