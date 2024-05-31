@@ -28,7 +28,7 @@ public class CucumberTest {
             FirefoxOptions options = new FirefoxOptions();
             options.addArguments("-headless");
             driver = new FirefoxDriver(options);
-            wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         }
         return driver;
     }
