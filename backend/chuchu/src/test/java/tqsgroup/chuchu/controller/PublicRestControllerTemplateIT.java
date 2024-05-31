@@ -19,6 +19,7 @@ import tqsgroup.chuchu.data.service.ConnectionService;
 import tqsgroup.chuchu.data.service.StationService;
 
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -58,9 +59,9 @@ public class PublicRestControllerTemplateIT {
         Connection connection5 = new Connection(station1, station2,null, LocalTime.of( 20, 0), LocalTime.of( 21, 0),1, 500);
 
         when(connectionService.getAllConnections()).thenReturn(List.of(connection1, connection2, connection3, connection4, connection5));
-        when(connectionService.getArrivals(station1, 10, any())).thenReturn(List.of(connection1, connection3, connection5));
-        when(connectionService.getArrivals(station2, 10,any())).thenReturn(List.of(connection2, connection4));
-        when(connectionService.getArrivalsFromTrack(station1, 5, 1,any())).thenReturn(List.of(connection1, connection5));
+        when(connectionService.getArrivals(eq(station1), eq(10), any())).thenReturn(List.of(connection1, connection3, connection5));
+        when(connectionService.getArrivals(eq(station2), eq(10),any())).thenReturn(List.of(connection2, connection4));
+        when(connectionService.getArrivalsFromTrack(eq(station1), eq(5), eq(1),any())).thenReturn(List.of(connection1, connection5));
     }
 
     @Test
