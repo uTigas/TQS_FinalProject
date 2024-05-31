@@ -151,11 +151,11 @@
                 }
             ];
 
-            let station = "Union Station";
+            let station = prompt("Enter the station name");
             $(document).ready(function () {
                 $("#title").text(station + " Arrivals");
                 function renderTrainSchedule() {
-                    var trainData = trainDataMock;
+                    var trainData = getData(station);
                     var schedule = $("#trainSchedule");
                     var groupedData = trainData.reduce(function (acc, train) {
                         if (!acc[train.lineNumber]) {
@@ -192,7 +192,7 @@
 
                 function getData(stationName) {
                     $.ajax({
-                        url: "http://localhost/public/api/v1/arrivals?stationName=" + stationName + "&limit=10" + "&time=" + new Date().toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit' , second: '2-digit' , hour12: false}),
+                        url: "http://localhost/public/api/v1/arrivals?stationName=" + stationName + "&limit=10" + "&time=" + new Date().toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }),
                         method: "GET",
                         success: function (data) {
                             trainData = data;
@@ -209,7 +209,6 @@
                 }, 1000);
                 setInterval(function () {
                     renderTrainSchedule();
-                    getData("Tets");
                 }, 10000);
             });
         </script>
