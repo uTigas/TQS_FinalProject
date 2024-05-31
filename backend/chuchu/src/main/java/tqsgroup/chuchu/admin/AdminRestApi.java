@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import tqsgroup.chuchu.admin.dao.*; //Get all admin request and response templates
+import tqsgroup.chuchu.data.dao.*;
 import tqsgroup.chuchu.data.entity.*;
 import tqsgroup.chuchu.data.service.*;
 
@@ -129,13 +129,13 @@ public class AdminRestApi {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Train was created successfully",
             content = { @Content(mediaType = "application/json",
-                schema = @Schema(implementation = StationDAO.class)) }),
+                schema = @Schema(implementation = TrainDAO.class)) }),
         @ApiResponse(responseCode = "400", description = "Invalid input while attempting to create Train",
             content = @Content) })
     @PostMapping("/trains")
-    public ResponseEntity<Object> createTrain(TrainDAO request) {
+    public ResponseEntity<Object> createTrain(@RequestBody TrainDAO request) {
         try {
-            logger.info("Creating Train with number: {}", request.getNumber());
+            logger.info("Creating Train with class: {} and number: {}",request.getType(), request.getNumber());
             Train train = trainService.saveTrain(new Train(request.getType(), request.getNumber()));
             logger.info("Train with number {} created successfully", request.getNumber());
             TrainDAO response = mapToTrainResponse(train);

@@ -1,7 +1,6 @@
-import { IonButton, IonCheckbox, IonCol, IonDatetime, IonGrid, IonIcon, IonItem, IonItemOption, IonLabel, IonRow, IonSelect, IonSelectOption, IonText, IonTitle } from "@ionic/react"
-import { useContext, useState } from "react";
-import { SharedVariablesContext } from "../support/SharedVariablesContext";
-import { arrowForward, handRight } from "ionicons/icons";
+import { IonCheckbox, IonCol, IonDatetime, IonGrid, IonIcon, IonItem, IonItemOption, IonLabel, IonRow, IonSelect, IonSelectOption, IonText, IonTitle } from "@ionic/react"
+import { useContext } from "react";
+import { SharedVariablesContext } from "../support/Variables";
 
 const ReturnTripContainer: React.FC = (() => {
     const {

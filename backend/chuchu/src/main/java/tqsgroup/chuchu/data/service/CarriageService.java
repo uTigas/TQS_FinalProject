@@ -43,7 +43,7 @@ public class CarriageService {
     // Helper methods
     private void checkMatchingTypes(CarriageType carriageType, TrainType trainType) {
         if (carriageType == CarriageType.NORMAL) {
-            if (trainType == TrainType.ALPHA || trainType == TrainType.INTERCITY) {
+            if (trainType == TrainType.ALPHA || trainType == TrainType.INTER) {
                 throw new IllegalArgumentException(carriageType.toString() + " carriage is not allowed for " + trainType.toString() + " train");
             }
         } else { //then it is first or second class

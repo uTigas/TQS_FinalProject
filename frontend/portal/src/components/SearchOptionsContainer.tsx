@@ -1,7 +1,7 @@
-import { IonButton, IonCheckbox, IonCol, IonDatetime, IonGrid, IonIcon, IonItem, IonItemOption, IonLabel, IonRow, IonSelect, IonSelectOption, IonText, IonTitle } from "@ionic/react"
-import { useContext, useState } from "react";
-import { SharedVariablesContext } from "../support/SharedVariablesContext";
+import { IonButton, IonCol, IonGrid, IonIcon, IonItem, IonRow, IonText, IonTitle } from "@ionic/react"
+import { useContext } from "react";
 import { arrowForward, handRight, search } from "ionicons/icons";
+import { SharedVariablesContext } from "../support/Variables";
 
 const SearchOptionsContainer: React.FC = (() => {
     const {

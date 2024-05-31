@@ -1,14 +1,14 @@
 import { IonBackdrop, IonButton, IonCol, IonContent, IonDatetime, IonDatetimeButton, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonModal, IonPage, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import './Tab1.css';
 import React, { useContext, useEffect, useState } from 'react';
-import Header, { ConnectionProp } from '../support/Header';
+import Header from '../support/Header';
 import SelectContainer from '../components/SelectContainer';
 import TimeContainer from '../components/TimeContainer';
 import { arrowBackCircle, arrowBackOutline, arrowForwardCircle } from 'ionicons/icons';
 import APIWrapper from '../components/APIWrapper';
-import { SharedVariablesContext } from '../support/SharedVariablesContext';
 import ReturnTripContainer from '../components/ReturnTripContainer';
 import SearchOptionsContainer from '../components/SearchOptionsContainer';
+import { SharedVariablesContext } from '../support/Variables';
 
 const Tab1: React.FC = () => { 
   const {

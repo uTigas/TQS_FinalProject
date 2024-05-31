@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { IonHeader, IonPage, IonTitle, IonToolbar, IonContent, IonItem, IonLabel, IonList, IonButton, IonIcon, IonInput, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonCardSubtitle } from '@ionic/react';
-import { add, pencil } from 'ionicons/icons';
 import APIWrapper from '../components/APIWrapper';
-
-interface StationData {
-  name: string;
-  numberOfLines: number;
-}
+import { StationData } from '../support/Variables';
+import Header from '../components/Header';
 
 const StationPage: React.FC = () => {
   const [stationName, setStationName] = useState('');
@@ -28,7 +24,6 @@ const StationPage: React.FC = () => {
       })
       .then(stationData => {
         setStations(stationData);
-        console.log(stationData);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -54,7 +49,6 @@ const StationPage: React.FC = () => {
         }
       })
       .then(stationData => {
-        console.log(stationData);
         setStations([...stations, newStation]);
         setStationName('');
         setStationLines(1);
@@ -107,11 +101,7 @@ const StationPage: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Station Management</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header name={'Station Management'} />
       <IonContent color="light">
         <IonGrid>
           <IonRow>

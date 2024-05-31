@@ -2,7 +2,7 @@ import { IonButton, IonCol, IonGrid, IonIcon, IonRow, IonSelect, IonSelectOption
 import { arrowForwardCircle, handRight, search } from "ionicons/icons";
 import TimeContainer from "./TimeContainer";
 import React, { useContext, useEffect, useState } from "react";
-import { SharedVariablesContext } from "../support/SharedVariablesContext";
+import { SharedVariablesContext } from "../support/Variables";
 import APIWrapper from "./APIWrapper";
 
 const SelectContainer: React.FC = (() => {
