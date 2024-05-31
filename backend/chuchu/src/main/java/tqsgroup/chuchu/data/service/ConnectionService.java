@@ -67,6 +67,16 @@ public class ConnectionService {
         return connectionRepository.findAll();
     }
 
+    public List<Connection> getArrivals(Station station, int limit, LocalTime time) {
+        return connectionRepository.findAllByOrigin(station).stream().filter(
+            connection -> connection.getDepartureTime().isAfter(time)).limit(limit).toList();
+    }
+
+    public List<Connection> getArrivalsFromTrack(Station station, int limit, int trackNumber, LocalTime time) {
+        return connectionRepository.findAllByOrigin(station).stream().filter( 
+            connection -> connection.getLineNumber() == trackNumber && connection.getDepartureTime().isAfter(time)).limit(limit).toList();
+    }
+
     // Helper methods
     private void checkValidStations(Connection connection) {
         if (connection.getOrigin().equals(connection.getDestination())) {

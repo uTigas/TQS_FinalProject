@@ -36,7 +36,6 @@ public class StationService {
         return stationRepository.findAll();
     }
 
-
     // Helper methods
     private void checkEmptyStationName(String name) {
         if (name.isEmpty()) {
@@ -55,4 +54,5 @@ public class StationService {
             throw new IllegalArgumentException("Number of lines in a Station must be between 1 and 30 inclusive");
         }
     }
+    
 }

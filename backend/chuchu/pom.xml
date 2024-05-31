@@ -204,11 +204,11 @@
 			<version>2.2.0</version>
 		</dependency>
 
-		<!-- Flyway for database migrations -->
+		<!-- Flyway for database migrations
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
-		</dependency>
+		</dependency> -->
 
 		<!-- RestAssured for simplistic testing and validating of REST services  -->
 		<dependency>

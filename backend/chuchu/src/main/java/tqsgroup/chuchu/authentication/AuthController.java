@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import io.swagger.v3.oas.annotations.Operation;
 import tqsgroup.chuchu.authentication.service.AuthenticationService;
 import tqsgroup.chuchu.data.entity.Role;
 import tqsgroup.chuchu.data.entity.User;
@@ -25,12 +26,14 @@ public class AuthController {
     @Autowired
     private AuthenticationService authenticationService;
     
+    @Operation(summary = "Render registration form")
     @GetMapping("/register")
     public String getRegisterForm(Model model){
         logger.info("Rendering register form");
         return "register";
     }
 
+    @Operation(summary = "Register a new user")
     @PostMapping("/register")
     public String registerUser(User newUser){
         logger.info("Received registration request for user: {}", newUser.getUsername());
@@ -42,6 +45,7 @@ public class AuthController {
         return "login";
     }
 
+    @Operation(summary = "Render login form")
     @GetMapping("/login")
     public String getLogin(Model model) {
         logger.info("Rendering login form");
