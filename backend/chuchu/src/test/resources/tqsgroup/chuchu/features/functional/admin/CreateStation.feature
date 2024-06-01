@@ -10,6 +10,6 @@ Feature: Create a Station in the Admin Dashboard
   Scenario: Create a Station
     Given I am on the "/admin/stations" page
     When I fill in the "newStationLines" field with "4"
-    And I fill in the "newStationName" field with "Test Station"
+    And I fill in the "newStationName" field with "Test Station V2"
     And I click the "Add" button
     Then I should see the success message "Station created successfully."

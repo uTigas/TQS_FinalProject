@@ -1,5 +1,6 @@
 package tqsgroup.chuchu.data.entity;
 
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 
@@ -12,6 +13,7 @@ public class Station {
     private static final int MAX_STATION_NAME_LENGTH = 255;
 
     @Id
+    @GeneratedValue
     private Long id;
 
     private String name;

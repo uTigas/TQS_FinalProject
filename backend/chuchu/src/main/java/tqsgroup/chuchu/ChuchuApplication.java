@@ -9,5 +9,4 @@ public class ChuchuApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ChuchuApplication.class, args);
 	}
-
 }

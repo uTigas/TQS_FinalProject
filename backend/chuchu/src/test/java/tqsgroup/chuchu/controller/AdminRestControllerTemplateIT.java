@@ -50,7 +50,9 @@ class AdminRestControllerTemplateIT {
     @Autowired
     SeatRepository seatRepository;
 
+
     private static final String ADMIN_API = "/admin/api/v1";
+    
     
     private void createTestStation(String name, int numberOfLines) {
         Station station = new Station(name, numberOfLines);
@@ -60,7 +62,9 @@ class AdminRestControllerTemplateIT {
     @BeforeEach
     void setUp() {
         when(securityService.hasRole("ADMIN")).thenReturn(true);
-                
+        
+        when(securityService.hasRole("ADMIN")).thenReturn(true);
+        
         createTestStation("station 1", 5);
         createTestStation("station 2", 3);
         createTestStation("station 3", 7);
@@ -76,6 +80,10 @@ class AdminRestControllerTemplateIT {
     @Test
     @Order(1)
     void testGetHelloEndpoint() {
+        RestAssuredMockMvc.given().mockMvc(mockMvc)
+                          .when().get(ADMIN_API + "/hello")
+                          .then().statusCode(HttpStatus.OK.value())
+                          .body(is("Hello from SpringBoot Admin Rest API Controller"));
         RestAssuredMockMvc.given().mockMvc(mockMvc)
                           .when().get(ADMIN_API + "/hello")
                           .then().statusCode(HttpStatus.OK.value())

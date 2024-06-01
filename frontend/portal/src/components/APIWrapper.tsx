@@ -1,6 +1,6 @@
 
 const APIWrapper = {
-  backendURI: "/", // TODO: Check if this is necessary
+  backendURI: "/", 
   privateAPI: "private/api/v1/",
   adminAPI: "admin/api/v1/",
 
@@ -42,6 +42,18 @@ const APIWrapper = {
       console.error('Error adding Station', error);
     }
   },
+  
+    fetchOrganizations : async (origin : string|null = null, destination : string|null = null) => {
+      try{
+        let originArg
+        originArg = "?origin=" + origin
+        return await fetch(APIWrapper.backendURI + APIWrapper.privateAPI + 'connections' + (origin ? `?origin=${origin}` : '') + (origin && destination ? `&destination=${destination}` : '') + (!origin && destination ? `?destination=${destination}` : ''),
+        { method: 'GET', credentials: 'include' })
+        
+      } catch (error){
+        console.error('Error fetching Organizations', error);
+      }
+    },
 
   editStation: async (oldStationName: string, newStationName: string, stationLines: number) => {
     try {

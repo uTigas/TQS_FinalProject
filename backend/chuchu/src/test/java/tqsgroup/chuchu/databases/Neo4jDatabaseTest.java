@@ -26,6 +26,6 @@ public class Neo4jDatabaseTest {
         // Perform a simple query to verify the connection
         assertEquals(stationRepository.findAll().size(), prevSize + 1);
         
-        stationRepository.delete(stationRepository.findByName("Test Station"));
+        stationRepository.deleteAll();
     }
 }
