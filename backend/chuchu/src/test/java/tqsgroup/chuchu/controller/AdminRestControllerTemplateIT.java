@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 
 import tqsgroup.chuchu.authentication.service.SecurityService;
+import tqsgroup.chuchu.admin.dao.StationDAO;
 import tqsgroup.chuchu.data.entity.Station;
 import tqsgroup.chuchu.data.repository.UserRepository;
 import tqsgroup.chuchu.data.repository.neo.StationRepository;
@@ -114,7 +115,7 @@ class AdminRestControllerTemplateIT {
     void givenStations_whenEditStation_thenStatus200() {
         String nameToEdit = "station 1";
         Station stationToEdit = stationRepository.findByName(nameToEdit);
-        Station editedStation = new Station(nameToEdit + " edited", stationToEdit.getNumberOfLines() + 1);
+        StationDAO editedStation = new StationDAO(nameToEdit + " edited", stationToEdit.getNumberOfLines() + 1);
         
         RestAssuredMockMvc.given().mockMvc(mockMvc)
                 .contentType(ContentType.JSON)
@@ -128,7 +129,7 @@ class AdminRestControllerTemplateIT {
     void givenStations_whenEditBadStation_thenStatus400() {
         String nameToEdit = "station 1";
         Station stationToEdit = stationRepository.findByName(nameToEdit);
-        Station editedStation = new Station(nameToEdit + " edited", 0);
+        StationDAO editedStation = new StationDAO(nameToEdit + " edited", 0);
         
         RestAssuredMockMvc.given().mockMvc(mockMvc)
                 .contentType(ContentType.JSON)
@@ -143,7 +144,7 @@ class AdminRestControllerTemplateIT {
         String nameToEdit = "non-existing station";
         RestAssuredMockMvc.given().mockMvc(mockMvc)
                 .contentType(ContentType.JSON)
-                .body(new Station(nameToEdit, 4))
+                .body(new StationDAO(nameToEdit, 4))
                 .when().put(ADMIN_API + "/stations/" + nameToEdit)
                 .then().statusCode(HttpStatus.NOT_FOUND.value());
     }
@@ -153,7 +154,7 @@ class AdminRestControllerTemplateIT {
     void givenStations_whenEditConflict_thenStatus409() {
         String nameToEdit = "station 1";
         Station stationToEdit = stationRepository.findByName(nameToEdit);
-        Station editedStation = new Station("station 2", stationToEdit.getNumberOfLines());
+        StationDAO editedStation = new StationDAO("station 2", stationToEdit.getNumberOfLines());
         
         RestAssuredMockMvc.given().mockMvc(mockMvc)
                 .contentType(ContentType.JSON)
