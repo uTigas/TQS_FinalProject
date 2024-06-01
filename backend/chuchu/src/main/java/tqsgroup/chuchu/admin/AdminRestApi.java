@@ -64,9 +64,9 @@ public class AdminRestApi {
     @PostMapping("/stations")
     public ResponseEntity<Object> createStation(@RequestBody StationDAO request) {
         try {
-            logger.info("Creating Station with name: {}", request.getName());
+            logger.info("Creating Station");
             Station station = stationService.saveStation(new Station(request.getName(), request.getNumberOfLines()));
-            logger.info("Station with name {} created successfully", request.getName());
+            logger.info("Station created successfully");
             StationDAO response = mapToStationResponse(station);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
@@ -102,12 +102,12 @@ public class AdminRestApi {
         } else {
             try {
                 Station station = stationService.getStationByName(name);
-                logger.info("Fetching Station with name: {}", name);
+                logger.info("Fetching Station");
                 if (station == null) {
-                    logger.info("Station with name {} not found", name);
+                    logger.info("Station not found");
                     return new ResponseEntity<>("Station not found", HttpStatus.NOT_FOUND);
                 }
-                logger.info("Returning Station with name: {}", name);
+                logger.info("Returning Station");
                 StationDAO response = mapToStationResponse(station);
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } catch (IllegalArgumentException e) {
@@ -131,16 +131,16 @@ public class AdminRestApi {
     @PutMapping("/stations/{name}")
     public ResponseEntity<Object> editStation(@PathVariable String name, @RequestBody StationDAO request) {
         try {
-            logger.info("Editing Station with name: {}", name);
+            logger.info("Editing Station", name);
             Station station = stationService.getStationByName(name);
             if (station == null) {
-                logger.info("Station with name {} not found", name);
+                logger.info("Station not found");
                 return new ResponseEntity<>("Station not found", HttpStatus.NOT_FOUND);
             }
             String newName = request.getName();
             int newNumberOfLines = request.getNumberOfLines();
             if (!name.equals(newName) && stationService.getStationByName(newName) != null) {
-                logger.info("Station name {} already exists", newName);
+                logger.info("Station with conflicting name");
                 return new ResponseEntity<>("Conflict: Station name already exists", HttpStatus.CONFLICT);
             }
             station.setName(newName);
