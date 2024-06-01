@@ -11,7 +11,7 @@ import tqsgroup.chuchu.CucumberTest;
 
 import static org.junit.Assert.assertTrue;
 
-public class StationOperationsSteps {
+public class EditStationSteps {
 
     private final WebDriver driver = CucumberTest.getDriver();
     private final Wait<WebDriver> wait = CucumberTest.wait;
@@ -26,6 +26,22 @@ public class StationOperationsSteps {
     @Given("I am on the {string} page")
     public void iAmOnThePage(String pageName) {
         wait.until(ExpectedConditions.urlToBe(BASE_URL + pageName));
+    }
+
+    @When("I select the {string} station from the list")
+    public void iSelectTheStationFromTheList(String stationName) {
+        WebElement station = driver.findElement(By.xpath("//ion-item[.//ion-label[contains(text(),'" + stationName + "')]]"));
+        station.click();
+    }
+
+    @And("I click the {string} button")
+    public void iClickTheButton(String buttonName) {
+        // Click outside the input field, so values are saved
+        WebElement outsideElement = driver.findElement(By.tagName("body"));
+        outsideElement.click();
+
+        WebElement button = driver.findElement(By.xpath("//ion-button[contains(text(),'" + buttonName + "')]"));
+        button.click();
     }
 
     @Then("a modal should be displayed")
@@ -43,23 +59,11 @@ public class StationOperationsSteps {
         wait.until(ExpectedConditions.attributeToBe(field, "value", value));
     }
 
-    @And("I click the {string} button")
-    public void iClickTheButton(String buttonName) {
-        // Click outside the input field, so values are saved
-        WebElement outsideElement = driver.findElement(By.tagName("body"));
-        outsideElement.click();
-
-        WebElement button = driver.findElement(By.xpath("//ion-button[contains(text(),'" + buttonName + "')]"));
-        button.click();
-    }
-
     @Then("I should see the success message {string}")
     public void iShouldSeeTheSuccessMessage(String successMessage) {
         // Wait for the success message to be visible
         //WebElement successMessageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'" + successMessage + "')]")));
         //assertTrue("Success message not displayed", successMessageElement.isDisplayed());
-        if (successMessage.equals("Station updated successfully")) {
-            driver.quit();
-        }
+        driver.quit();
     }
 }
