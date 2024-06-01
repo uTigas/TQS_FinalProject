@@ -131,11 +131,11 @@ public class AdminRestApi {
     @PutMapping("/stations/{name}")
     public ResponseEntity<Object> editStation(@PathVariable String name, @RequestBody StationDAO request) {
         try {
-            logger.info("Editing Station", name);
+            logger.info("Editing Station");
             Station station = stationService.getStationByName(name);
             if (station == null) {
-                logger.info("Station not found");
-                return new ResponseEntity<>("Station not found", HttpStatus.NOT_FOUND);
+                logger.info("Station to edit does not exist");
+                return new ResponseEntity<>("Station to edit does not exist", HttpStatus.NOT_FOUND);
             }
             String newName = request.getName();
             int newNumberOfLines = request.getNumberOfLines();
