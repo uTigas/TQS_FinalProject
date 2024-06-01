@@ -86,6 +86,7 @@ const StationPage: React.FC = () => {
         setStationLines(1);
         setNewErrorMessage('');
         setNewSuccessMessage('Station created successfully.');
+        setSelectedStation(newStation);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -241,7 +242,7 @@ const StationPage: React.FC = () => {
                     <IonButton color="success" slot="end" onClick={handleAddStation}>Add</IonButton>
                   </div>
                   {newErrorMessage && <p style={{ color: 'red' }}>{newErrorMessage}</p>}
-                  {newSuccessMessage && <p style={{ color: 'green' }}>{newSuccessMessage}</p>}
+                  {newSuccessMessage && <p id="successMessage" style={{ color: 'green' }}>{newSuccessMessage}</p>}
                 </IonCardContent>
               </IonCard>
             </IonCol>
