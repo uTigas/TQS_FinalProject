@@ -11,7 +11,7 @@ import tqsgroup.chuchu.CucumberTest;
 
 import static org.junit.Assert.assertTrue;
 
-public class CreateStationSteps {
+public class StationOperationsSteps {
 
     private final WebDriver driver = CucumberTest.getDriver();
     private final Wait<WebDriver> wait = CucumberTest.wait;
@@ -26,6 +26,12 @@ public class CreateStationSteps {
     @Given("I am on the {string} page")
     public void iAmOnThePage(String pageName) {
         wait.until(ExpectedConditions.urlToBe(BASE_URL + pageName));
+    }
+
+    @Then("a modal should be displayed")
+    public void aModalShouldBeDisplayed() {
+        WebElement modal = wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("ion-modal")));
+        assertTrue("Modal not displayed", modal.isDisplayed());
     }
 
     @When("I fill in the {string} field with {string}")
@@ -52,6 +58,8 @@ public class CreateStationSteps {
         // Wait for the success message to be visible
         //WebElement successMessageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'" + successMessage + "')]")));
         //assertTrue("Success message not displayed", successMessageElement.isDisplayed());
-        driver.quit();
+        if (successMessage.equals("Station updated successfully")) {
+            driver.quit();
+        }
     }
 }
