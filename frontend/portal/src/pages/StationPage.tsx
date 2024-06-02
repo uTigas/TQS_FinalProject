@@ -62,6 +62,8 @@ const StationPage: React.FC = () => {
 
   // Add Station Functions
   const handleAddStation = () => {
+    setNewErrorMessage('');
+    setNewSuccessMessage('');
     const newStation: StationData = { name: stationName, numberOfLines: stationLines };
     const validStation = checkValidStation(newStation);
     if (validStation !== true) {
@@ -70,16 +72,8 @@ const StationPage: React.FC = () => {
       return;
     }
 
-    // API call to add station
     APIWrapper.addStation(stationName, stationLines)
-      .then((response: Response | undefined) => {
-        if (response && response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Failed to add station');
-        }
-      })
-      .then(stationData => {
+      .then((stationData) => {
         console.log(stationData);
         setStations([...stations, newStation]);
         setStationName('');
@@ -90,7 +84,7 @@ const StationPage: React.FC = () => {
       })
       .catch(error => {
         console.error('Error:', error);
-        setNewErrorMessage('An error ocurred while adding the station');
+        setNewErrorMessage(`${error.message}`);
       });
   };
 
