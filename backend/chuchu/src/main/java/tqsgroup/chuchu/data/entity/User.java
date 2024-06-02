@@ -19,6 +19,16 @@ public class User {
     @ManyToOne
     private Role role;
 
+    public User() {
+    }
+
+    public User(String username, String password, String name, Role role) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.role = role;
+    }
+
     public String getPassword() {
         return this.password;
     }
@@ -50,13 +60,4 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", name='" + name + '\'' +
-                '}';
-    }
-    
 }

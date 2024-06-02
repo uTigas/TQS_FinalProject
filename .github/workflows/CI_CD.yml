@@ -1,0 +1,86 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: CI/CD
+
+on:
+  push:
+    branches: [ "main", "development" ]
+  pull_request:
+    branches: [ "main", "development" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ '17' ]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ matrix.java }}
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: Install Firefox
+      run: |
+        sudo snap remove firefox
+        wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
+        echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
+        echo '
+        Package: *
+        Pin: origin packages.mozilla.org
+        Pin-Priority: 1000
+        ' | sudo tee /etc/apt/preferences.d/mozilla
+        sudo apt update
+        sudo apt install firefox -y --allow-downgrades
+
+    - name: Start Docker Compose 
+      run: docker compose -f docker-compose-dev.yaml up -d
+
+    - name: Wait for Docker Compose to start
+      run: sleep 30s
+
+    - name: Build and analyze with SonarCloud
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: 06eb2137628096c9f5d0a5ac5cd55099c15f5b5b
+      run: mvn -f backend/chuchu/pom.xml -B '-Dtest=!CucumberTest' verify failsafe:integration-test sonar:sonar -Dsonar.projectKey=uTigas_TQS_FinalProject
+
+    - name: Stop Compose
+      run: docker compose -f docker-compose-dev.yaml down
+    
+    - name: Wait for Compose to Shutdown
+      run: sleep 20s
+
+    - name: Run Production Compose Setup 
+      run: docker compose -f docker-compose-prod.yaml up -d
+    
+    - name: Wait for Containers to start
+      run: sleep 30s
+
+    - name: Run Functional Tests
+      run: mvn -f backend/chuchu/pom.xml test -Dtest=CucumberTest
+      
+    - name: Push results to Xray on Jira Cloud
+      if: always()
+      uses: mikepenz/xray-action@v3
+      with:
+        username: ${{ secrets.XRAYCLOUD_CLIENT_ID }}
+        password: ${{ secrets.XRAYCLOUD_CLIENT_SECRET }}
+        testFormat: "junit"
+        testPaths: "**/surefire-reports/TEST-*.xml"
+        testExecKey: "TP-27"
+        projectKey: "TP"

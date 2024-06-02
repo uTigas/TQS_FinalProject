@@ -17,62 +17,57 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class CustomLoginHandler
-  implements AuthenticationSuccessHandler {
- 
-    @Value("${admin.ionic}")
-    private String adminIonic;
+public class CustomLoginHandler implements AuthenticationSuccessHandler {
+	
 
-    @Value("${user.ionic}")
-    private String userIonic;
+    @Value("${ionic.port}")
+    private String ionicPort;
 
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	private  Map<String, String> roleTargetUrlMap = new HashMap<>();
 
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, 
-      HttpServletResponse response, Authentication authentication)
-      throws IOException {
-        handle(request, response, authentication);
-        clearAuthenticationAttributes(request);
-    }
+	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-    protected void handle(
-      HttpServletRequest request,
-      HttpServletResponse response, 
-      Authentication authentication
-    ) throws IOException {
+	@Override
+	public void onAuthenticationSuccess(HttpServletRequest request,
+			HttpServletResponse response, Authentication authentication)
+			throws IOException {
+				handle(request, response, authentication);
+		clearAuthenticationAttributes(request);
+	}
 
-      String targetUrl = determineTargetUrl(authentication);
+	protected void handle(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Authentication authentication) throws IOException {
 
-      if (response.isCommitted()) {
-          return;
-      }
+		String targetUrl = determineTargetUrl(authentication);
 
-      redirectStrategy.sendRedirect(request, response, targetUrl);
-    }
-    
-    protected String determineTargetUrl(final Authentication authentication) {
+		if (response.isCommitted()) {
+			return;
+		}
 
-      Map<String, String> roleTargetUrlMap = new HashMap<>();
-      roleTargetUrlMap.put("USER", userIonic);
-      roleTargetUrlMap.put("ADMIN", adminIonic);
-  
-      final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-      for (final GrantedAuthority grantedAuthority : authorities) {
-          String authorityName = grantedAuthority.getAuthority();
-          if(roleTargetUrlMap.containsKey(authorityName)) {
-              return roleTargetUrlMap.get(authorityName);
-          }
-      }
-  
-      throw new IllegalStateException();
-  }
+		redirectStrategy.sendRedirect(request, response, targetUrl);
+	}
 
-  protected void clearAuthenticationAttributes(HttpServletRequest request) {
-    HttpSession session = request.getSession(false);
-    if (session == null) {
-        return;
-    }
-    session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-  }
+	protected String determineTargetUrl(final Authentication authentication) {
+		roleTargetUrlMap.put("USER", new StringBuilder().append("http://localhost:").append(ionicPort).append("/").toString());
+		roleTargetUrlMap.put("ADMIN", new StringBuilder().append("http://localhost:").append(ionicPort).append("/admin").toString());
+		final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+		for (final GrantedAuthority grantedAuthority : authorities) {
+			String authorityName = grantedAuthority.getAuthority();
+			if (roleTargetUrlMap.containsKey(authorityName)) {
+				return roleTargetUrlMap.get(authorityName);
+			}
+		}
+
+		throw new IllegalStateException();
+	}
+
+	protected void clearAuthenticationAttributes(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			return;
+		}
+		session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+	}
 }

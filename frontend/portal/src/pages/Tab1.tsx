@@ -1,44 +1,85 @@
-import { IonBackdrop, IonButton, IonCol, IonContent, IonDatetime, IonDatetimeButton, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonModal, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import { IonBackdrop, IonButton, IonCol, IonContent, IonDatetime, IonDatetimeButton, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonModal, IonPage, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import './Tab1.css';
-import { pin, search } from 'ionicons/icons';
-import Header from '../components/Header';
+import React, { useContext, useEffect, useState } from 'react';
+import Header, { ConnectionProp } from '../support/Header';
+import SelectContainer from '../components/SelectContainer';
+import TimeContainer from '../components/TimeContainer';
+import { arrowBackCircle, arrowBackOutline, arrowForwardCircle } from 'ionicons/icons';
+import APIWrapper from '../components/APIWrapper';
+import { SharedVariablesContext } from '../support/SharedVariablesContext';
+import ReturnTripContainer from '../components/ReturnTripContainer';
+import SearchOptionsContainer from '../components/SearchOptionsContainer';
 
-const Tab1: React.FC = () => {
+const Tab1: React.FC = () => { 
+  const {
+    connections,
+    setConnections,
+    possible,
+    setPossible,
+    selectedOrigin,
+    setSelectedOrigin,
+    selectedDestination,
+    setSelectedDestination,
+    results, 
+    setResults,
+  } = useContext(SharedVariablesContext);
+
+  const [selectedContainer, setSelectedContainer] = useState(1);
+
+  const handlePreviousContainer = () => {
+    setSelectedContainer((prev) => (prev === 1 ? 4 : prev - 1));
+  };
+
+  const handleNextContainer = () => {
+    setSelectedContainer((prev) => (prev === 4 ? 1 : prev + 1));
+  };
+  
+  const fetchOrganizations = async () => {
+    const response = await APIWrapper.fetchOrganizations()
+    if (response){
+      const data = await response.json();
+      setConnections(data)
+      setPossible(data)
+      console.log("Connections" + connections)
+    }
+  }
+
+  useEffect(()=>{
+    fetchOrganizations()
+  },[])
   return (
     <IonPage>
       <Header name='Homepage'/>
       <IonContent fullscreen>
-        <IonGrid className='ion-padding'>
-          <IonRow>
-            <IonTitle>Where would you like to go?</IonTitle>
-          </IonRow>
-          <form>
-            <IonRow>
+        <IonRow className='ion-padding'>
+          <IonCol size='1' style={{ display: "flex", alignItems: "center" }}>
+            {selectedContainer > 1 ? (
+              <IonButton onClick={handlePreviousContainer} id='prevContainer'>
+                <IonIcon icon={arrowBackCircle} size="large"></IonIcon>
+              </IonButton>
+            ):(<></>)}
+          </IonCol>
+          <IonCol>
+            {selectedContainer === 1 && <SelectContainer />}
+            {selectedContainer === 2 && <TimeContainer/>}
+            {selectedContainer === 3 && <ReturnTripContainer />}
+            {selectedContainer === 4 && <SearchOptionsContainer/>}
+          </IonCol>
+          <IonCol size='1' style={{ display: "flex", alignItems: "center" }}>
+            {selectedContainer < 4 && selectedOrigin != "" && selectedDestination != "" ? (
+              <IonButton onClick={handleNextContainer} id='nextContainer'>
+                <IonIcon icon={arrowForwardCircle} size="large"></IonIcon>
+              </IonButton>
+            ):(<></>)}
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          {results.length != 0 ? (
               <IonCol>
-                <IonInput name='origin' placeholder='Origin'></IonInput>
+                Results
               </IonCol>
-              <IonCol>
-                <IonDatetimeButton datetime="date"></IonDatetimeButton>
-                <IonModal keepContentsMounted={true}>
-                  <IonDatetime id="date" presentation="date"></IonDatetime>
-                </IonModal>
-              </IonCol>
-              <IonCol>
-                <IonInput name='destination' placeholder='Destination'></IonInput>
-              </IonCol>
-              <IonCol>
-                <IonDatetimeButton datetime="returnDate"></IonDatetimeButton>
-                <IonModal keepContentsMounted={true}>
-                    <IonDatetime id="returnDate" presentation="date"></IonDatetime>
-                  </IonModal>
-              </IonCol>
-              <IonCol size='1'>
-                <IonButton size='small' shape='round' color='warning'>Search <IonIcon icon={search}></IonIcon></IonButton>
-              </IonCol>
-            </IonRow>
-          </form>
-        </IonGrid>
+          ):(<></>)}
+        </IonRow>
       </IonContent>
     </IonPage>
   );
