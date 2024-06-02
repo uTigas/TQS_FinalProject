@@ -67,7 +67,7 @@ public class StationSteps {
     public void iShouldSeeTheSuccessMessage(String successMessage) {
         try {
             WebElement errorMessageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'" + "rror" + "')]")));
-            System.out.println("FOUND ERROR MESSAGE: " + errorMessageElement); //debug print
+            System.out.println("FOUND ERROR MESSAGE: " + errorMessageElement.getText()); //debug print
         } catch (Exception e) {
             System.out.println("NO ERROR MESSAGE FOUND");
         }
@@ -84,7 +84,7 @@ public class StationSteps {
     public void iShouldSeeTheSuccessMessageInsideTheModal(String successMessage) {
         try {
             WebElement errorMessageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ion-modal//p[contains(text(),'" + "rror" + "')]")));
-            System.out.println("FOUND ERROR MESSAGE INSIDE MODAL: " + errorMessageElement); //debug print
+            System.out.println("FOUND ERROR MESSAGE INSIDE MODAL: " + errorMessageElement.getText()); //debug print
         } catch (Exception e) {
             System.out.println("NO ERROR MESSAGE FOUND INSIDE MODAL");
         }
