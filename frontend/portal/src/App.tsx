@@ -87,13 +87,13 @@ const App: React.FC = () => {
               <Tab1 />
             </Route>
             <Route exact path="/home">
-              <Tab2 />
+              <Tab1 />
             </Route>
             <Route path="/tab3">
               <Tab3 />
             </Route>
             <Route exact path="/">
-              <Tab2 />
+              <Tab1 />
             </Route>
             <Route exact path="/admin/dashboard">
               <Dashboard />

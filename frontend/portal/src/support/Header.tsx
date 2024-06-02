@@ -19,7 +19,6 @@ const Header: React.FC<HeaderProps> = ({ name }) => {
             .then(userData => {
                 const newUser : User = {username: userData.username, name: userData.name, role: userData.role }
                 setLoggedUser(newUser)
-                console.log(loggedUser)
             })
             .catch(error => {
                 console.error('Error:', error.message);
@@ -28,8 +27,7 @@ const Header: React.FC<HeaderProps> = ({ name }) => {
     }, [])
 
     useEffect(() => {
-        console.log("User was refreshed")
-        console.log(loggedUser);
+        console.log("User was refreshed:" + loggedUser)
     }, [loggedUser]); 
     
     return (

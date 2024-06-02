@@ -40,7 +40,6 @@ const Tab1: React.FC = () => {
       const data = await response.json();
       setConnections(data)
       setPossible(data)
-      console.log("Connections" + connections)
     }
   }
 
@@ -49,7 +48,9 @@ const Tab1: React.FC = () => {
   },[])
   return (
     <IonPage>
-      <Header name='Homepage'/>
+      <IonHeader>
+        <Header name='Homepage'/>
+      </IonHeader>
       <IonContent fullscreen>
         <IonRow className='ion-padding'>
           <IonCol size='1' style={{ display: "flex", alignItems: "center" }}>

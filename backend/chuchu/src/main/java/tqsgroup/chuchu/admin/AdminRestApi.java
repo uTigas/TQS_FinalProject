@@ -1,5 +1,6 @@
 package tqsgroup.chuchu.admin;
 
+import org.checkerframework.checker.units.qual.t;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -209,9 +210,12 @@ public class AdminRestApi {
     @PostMapping("/connections")
     public ResponseEntity<Object> createConnection(@RequestBody ConnectionDAO request) {
         try {
-            logger.info("Creating Connection from {} to {} with Train number: {}", request.getFrom().getName(), request.getTo().getName(), request.getTrain().getNumber());
-            Connection connection = connectionService.saveConnection(new Connection(request.getFrom(), request.getTo(), request.getTrain(), request.getDepartureTime(), request.getArrivalTime(), request.getLineNumber(), request.getPrice()));
-            logger.info("Connection from {} to {} with Train number {} created successfully", request.getFrom().getName(), request.getTo().getName(), request.getTrain().getNumber());
+            Station from = stationService.getStationById(request.getFrom().getId());
+            Station to = stationService.getStationById(request.getTo().getId());
+            Train train = trainService.findTrainByNumber(request.getTrain().getNumber());
+            logger.info("Creating Connection from {} to {} with Train number: {}", from.getName(), to.getName(), train.getNumber());
+            Connection connection = connectionService.saveConnection(new Connection(from, to, train, request.getDepartureTime(), request.getArrivalTime(), request.getLineNumber(), request.getPrice()));
+            logger.info("Connection from {} to {} with Train number {} created successfully", connection.getOrigin().getName(), connection.getDestination().getName(), connection.getTrain().getNumber());
             ConnectionDAO response = mapToConnectionResponse(connection);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
