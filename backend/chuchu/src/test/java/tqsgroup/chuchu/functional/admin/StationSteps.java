@@ -45,6 +45,17 @@ public class StationSteps {
         WebElement outsideElement = driver.findElement(By.tagName("body"));
         outsideElement.click();
 
+        if (buttonName.equals("Add")) {
+            
+            WebElement field = driver.findElement(By.xpath("//input[@name='" + "newStationLines" + "']"));
+            Object sentValue = ((JavascriptExecutor)driver).executeScript("return arguments[0].value;", field);
+            System.out.println("SENT LINES VALUE: " + sentValue); //debug print
+
+            field = driver.findElement(By.xpath("//input[@name='" + "newStationName" + "']"));
+            sentValue = ((JavascriptExecutor)driver).executeScript("return arguments[0].value;", field);
+            System.out.println("SENT NAME VALUE: " + sentValue); //debug print
+        }
+
         WebElement button = driver.findElement(By.xpath("//ion-button[contains(text(),'" + buttonName + "')]"));
         button.click();
         System.out.println("CLICKED BUTTON: " + buttonName); //debug print
