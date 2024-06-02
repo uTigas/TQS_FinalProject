@@ -5,7 +5,7 @@ Feature: Edit a Station in the Admin Dashboard
     Given I am on the "/admin/stations" page
     When I click the "Edit" button 
     Then a modal should be displayed
-    And the modal should be referred to "Test Station"
+    And the modal should be referred to "Test my brand new Station"
     When I fill in the "editStationName" field with "Test Station edited"
     And I fill in the "editStationLines" field with "3"
     And I click the "Save Changes" button
