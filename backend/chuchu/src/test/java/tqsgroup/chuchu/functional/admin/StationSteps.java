@@ -47,6 +47,7 @@ public class StationSteps {
 
         WebElement button = driver.findElement(By.xpath("//ion-button[contains(text(),'" + buttonName + "')]"));
         button.click();
+        System.out.println("CLICKED BUTTON: " + buttonName); //debug print
     }
 
     @Then("a modal should be displayed")
@@ -64,8 +65,15 @@ public class StationSteps {
 
     @Then("I should see the success message {string}")
     public void iShouldSeeTheSuccessMessage(String successMessage) {
-        WebElement messageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'" + "tation" + "')]")));
-        System.out.println("FOUND MESSAGE: " + messageElement.getText()); //debug print
+        try {
+            WebElement errorMessageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'" + "rror" + "')]")));
+            System.out.println("FOUND ERROR MESSAGE: " + errorMessageElement); //debug print
+        } catch (Exception e) {
+            System.out.println("NO ERROR MESSAGE FOUND");
+        }
+        WebElement messageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'" + "tation" + "')]"))); //for debug
+        System.out.println("FOUND STATION MESSAGE: " + messageElement.getText()); //debug print
+
 
         // Wait for the success message to be visible
         WebElement successMessageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'" + successMessage + "')]")));
@@ -74,8 +82,16 @@ public class StationSteps {
 
     @Then("I should see the success message {string} inside the modal")
     public void iShouldSeeTheSuccessMessageInsideTheModal(String successMessage) {
+        try {
+            WebElement errorMessageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ion-modal//p[contains(text(),'" + "rror" + "')]")));
+            System.out.println("FOUND ERROR MESSAGE INSIDE MODAL: " + errorMessageElement); //debug print
+        } catch (Exception e) {
+            System.out.println("NO ERROR MESSAGE FOUND INSIDE MODAL");
+        }
         WebElement messageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ion-modal//p[contains(text(),'" + "tation" + "')]")));    
-        System.out.println("FOUND MESSAGE: " + messageElement.getText()); //debug print
+        System.out.println("FOUND STATION MESSAGE: " + messageElement.getText()); //debug print
+
+
     
         // Wait for the success message to be visible
         WebElement successMessageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ion-modal//p[contains(text(),'" + successMessage + "')]")));
