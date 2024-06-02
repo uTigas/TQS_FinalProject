@@ -10,7 +10,7 @@ interface trainData {
 }
 
 const TrainPage: React.FC = () => {
-  const [trainNumber, setTrainNumber] = useState(-1);
+  const [trainNumber, setTrainNumber] = useState<number>(-1);
   const [trainType, setTrainType] = useState('');
   const [selectedtrain, setSelectedtrain] = useState<trainData | null>(null);
   const [newErrorMessage, setNewErrorMessage] = useState<string>('');
@@ -58,7 +58,7 @@ const TrainPage: React.FC = () => {
         setTrainNumber(-1);
         setTrainType('');
         setNewErrorMessage('');
-        setNewSuccessMessage('train created successfully.');
+        setNewSuccessMessage('Train created successfully.');
       })
       .catch(error => {
         console.error('Error:', error);
@@ -66,12 +66,11 @@ const TrainPage: React.FC = () => {
   };
 
   const checkValidtrain = (train: trainData) => {
-    console.log(train.type)
     if (!(Object.keys(TrainType).slice(5).includes(train.type))) {
       return "Invalid Train Class.";
     }
 
-    if (train.number < 1 || train.number > 9999) {
+    if (train.number < 1 || train.number > 9999 || isNaN(train.number)) {
       return "Train Number must be between 1 and 9999.";
     }
 
@@ -141,7 +140,7 @@ const TrainPage: React.FC = () => {
                 </IonCardHeader>
                 <IonCardContent style={{ gap: '20px' }}>
                 <IonLabel position="stacked">Select train Class</IonLabel>
-                  <IonSelect value={trainType}  onIonChange={(e) => setTrainType(e.detail.value)}>
+                  <IonSelect name="newtrainClass" value={trainType}  onIonChange={(e) => setTrainType(e.detail.value)}>
                     <IonSelectOption value="ALPHA">ALPHA</IonSelectOption> 
                     <IonSelectOption value="INTER">INTER</IonSelectOption> 
                     <IonSelectOption value="REGIONAL">REGIONAL</IonSelectOption> 
