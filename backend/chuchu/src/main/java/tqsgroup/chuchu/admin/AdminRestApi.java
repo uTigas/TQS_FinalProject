@@ -119,6 +119,7 @@ public class AdminRestApi {
         return StationDAO.builder()
                 .name(station.getName())
                 .numberOfLines(station.getNumberOfLines())
+                .id(station.getId())
                 .build();
     }
     /* End of Station endpoints */
@@ -206,7 +207,7 @@ public class AdminRestApi {
         @ApiResponse(responseCode = "400", description = "Invalid input while attempting to create Connection",
             content = @Content) })
     @PostMapping("/connections")
-    public ResponseEntity<Object> createConnection(ConnectionDAO request) {
+    public ResponseEntity<Object> createConnection(@RequestBody ConnectionDAO request) {
         try {
             logger.info("Creating Connection from {} to {} with Train number: {}", request.getFrom().getName(), request.getTo().getName(), request.getTrain().getNumber());
             Connection connection = connectionService.saveConnection(new Connection(request.getFrom(), request.getTo(), request.getTrain(), request.getDepartureTime(), request.getArrivalTime(), request.getLineNumber(), request.getPrice()));
