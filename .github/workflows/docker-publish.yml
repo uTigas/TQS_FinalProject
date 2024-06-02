@@ -66,12 +66,12 @@ jobs:
         id: build-and-push
         run: |
           # Build services
-          docker-compose -f docker-compose-prod.yml build \
+          docker-compose -f docker-compose-prod.yaml build \
             --cache-from type=gha \
             --cache-to type=gha,mode=max
   
           # Push services
           if [ "${{ github.event_name }}" != "pull_request" ]; then
-            docker-compose -f docker-compose-prod.yml push
+            docker-compose -f docker-compose-prod.yaml push
           fi
 
