@@ -10,7 +10,7 @@ interface trainData {
 }
 
 const TrainPage: React.FC = () => {
-  const [trainNumber, setTrainNumber] = useState<number>(-1);
+  const [trainNumber, setTrainNumber] = useState<number>(1);
   const [trainType, setTrainType] = useState('');
   const [selectedtrain, setSelectedtrain] = useState<trainData | null>(null);
   const [newErrorMessage, setNewErrorMessage] = useState<string>('');
@@ -140,7 +140,7 @@ const TrainPage: React.FC = () => {
                 </IonCardHeader>
                 <IonCardContent style={{ gap: '20px' }}>
                 <IonLabel position="stacked">Select train Class</IonLabel>
-                  <IonSelect name="newtrainClass" value={trainType}  onIonChange={(e) => setTrainType(e.detail.value)}>
+                  <IonSelect name="newTrainClass" value={trainType}  onIonChange={(e) => setTrainType(e.detail.value)}>
                     <IonSelectOption value="ALPHA">ALPHA</IonSelectOption> 
                     <IonSelectOption value="INTER">INTER</IonSelectOption> 
                     <IonSelectOption value="REGIONAL">REGIONAL</IonSelectOption> 
@@ -149,7 +149,7 @@ const TrainPage: React.FC = () => {
                   </IonSelect>
                   <IonInput 
                   placeholder='Enter train Number'
-                    name="newtrainNumber"
+                    name="newTrainNumber"
                     value={trainNumber}
                     onIonChange={handleNewtrainNumberChange}
                   ></IonInput>

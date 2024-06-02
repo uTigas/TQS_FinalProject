@@ -41,6 +41,7 @@ public class CreateTrainSteps {
     public void iFillInTheFieldWith(String fieldName, String value) {
         WebElement field = driver.findElement(By.xpath("//input[@name='" + fieldName + "']"));
         field.click();
+        field.click();
         field.clear();
         field.sendKeys(value);
         wait.until(ExpectedConditions.attributeToBe(field, "value", value));
