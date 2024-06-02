@@ -72,6 +72,6 @@ jobs:
   
           # Push services
           if [ "${{ github.event_name }}" != "pull_request" ]; then
-            docker-compose -f docker-compose.yml push
+            docker-compose -f docker-compose-prod.yml push
           fi
 
