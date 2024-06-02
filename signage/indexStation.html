@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Station Digital Signage</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(45deg, rgb(45, 45, 45), rgb(65, 65, 65), rgb(85, 85, 85));
+            background-size: 200% 200%;
+            background-position: 0% 100%;
+            animation: gradient-animation 20s ease infinite;
+        }
+
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 100%;
+            }
+
+            50% {
+                background-position: 100% 0%;
+            }
+
+            100% {
+                background-position: 0% 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="gradient-bg text-white">
+
+    <div class="signage container" style="height: 100vh;">
+        <div class="row mt-2">
+            <div class="col-6">
+                <h1 id="title"></h1>
+            </div>
+            <div class="col-6">
+                <!-- current time -->
+                <h1 class="text-center">Current Time-<span id="currentTime"></span></h1>
+            </div>
+            <!-- line -->
+            <hr class="mb-4 shadow bg-white" style="height: 3px; border:none">
+            <div id="trainSchedule">
+
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+        <script>
+            var trainDataMock = [
+                {
+                    "from": {
+                        "id": 0,
+                        "name": "Union Station",
+                        "numberOfLines": 3
+                    },
+                    "to": {
+                        "id": 0,
+                        "name": "Toronto Pearson Airport",
+                        "numberOfLines": 3
+                    },
+                    "train": {
+                        "id": 0,
+                        "type": "URBAN",
+                        "number": 97
+                    },
+                    "departureTime": {
+                        "hour": 10,
+                        "minute": 30,
+                        "second": 0,
+                        "nano": 0
+                    },
+                    "arrivalTime": {
+                        "hour": 11,
+                        "minute": 0,
+                        "second": 0,
+                        "nano": 0
+                    },
+                    "lineNumber": 1,
+                    "price": 10
+                },
+                {
+                    "from": {
+                        "id": 0,
+                        "name": "Union Station",
+                        "numberOfLines": 3
+                    },
+                    "to": {
+                        "id": 0,
+                        "name": "Toronto Pearson Airport",
+                        "numberOfLines": 3
+                    },
+                    "train": {
+                        "id": 0,
+                        "type": "URBAN",
+                        "number": 98
+                    },
+                    "departureTime": {
+                        "hour": 11,
+                        "minute": 0,
+                        "second": 0,
+                        "nano": 0
+                    },
+                    "arrivalTime": {
+                        "hour": 11,
+                        "minute": 0,
+                        "second": 0,
+                        "nano": 0
+                    },
+                    "lineNumber": 1,
+                    "price": 10
+                },
+                {
+                    "from": {
+                        "id": 0,
+                        "name": "Union Station",
+                        "numberOfLines": 3
+                    },
+                    "to": {
+                        "id": 0,
+                        "name": "Toronto Pearson Airport",
+                        "numberOfLines": 3
+                    },
+                    "train": {
+                        "id": 0,
+                        "type": "URBAN",
+                        "number": 99
+                    },
+                    "departureTime": {
+                        "hour": 10,
+                        "minute": 0,
+                        "second": 0,
+                        "nano": 0
+                    },
+                    "arrivalTime": {
+                        "hour": 11,
+                        "minute": 0,
+                        "second": 0,
+                        "nano": 0
+                    },
+                    "lineNumber": 2,
+                    "price": 10
+                }
+            ];
+
+            let station = prompt("Enter the station name");
+            $(document).ready(function () {
+                $("#title").text(station + " Arrivals");
+                function renderTrainSchedule() {
+                    var trainData = getData(station);
+                    var schedule = $("#trainSchedule");
+                    var groupedData = trainData.reduce(function (acc, train) {
+                        if (!acc[train.lineNumber]) {
+                            acc[train.lineNumber] = [];
+                        }
+                        acc[train.lineNumber].push(train);
+                        return acc;
+                    }, {});
+                    var r = "<div class=\"row\">";
+                    console.log(groupedData);
+                    for (var track in groupedData) {
+                        r += makeTable("Track " + track, groupedData[track]);
+                    }
+                    r += "</div></div>";
+                    schedule.empty();
+                    schedule.append(r);
+                }
+
+                function makeTable(title, data) {
+                    return "<div class=\"col-6 ps-1 pe-1\"><div class=\"mb-2 shadow-lg p-2 bg-dark rounded\">" +
+                        "<h2>" + title + "</h2><hr>" +
+                        "<table class=\"table table-striped table-dark\"><thead><tr>" +
+                        "<th style=\"width: 80%\">Train</th><th style=\"width: 20%\">Arrival Time</th></tr></thead><tbody>"
+                        + data.map(function (arrival) {
+                            return "<td>" + arrival.train.number + "  " + arrival.train.type + "</td><td>" + timeToString(arrival.departureTime) + "</td></tr>";
+                        }).join("") +
+                        "</tbody></table></div></div>";
+                }
+
+                function timeToString(time) {
+                    // occupy 2 spaces
+                    return time.hour.toString().padStart(2, "0") + ":" + time.minute.toString().padStart(2, "0") + ":" + time.second.toString().padStart(2, "0");
+                }
+
+                function getData(stationName) {
+                    $.ajax({
+                        url: "http://localhost/public/api/v1/arrivals?stationName=" + stationName + "&limit=10" + "&time=" + new Date().toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }),
+                        method: "GET",
+                        success: function (data) {
+                            trainData = data;
+                            console.log(data);
+                            return data;
+                        }
+                    });
+                }
+
+                $("#currentTime").text(new Date().toLocaleTimeString())
+                renderTrainSchedule();
+                setInterval(function () {
+                    $("#currentTime").text(new Date().toLocaleTimeString());
+                }, 1000);
+                setInterval(function () {
+                    renderTrainSchedule();
+                }, 10000);
+            });
+        </script>
+
+</body>
+
+</html>
