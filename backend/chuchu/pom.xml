@@ -46,18 +46,6 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
-		<!-- Provides Thymeleaf HTML render support. -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-
-		<!-- Provides Thymeleaf HTML render support. -->
-		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-
 		<!-- Provides OAuth 2.0 Resource Server support. -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
