@@ -47,7 +47,7 @@ const APIWrapper = {
   fetchTrainList: async () => {
     try {
       console.log("APIWrapper: Fetching Trains...")
-      return await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'trains', { method: 'GET', credentials: 'include' });
+      return await fetch(APIWrapper.backendURI + APIWrapper.publicAPI + 'trains', { method: 'GET', credentials: 'include' });
     } catch (error) {
       console.error('Error fetching Trains', error);
     }
@@ -71,7 +71,7 @@ const APIWrapper = {
   },
   fetchConnectionList: async () => {
     try {
-      return await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'connections', { method: 'GET', credentials: 'include' });
+      return await fetch(APIWrapper.backendURI + APIWrapper.publicAPI + 'connections', { method: 'GET', credentials: 'include' });
     } catch (error) {
       console.error('Error fetching Connections', error);
     }
@@ -85,7 +85,7 @@ const APIWrapper = {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ origin: origin, destination: destination, trainNumber: trainNumber, departureTime: departureTime, arrivalTime: arrivalTime, lineNumber: lineNumber, price: price })
+        body: JSON.stringify({ "origin": {"name": origin}, "destination": {"name": destination}, "train": trainNumber, "departureTime": departureTime, "arrivalTime": arrivalTime, "lineNumber": lineNumber, "price": price })
       });
     } catch (error) {
       console.error('Error adding Connection', error);

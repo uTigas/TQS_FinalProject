@@ -119,7 +119,7 @@ const App: React.FC = () => {
               </IonTabButton>
             )
           ) : (
-            <IonTabButton tab="home" href="/home">
+            <IonTabButton tab="home" href="/">
               <IonIcon aria-hidden="true" icon={triangle} />
               <IonLabel>Homepage</IonLabel>
             </IonTabButton>
