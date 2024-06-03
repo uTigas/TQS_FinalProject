@@ -204,13 +204,29 @@ public class AdminRestApi {
             content = { @Content(mediaType = "application/json",
                 schema = @Schema(implementation = ConnectionDAO.class)) }),
         @ApiResponse(responseCode = "400", description = "Invalid input while attempting to create Connection",
-            content = @Content) })
+            content = @Content), 
+        @ApiResponse(responseCode = "404", description = "Origin or Destination Station not found",
+            content = @Content)})
     @PostMapping("/connections")
-    public ResponseEntity<Object> createConnection(ConnectionDAO request) {
+    public ResponseEntity<Object> createConnection(ConnectionRequest request) {
         try {
-            logger.info("Creating Connection from {} to {} with Train number: {}", request.getFrom().getName(), request.getTo().getName(), request.getTrain().getNumber());
-            Connection connection = connectionService.saveConnection(new Connection(request.getFrom(), request.getTo(), request.getTrain(), request.getDepartureTime(), request.getArrivalTime(), request.getLineNumber(), request.getPrice()));
-            logger.info("Connection from {} to {} with Train number {} created successfully", request.getFrom().getName(), request.getTo().getName(), request.getTrain().getNumber());
+            Station origin = stationService.getStationByName(request.getOrigin());
+            Station destination = stationService.getStationByName(request.getDestination());
+            if (origin == null || destination == null) {
+                logger.info("Origin or Destination Station not found");
+                return new ResponseEntity<>("Origin or Destination Station not found", HttpStatus.NOT_FOUND);
+            }
+
+            Train train = trainService.findTrainByNumber(request.getTrainNumber());
+            if (train == null) {
+                logger.info("Train not found");
+                return new ResponseEntity<>("Train not found", HttpStatus.NOT_FOUND);
+            }
+
+            logger.info("Creating Connection");
+            Connection connection = new Connection(origin, destination, train, request.getDepartureTime(), request.getArrivalTime(), request.getLineNumber(), request.getPrice());
+            connectionService.saveConnection(connection);
+            logger.info("Connection created successfully");
             ConnectionDAO response = mapToConnectionResponse(connection);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {

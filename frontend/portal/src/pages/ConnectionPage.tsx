@@ -6,7 +6,7 @@ import APIWrapper from '../components/APIWrapper';
 interface ConnectionData {
   origin: string;
   destination: string;
-  train: string;
+  train: number;
   departureTime: string;
   arrivalTime: string;
   lineNumber: number;
@@ -16,7 +16,7 @@ interface ConnectionData {
 const ConnectionPage: React.FC = () => {
   const [connectionOrigin, setConnectionOrigin] = useState('');
   const [connectionDestination, setConnectionDestination] = useState('');
-  const [connectionTrain, setConnectionTrain] = useState('');
+  const [connectionTrain, setConnectionTrain] = useState(0);
   const [connectionDepartureTime, setConnectionDepartureTime] = useState('');
   const [connectionArrivalTime, setConnectionArrivalTime] = useState('');
   const [connectionLineNumber, setConnectionLineNumber] = useState(1);
@@ -50,7 +50,7 @@ const ConnectionPage: React.FC = () => {
     const newConnection: ConnectionData = {
       origin: connectionOrigin,
       destination: connectionDestination,
-      train : connectionTrain,
+      train: connectionTrain,
       departureTime: connectionDepartureTime,
       arrivalTime: connectionArrivalTime,
       lineNumber: connectionLineNumber,
@@ -64,30 +64,30 @@ const ConnectionPage: React.FC = () => {
     }
 
     // API call to add connection
-    // APIWrapper.addConnection(connectionOrigin, connectionDestination, connectionDepartureTime, connectionArrivalTime, connectionLineNumber, connectionPrice)
-    //   .then((response: Response | undefined) => {
-    //     if (response && response.ok) {
-    //       return response.json();
-    //     } else {
-    //       throw new Error('Failed to fetch data');
-    //     }
-    //   })
-    //   .then(connectionData => {
-    //     console.log(connectionData);
-        setConnections([...connections, newConnection]);
-        setConnectionOrigin('');
-        setConnectionTrain('');
-        setConnectionDestination('');
-        setConnectionDepartureTime('');
-        setConnectionArrivalTime('');
-        setConnectionLineNumber(1);
-        setConnectionPrice(0);
-        setNewSuccessMessage('Connection added successfully');
-        setNewErrorMessage('');
-      // })
-      // .catch(error => {
-      //   console.error('Error:', error);
-      // });
+    APIWrapper.addConnection(connectionOrigin, connectionDestination, connectionTrain, connectionDepartureTime, connectionArrivalTime, connectionLineNumber, connectionPrice)
+      .then((response: Response | undefined) => {
+        if (response && response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to fetch data');
+        }
+      })
+      .then(connectionData => {
+        console.log(connectionData);
+    setConnections([...connections, newConnection]);
+    setConnectionOrigin('');
+    setConnectionTrain(0);
+    setConnectionDestination('');
+    setConnectionDepartureTime('');
+    setConnectionArrivalTime('');
+    setConnectionLineNumber(1);
+    setConnectionPrice(0);
+    setNewSuccessMessage('Connection added successfully');
+    setNewErrorMessage('');
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
   };
 
   const checkValidConnection = (newConnection: ConnectionData): boolean | string => {
@@ -97,6 +97,14 @@ const ConnectionPage: React.FC = () => {
 
     if (newConnection.origin === newConnection.destination) {
       return 'Origin and destination cannot be the same';
+    }
+
+    if (!validateAndFormatTime(newConnection.departureTime) || !validateAndFormatTime(newConnection.arrivalTime)) {
+      return 'Invalid time format. Please use HH:MM:SS';
+    }
+
+    if (newConnection.departureTime > newConnection.arrivalTime) {
+      return 'Departure time cannot be after arrival time';
     }
 
     if (newConnection.lineNumber < 0) {
@@ -109,12 +117,21 @@ const ConnectionPage: React.FC = () => {
     return true;
   };
 
+  const validateAndFormatTime = (timeString: string) => {
+    const regex = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
+    if (!regex.test(timeString)) {
+      return false;
+    }
+    return timeString;
+  };
+
+
   const handleClear = () => {
     setNewErrorMessage('');
     setNewSuccessMessage('');
     setConnectionOrigin('');
     setConnectionDestination('');
-    setConnectionTrain('');
+    setConnectionTrain(0);
     setConnectionDepartureTime('');
     setConnectionArrivalTime('');
     setConnectionLineNumber(1);
@@ -217,22 +234,39 @@ const ConnectionPage: React.FC = () => {
                     name="connectionTrain"
                     value={connectionTrain}
                     placeholder='Train Number'
-                    onIonChange={(e) => setConnectionTrain(e.detail.value!)}
+                    onIonChange={(e) => setConnectionTrain(parseInt(e.detail.value!, 10))}
                   ></IonInput>
                   <IonLabel>Departure Time</IonLabel>
                   <IonInput
                     name="connectionDepartureTime"
                     value={connectionDepartureTime}
                     placeholder='HH:MM:SS'
-                    onIonChange={(e) => setConnectionDepartureTime(e.detail.value!)}
+                    onIonChange={(e) => {
+                      const formattedTime = validateAndFormatTime(e.detail.value!);
+                      if (formattedTime) {
+                        setConnectionDepartureTime(formattedTime);
+                      } else {
+                        setNewErrorMessage("Invalid departure time format. Please use HH:MM:SS.");
+                        return;
+                      }
+                    }}
                   ></IonInput>
                   <IonLabel>Arrival Time</IonLabel>
                   <IonInput
                     name="connectionArrivalTime"
                     value={connectionArrivalTime}
                     placeholder='HH:MM:SS'
-                    onIonChange={(e) => setConnectionArrivalTime(e.detail.value!)}
+                    onIonChange={(e) => {
+                      const formattedTime = validateAndFormatTime(e.detail.value!);
+                      if (formattedTime) {
+                        setConnectionArrivalTime(formattedTime);
+                      } else {
+                        setNewErrorMessage("Invalid arrival time format. Please use HH:MM:SS.");
+                        return;
+                      }
+                    }}
                   ></IonInput>
+
                   <IonLabel>Line Number</IonLabel>
                   <IonInput
                     name="connectionLineNumber"

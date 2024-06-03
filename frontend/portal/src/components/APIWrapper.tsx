@@ -63,6 +63,19 @@ const APIWrapper = {
       }
     },
 
-
+    addConnection: async (origin: string, destination: string, trainNumber: number, departureTime: string, arrivalTime: string, lineNumber: number, price: number) => {
+      try {
+        return await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'connections', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ origin: origin, destination: destination, trainNumber: trainNumber, departureTime: departureTime, arrivalTime: arrivalTime, lineNumber: lineNumber, price: price })
+        });
+      } catch (error) {
+        console.error('Error adding Connection', error);
+      }
+    }
 }
 export default APIWrapper;
