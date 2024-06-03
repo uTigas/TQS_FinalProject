@@ -28,10 +28,6 @@ public class StationService {
         return stationRepository.findByName(name);
     }
 
-    public Station getStationById(Long id) {
-        return stationRepository.findById(id).get();
-    }
-
     public List<Station> getAllStations() {
         return stationRepository.findAll();
     }

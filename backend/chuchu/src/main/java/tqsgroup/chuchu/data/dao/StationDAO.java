@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StationDAO {
-    private Long id;
     private String name;
     private int numberOfLines;
 }

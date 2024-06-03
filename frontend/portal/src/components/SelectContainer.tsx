@@ -1,16 +1,12 @@
-import { IonButton, IonCol, IonGrid, IonIcon, IonRow, IonSelect, IonSelectOption, IonTitle } from "@ionic/react"
-import { arrowForwardCircle, handRight, search } from "ionicons/icons";
-import TimeContainer from "./TimeContainer";
+import { IonCol, IonGrid, IonLabel, IonRow, IonSelect, IonSelectOption, IonTitle } from "@ionic/react"
 import React, { useContext, useEffect, useState } from "react";
 import { SharedVariablesContext } from "../support/Variables";
 import APIWrapper from "./APIWrapper";
 
 const SelectContainer: React.FC = (() => {
   const {
-    connections,
-    setConnections,
-    possible,
-    setPossible,
+    stations,
+    setStations,
     selectedOrigin,
     setSelectedOrigin,
     selectedDestination,
@@ -20,16 +16,8 @@ const SelectContainer: React.FC = (() => {
   const [origin, setOrigin] = useState<string | null>(null);
   const [destination, setDestination] = useState<string | null>(null);
 
-
-  const updatePossibilities = async () => {
-    const response = await APIWrapper.fetchOrganizations(origin, destination)
-    if (response)
-      setPossible(await response.json()) 
-  } 
-
   useEffect (()=>{
-    updatePossibilities()
-  },[origin, destination])
+  },[])
   
   return (
       <IonGrid className='ion-padding'>
@@ -40,12 +28,12 @@ const SelectContainer: React.FC = (() => {
               <IonRow className='ion-padding'>
                 <IonCol>
                   <IonSelect id='selectOrigin' label="From" labelPlacement="floating" fill="outline" interface="popover" onIonChange={(e) => setOrigin(e.detail.value)}>
-                    {possible.map((con) => <IonSelectOption>{con.origin}</IonSelectOption>)}
+                    {stations.map((item, index) => <IonSelectOption key={index}>{item.name}</IonSelectOption>)}
                   </IonSelect>
                 </IonCol>
                 <IonCol>
+                    {stations.map((item, index) => <IonLabel key={index}>{item.name}</IonLabel>)}
                   <IonSelect id='selectDestination' label="To" labelPlacement="floating" fill="outline" interface="popover" onIonChange={(e) => setDestination(e.detail.value)}>
-                    {possible.map((con) => <IonSelectOption>{con.destination}</IonSelectOption>)}
                   </IonSelect>
                 </IonCol>
               </IonRow>

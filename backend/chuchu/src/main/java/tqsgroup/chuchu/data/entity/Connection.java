@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalTime;
 
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
@@ -12,6 +13,7 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 public class Connection {
     
     @Id
+    @GeneratedValue
     private Long id;
 
     @Relationship(type = "ORIGIN")
@@ -21,7 +23,7 @@ public class Connection {
     private Station destination;
 
     @NotNull
-    private Train train;
+    private int trainId;
 
     @NotNull
     private LocalTime departureTime;
@@ -41,7 +43,7 @@ public class Connection {
     public Connection(Station origin, Station destination, Train train, LocalTime departureTime, LocalTime arrivalTime, int lineNumber, long price) {
         this.origin = origin;
         this.destination = destination;
-        this.train = train;
+        this.trainId = train.getNumber();
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.lineNumber = lineNumber;
@@ -72,12 +74,12 @@ public class Connection {
         this.destination = destination;
     }
 
-    public Train getTrain() {
-        return train;
+    public int getTrain() {
+        return trainId;
     }
 
     public void setTrain(Train train) {
-        this.train = train;
+        this.trainId = train.getNumber();
     }
 
     public LocalTime getDepartureTime() {
