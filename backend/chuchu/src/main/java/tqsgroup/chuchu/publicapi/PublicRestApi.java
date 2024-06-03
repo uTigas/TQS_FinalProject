@@ -20,11 +20,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import tqsgroup.chuchu.data.dao.ConnectionDAO;
-import tqsgroup.chuchu.data.dao.SearchRouteDAO;
-import tqsgroup.chuchu.data.dao.StationDAO;
-import tqsgroup.chuchu.data.dao.TrainDAO;
 import tqsgroup.chuchu.data.entity.Connection;
+import tqsgroup.chuchu.data.dao.SearchRouteDAO;
 import tqsgroup.chuchu.data.entity.Station;
 import tqsgroup.chuchu.data.entity.Train;
 import tqsgroup.chuchu.data.service.ConnectionService;
@@ -53,23 +50,75 @@ public class PublicRestApi {
     public String hello(){
         return "Hello from SpringBoot API Rest Controller";
     }
+    
+    @Operation(summary = "List all connections or get a connection by origin and destination")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "List of all Connections or a list of Connections based in origin and destination (if provided)",
+            content = { @Content(mediaType = "application/json",
+                schema = @Schema(implementation = Connection.class)) }),
+        @ApiResponse(responseCode = "400", description = "Invalid input while attempting to fetch a Connection by origin and destination",
+            content = @Content),
+        @ApiResponse(responseCode = "404", description = "No Connections were found",
+            content = @Content)})
+    @GetMapping("/connections")
+    public ResponseEntity<Object> listConnections(
+            @RequestParam(required = false) String origin,
+            @RequestParam(required = false) String destination) {
+        if (origin == null || origin.isEmpty() || destination == null || destination.isEmpty()) {
+            logger.info("No parameters given, fetching all connections");
+            List<Connection> connections = connectionService.getAllConnections();
+            if (connections.isEmpty()) {
+                logger.info("No Connections found");
+                return new ResponseEntity<>("No connections found", HttpStatus.NOT_FOUND);
+            }
+            List<Connection> response = new ArrayList<>();
+            for (Connection connection : connections) {
+                response.add(connection);
+            }
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            //Fetch all connection having by origin and destination
+            logger.info("Fetching Connection from {} to {}", origin, destination);
+            try {
+                Station originStation = stationService.getStationByName(origin);
+                Station destinationStation = stationService.getStationByName(destination);
+                if (originStation == null || destinationStation == null) {
+                    logger.info("Origin or Destination Station not found");
+                    return new ResponseEntity<>("Origin or Destination Station not found", HttpStatus.NOT_FOUND);
+                }
+                List<Connection> connections = connectionService.findAllByOriginAndDestination(originStation, destinationStation);
+                if (connections.isEmpty()) {
+                    logger.info("No Connections found from {} to {}", origin, destination);
+                    return new ResponseEntity<>("No connections found from " + origin + " to " + destination, HttpStatus.NOT_FOUND);
+                }
+                List<Connection> response = new ArrayList<>();
+                for (Connection connection : connections) {
+                    response.add(connection);
+                }
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } catch (IllegalArgumentException e) {
+                logger.error("Error while fetching Connection: {}", e.getMessage());
+                return new ResponseEntity<>("Error while fetching Connection: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+        }
+    }
 
     @Operation(summary ="List new arrival to a station")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "List of all new arrivals to a station",
             content = { @Content(mediaType = "application/json",
-                schema = @Schema(implementation = ConnectionDAO.class)) }),
+                schema = @Schema(implementation = Connection.class)) }),
         @ApiResponse(responseCode = "400", description = "Invalid input while attempting to fetch new arrivals to a station",
             content = @Content)})
     @GetMapping("/arrivals")
-    public ResponseEntity<List<ConnectionDAO>> fetchArrivals(@RequestParam String stationName, @RequestParam int limit, @RequestParam String time){
+    public ResponseEntity<List<Connection>> fetchArrivals(@RequestParam String stationName, @RequestParam int limit, @RequestParam String time){
         Station station = stationService.getStationByName(stationName);
         if (station == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         List<Connection> arrivals = connectionService.getArrivals(station,10, LocalTime.parse(time));
         return new ResponseEntity<>(arrivals.stream().map(
-            connection -> mapToConnectionResponse(connection)).toList()
+            connection -> connection).toList()
          , HttpStatus.OK);
     }
 
@@ -77,39 +126,26 @@ public class PublicRestApi {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "List of all new arrivals from a track of a station",
             content = { @Content(mediaType = "application/json",
-                schema = @Schema(implementation = ConnectionDAO.class)) }),
+                schema = @Schema(implementation = Connection.class)) }),
         @ApiResponse(responseCode = "400", description = "Invalid input while attempting to fetch new arrivals from a track of a station",
             content = @Content)})
     @GetMapping("/arrivals/line")
-    public ResponseEntity<List<ConnectionDAO>> fetchArrivalsFromLind(@RequestParam String stationName, @RequestParam int lineNumber, @RequestParam int limit, @RequestParam String time){
+    public ResponseEntity<List<Connection>> fetchArrivalsFromLind(@RequestParam String stationName, @RequestParam int lineNumber, @RequestParam int limit, @RequestParam String time){
         Station station = stationService.getStationByName(stationName);
         if (station == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         List<Connection> arrivals = connectionService.getArrivalsFromTrack(station, limit, lineNumber, LocalTime.parse(time));
         return new ResponseEntity<>( arrivals.stream().map(
-            connection -> mapToConnectionResponse(connection)).toList(), 
+            connection -> connection).toList(), 
         HttpStatus.OK);
-    }
-
-    
-    private ConnectionDAO mapToConnectionResponse(Connection connection) {
-        return ConnectionDAO.builder()
-                .from(connection.getOrigin())
-                .to(connection.getDestination())
-                .train(trainService.findTrainByNumber(connection.getTrain()))
-                .departureTime(connection.getDepartureTime())
-                .arrivalTime(connection.getArrivalTime())
-                .lineNumber(connection.getLineNumber())
-                .price(connection.getPrice())
-                .build();
     }
 
         @Operation(summary = "List all stations or get a station by name")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "List of Stations or a specific Station if name is provided",
             content = { @Content(mediaType = "application/json",
-                schema = @Schema(implementation = StationDAO.class)) }),
+                schema = @Schema(implementation = Station.class)) }),
         @ApiResponse(responseCode = "400", description = "Invalid input while attempting to fetch a Station by name",
             content = @Content),
         @ApiResponse(responseCode = "404", description = "No Stations were found",
@@ -124,9 +160,9 @@ public class PublicRestApi {
                 logger.info("No Stations found");
                 return new ResponseEntity<>("No stations found", HttpStatus.NOT_FOUND);
             }
-            List<StationDAO> response = new ArrayList<>();
+            List<Station> response = new ArrayList<>();
             for (Station station : stations) {
-                response.add(mapToStationResponse(station));
+                response.add(station);
             }
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -138,7 +174,7 @@ public class PublicRestApi {
                     return new ResponseEntity<>("Station not found", HttpStatus.NOT_FOUND);
                 }
                 logger.info("Returning Station with name: {}", name);
-                StationDAO response = mapToStationResponse(station);
+                Station response = station;
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } catch (IllegalArgumentException e) {
                 logger.error("Error while fetching Station: {}", e.getMessage());
@@ -147,12 +183,6 @@ public class PublicRestApi {
         }
     }
 
-    private StationDAO mapToStationResponse(Station station) {
-        return StationDAO.builder()
-                .name(station.getName())
-                .numberOfLines(station.getNumberOfLines())
-                .build();
-    }
     /* End of Station endpoints */
 
 
@@ -160,7 +190,7 @@ public class PublicRestApi {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "List of Trains or a specific Train if number is provided",
             content = { @Content(mediaType = "application/json",
-                schema = @Schema(implementation = TrainDAO.class)) }),
+                schema = @Schema(implementation = Train.class)) }),
         @ApiResponse(responseCode = "400", description = "Invalid input while attempting to fetch a Train by number",
             content = @Content),
         @ApiResponse(responseCode = "404", description = "No Trains were found",
@@ -175,9 +205,9 @@ public class PublicRestApi {
                 logger.info("No Trains found");
                 return new ResponseEntity<>("No trains found", HttpStatus.NOT_FOUND);
             }
-            List<TrainDAO> response = new ArrayList<>();
+            List<Train> response = new ArrayList<>();
             for (Train train : trains) {
-                response.add(mapToTrainResponse(train));
+                response.add(train);
             }
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
@@ -189,20 +219,13 @@ public class PublicRestApi {
                     return new ResponseEntity<>("Train not found", HttpStatus.NOT_FOUND);
                 }
                 logger.info("Returning Train with number: {}", number);
-                TrainDAO response = mapToTrainResponse(train);
+                Train response = train;
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } catch (IllegalArgumentException e) {
                 logger.error("Error while fetching Train: {}", e.getMessage());
                 return new ResponseEntity<>("Error while fetching Train: " + e.getMessage(), HttpStatus.BAD_REQUEST);
             }
         }
-    }
-
-    private TrainDAO mapToTrainResponse(Train train) {
-        return TrainDAO.builder()
-                .type(train.getType())
-                .number(train.getNumber())
-                .build();
     }
 
     // End of Train Endpoints

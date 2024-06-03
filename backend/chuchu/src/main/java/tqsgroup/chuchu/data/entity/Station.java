@@ -5,7 +5,7 @@ import org.springframework.data.neo4j.core.schema.Node;
 
 import jakarta.validation.constraints.Size;
 
-@Node
+@Node("Station")
 public class Station {
 
     private static final int MIN_STATION_NAME_LENGTH = 3;

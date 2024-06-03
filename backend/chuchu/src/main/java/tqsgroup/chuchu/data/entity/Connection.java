@@ -3,18 +3,19 @@ package tqsgroup.chuchu.data.entity;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalTime;
+import java.util.UUID;
 
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
-@Node
+@Node("Connection")
 public class Connection {
     
     @Id
     @GeneratedValue
-    private Long id;
+    private UUID id;
 
     @Relationship(type = "ORIGIN")
     private Station origin;
@@ -50,11 +51,11 @@ public class Connection {
         this.price = price;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -80,6 +81,10 @@ public class Connection {
 
     public void setTrain(Train train) {
         this.trainId = train.getNumber();
+    }
+    
+    public void setTrain(int train) {
+        this.trainId = train;
     }
 
     public LocalTime getDepartureTime() {

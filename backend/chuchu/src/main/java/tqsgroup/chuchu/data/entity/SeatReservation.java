@@ -1,5 +1,7 @@
 package tqsgroup.chuchu.data.entity;
 
+import java.util.UUID;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Min;
@@ -22,7 +24,7 @@ public class SeatReservation {
     private Seat seat;
 
     @NotNull
-    private Long connection;
+    private UUID connection;
 
     @Column(name = "seatPrice")
     @Min(MIN_PRICE)
@@ -33,7 +35,7 @@ public class SeatReservation {
     public SeatReservation() {
     }
 
-    public SeatReservation(Seat seat, Long connection) {
+    public SeatReservation(Seat seat, UUID connection) {
         this.seat = seat;
         this.connection = connection;
     }
@@ -50,11 +52,11 @@ public class SeatReservation {
         this.seat = seat;
     }
 
-    public Long getConnection() {
+    public UUID getConnection() {
         return connection;
     }
 
-    public void setConnection(Long connection) {
+    public void setConnection(UUID connection) {
         this.connection = connection;
     }
 
