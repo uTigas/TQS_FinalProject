@@ -1,6 +1,6 @@
 
 const APIWrapper = {
-  backendURI: "/", 
+  backendURI: "http://localhost:8080/", 
   privateAPI: "private/api/v1/",
   adminAPI: "admin/api/v1/",
 
@@ -53,7 +53,16 @@ const APIWrapper = {
       } catch (error){
         console.error('Error fetching Organizations', error);
       }
-    }
+    },
+
+    fetchConnectionList: async () => {
+      try {
+        return await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'connections', { method: 'GET', credentials: 'include' });
+      } catch (error) {
+        console.error('Error fetching Connections', error);
+      }
+    },
+
 
 }
 export default APIWrapper;

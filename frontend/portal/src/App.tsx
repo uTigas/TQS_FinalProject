@@ -16,6 +16,7 @@ import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 import Dashboard from './pages/Dashboard';
 import StationPage from './pages/StationPage';
+import ConnectionPage from './pages/ConnectionPage';
 import './App.css';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -71,8 +72,11 @@ const App: React.FC = () => (
           <Route exact path="/admin/dashboard">
             <Dashboard />
           </Route>
-          <Route path="/admin/stations">
+          <Route exact path="/admin/stations">
             <StationPage />
+          </Route>
+          <Route exact path="/admin/connections">
+            <ConnectionPage />
           </Route>
           <Route exact path="/admin">
             <Redirect to="/admin/dashboard" />
