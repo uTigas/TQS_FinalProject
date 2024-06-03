@@ -12,19 +12,15 @@ public class Train {
     private static final int MIN_TRAIN_NUMBER = 1;
     private static final int MAX_TRAIN_NUMBER = 9999;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     @NotNull
     private TrainType type;
 
+    @Id
     @Column(name = "number", unique = true)
     @Min(MIN_TRAIN_NUMBER)
     @Max(MAX_TRAIN_NUMBER)
-    @NotNull
     private int number;
 
     public Train() {
@@ -33,10 +29,6 @@ public class Train {
     public Train(TrainType type, int number) {
         this.type = type;
         this.number = number;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public TrainType getType() {

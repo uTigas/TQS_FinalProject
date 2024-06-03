@@ -1,4 +1,5 @@
 package tqsgroup.chuchu.authentication.configuration;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -16,12 +17,15 @@ import tqsgroup.chuchu.authentication.support.CustomLoginHandler;
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
+    @Value("${ionic.port}")
+    private String ionicPort;
+
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(
             auth -> auth
-                .requestMatchers("/auth/**")
+                .requestMatchers("/auth/**", "/public/**")
                 .permitAll()
                 .anyRequest().authenticated())
         .formLogin(form -> form
@@ -31,21 +35,21 @@ public class SecurityConfig {
         )
         .logout((logout) -> logout
         .logoutUrl("/auth/logout")
-        .logoutSuccessUrl("/")
+        .logoutSuccessUrl( new StringBuilder().append("http://localhost:").append(ionicPort).append("/").toString())
         .deleteCookies("JSESSIONID")
         .permitAll()
         );
 
-    return http.build();
+        return http.build();
     }
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    AuthenticationSuccessHandler customAuthenticationSuccessHandler(){
+    AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return new CustomLoginHandler();
     }
 }

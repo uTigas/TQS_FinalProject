@@ -1,4 +1,4 @@
-package tqsgroup.chuchu;
+package tqsgroup.chuchu.functional;
 
 import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
 
@@ -21,8 +21,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class CucumberTest {
     private static WebDriver driver;
     public static Wait<WebDriver> wait;
-    public static String springPort = "";
-    public static String ionicPort = "";
+    public static String springPort = ":8080";
+    public static String ionicPort = ":8100";
     public static WebDriver getDriver() {
         if (driver == null) {
             FirefoxOptions options = new FirefoxOptions();

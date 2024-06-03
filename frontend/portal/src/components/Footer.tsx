@@ -7,7 +7,7 @@ import { triangle, ellipse, square } from 'ionicons/icons';
 const Footer: React.FC = () => {
   return (
 
-      <><IonTabButton tab="tab1" href="/tab1">
+    <><IonTabButton tab="tab1" href="/tab1">
       <IonIcon aria-hidden="true" icon={triangle} />
       <IonLabel>Tab 1</IonLabel>
     </IonTabButton><IonTabButton tab="tab2" href="/tab2">

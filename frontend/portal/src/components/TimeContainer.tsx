@@ -1,7 +1,7 @@
 import { IonButton, IonCol, IonDatetime, IonGrid, IonIcon, IonRow, IonSelect, IonSelectOption, IonText, IonTitle } from "@ionic/react"
 import { useContext } from "react";
-import { SharedVariablesContext } from "../support/SharedVariablesContext";
 import { arrowForward, handRight } from "ionicons/icons";
+import { SharedVariablesContext } from "../support/Variables";
 
 const TimeContainer: React.FC = (() => {
     const {

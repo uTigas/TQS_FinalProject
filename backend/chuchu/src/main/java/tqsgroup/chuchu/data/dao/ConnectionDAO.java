@@ -1,4 +1,4 @@
-package tqsgroup.chuchu.admin.dao;
+package tqsgroup.chuchu.data.dao;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

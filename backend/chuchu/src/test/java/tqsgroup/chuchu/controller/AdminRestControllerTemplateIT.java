@@ -16,10 +16,13 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import tqsgroup.chuchu.authentication.service.SecurityService;
 import tqsgroup.chuchu.data.entity.Station;
+import tqsgroup.chuchu.data.entity.Train;
+import tqsgroup.chuchu.data.entity.TrainType;
 import tqsgroup.chuchu.data.repository.UserRepository;
 import tqsgroup.chuchu.data.repository.neo.StationRepository;
 import tqsgroup.chuchu.data.repository.RoleRepository;
 import tqsgroup.chuchu.data.repository.SeatRepository;
+import tqsgroup.chuchu.data.repository.TrainRepository;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
@@ -45,6 +48,9 @@ class AdminRestControllerTemplateIT {
     private UserRepository userRepository;
 
     @Autowired
+    private TrainRepository trainRepository;
+
+    @Autowired
     private RoleRepository roleRepository;
 
     @Autowired
@@ -58,6 +64,11 @@ class AdminRestControllerTemplateIT {
         Station station = new Station(name, numberOfLines);
         stationRepository.save(station);
     }
+
+    private void createTestTrain(TrainType type, int number) {
+        Train train = new Train(type, number);
+        trainRepository.save(train);
+    }
     
     @BeforeEach
     void setUp() {
@@ -68,6 +79,11 @@ class AdminRestControllerTemplateIT {
         createTestStation("station 1", 5);
         createTestStation("station 2", 3);
         createTestStation("station 3", 7);
+
+        createTestTrain(TrainType.REGIONAL, 1);
+        createTestTrain(TrainType.INTERCITY, 2);
+        createTestTrain(TrainType.ALPHA, 3);
+
     }
 
     @AfterEach
@@ -75,6 +91,7 @@ class AdminRestControllerTemplateIT {
         stationRepository.deleteAll();
         userRepository.deleteAll();
         roleRepository.deleteAll();
+        trainRepository.deleteAll();
     }
 
     @Test
@@ -107,5 +124,34 @@ class AdminRestControllerTemplateIT {
                 .when().get(ADMIN_API + "/stations")
                 .then().statusCode(HttpStatus.OK.value())
                 .body("$.size()", is(3));
+    }
+
+    @Test
+    @Order(4)
+    void whenValidTrain_thenCreateTrain() {
+        RestAssuredMockMvc.given().mockMvc(mockMvc)
+                .contentType(ContentType.JSON)
+                .body("{\"type\": \"REGIONAL\", \"number\": 10}")
+                .when().post(ADMIN_API + "/trains")
+                .then().statusCode(HttpStatus.CREATED.value());
+    }
+
+    @Test
+    @Order(5)
+    void givenTrains_whenGetTrains_thenStatus200() {
+        RestAssuredMockMvc.given().mockMvc(mockMvc)
+                .when().get(ADMIN_API + "/trains")
+                .then().statusCode(HttpStatus.OK.value())
+                .body("$.size()", is(3));
+    }
+
+    @Test
+    @Order(5)
+    void whenInvalidTrain_thenReturnBadRequest() {
+        RestAssuredMockMvc.given().mockMvc(mockMvc)
+                .contentType(ContentType.JSON)
+                .body("{\"type\": \"Bad Type\", \"number\": 10}")
+                .when().post(ADMIN_API + "/trains")
+                .then().statusCode(HttpStatus.BAD_REQUEST.value());
     }
 }

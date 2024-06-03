@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.Wait;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import tqsgroup.chuchu.CucumberTest;
+import tqsgroup.chuchu.functional.CucumberTest;
 
 public class LoginAsAdminSteps {
 
@@ -19,6 +19,7 @@ public class LoginAsAdminSteps {
     
     @Given("I access the url {string}")
     public void iAccessTheUrl(String url) {
+        driver.manage().deleteAllCookies();
         driver.get(new StringBuilder().append(BASE_URL).append(CucumberTest.ionicPort).append(url).toString());
     }
 
