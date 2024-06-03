@@ -55,6 +55,14 @@ const APIWrapper = {
       }
     },
 
+    fetchTrainList: async () => {
+      try {
+        return await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'trains', { method: 'GET', credentials: 'include' });
+      } catch (error) {
+        console.error('Error fetching Trains', error);
+      }
+    },
+
     fetchConnectionList: async () => {
       try {
         return await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'connections', { method: 'GET', credentials: 'include' });

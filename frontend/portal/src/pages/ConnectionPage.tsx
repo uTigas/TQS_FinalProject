@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { IonHeader, IonPage, IonTitle, IonToolbar, IonContent, IonItem, IonLabel, IonList, IonButton, IonIcon, IonInput, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonCardSubtitle } from '@ionic/react';
+import { IonHeader, IonPage, IonTitle, IonToolbar, IonContent, IonItem, IonLabel, IonList, IonButton, IonIcon, IonInput, IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonCardSubtitle, IonSelect, IonSelectOption } from '@ionic/react';
 import { add, pencil } from 'ionicons/icons';
 import APIWrapper from '../components/APIWrapper';
+
+interface StationData {
+  name: string;
+  numberOfLines: number;
+}
+
+interface TrainData {
+  type: string;
+  number: number;
+}
 
 interface ConnectionData {
   origin: string;
@@ -27,6 +37,8 @@ const ConnectionPage: React.FC = () => {
   const [newSuccessMessage, setNewSuccessMessage] = useState<string>('');
 
   const [connections, setConnections] = useState<ConnectionData[]>([]);
+  const [stationsList, setStationsList] = useState<StationData[]>([]);
+  const [trainsList, setTrainsList] = useState<TrainData[]>([]);
 
   useEffect(() => {
     APIWrapper.fetchConnectionList()
@@ -43,7 +55,39 @@ const ConnectionPage: React.FC = () => {
       })
       .catch(error => {
         console.error('Error:', error);
-      })
+      }),
+
+      APIWrapper.fetchStationList()
+        .then((response: Response | undefined) => {
+          if (response && response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Failed to fetch data');
+          }
+        })
+        .then(stationData => {
+          setStationsList(stationData);
+          console.log(stationData);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        }),
+
+      APIWrapper.fetchTrainList()
+        .then((response: Response | undefined) => {
+          if (response && response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Failed to fetch data');
+          }
+        })
+        .then(trainData => {
+          setTrainsList(trainData);
+          console.log(trainData);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        })
   }, []);
 
   const handleAddConnection = () => {
@@ -63,31 +107,33 @@ const ConnectionPage: React.FC = () => {
       return;
     }
 
+    console.log("ADDING CONNECTION WITH ORIGIN: " + connectionOrigin + " DESTINATION: " + connectionDestination + " TRAIN: " + connectionTrain + " DEPARTURE TIME: " + connectionDepartureTime + " ARRIVAL TIME: " + connectionArrivalTime + " LINE NUMBER: " + connectionLineNumber + " PRICE: " + connectionPrice)
+
     // API call to add connection
     APIWrapper.addConnection(connectionOrigin, connectionDestination, connectionTrain, connectionDepartureTime, connectionArrivalTime, connectionLineNumber, connectionPrice)
       .then((response: Response | undefined) => {
         if (response && response.ok) {
           return response.json();
         } else {
-          throw new Error('Failed to fetch data');
+          throw new Error('Failed to fetch connection data');
         }
       })
       .then(connectionData => {
         console.log(connectionData);
-    setConnections([...connections, newConnection]);
-    setConnectionOrigin('');
-    setConnectionTrain(0);
-    setConnectionDestination('');
-    setConnectionDepartureTime('');
-    setConnectionArrivalTime('');
-    setConnectionLineNumber(1);
-    setConnectionPrice(0);
-    setNewSuccessMessage('Connection added successfully');
-    setNewErrorMessage('');
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+        setConnections([...connections, newConnection]);
+        setConnectionOrigin('');
+        setConnectionTrain(0);
+        setConnectionDestination('');
+        setConnectionDepartureTime('');
+        setConnectionArrivalTime('');
+        setConnectionLineNumber(1);
+        setConnectionPrice(0);
+        setNewSuccessMessage('Connection added successfully');
+        setNewErrorMessage('');
+      })
+      .catch(error => {
+        console.error('Error fetching connections:', error);
+      });
   };
 
   const checkValidConnection = (newConnection: ConnectionData): boolean | string => {
@@ -124,7 +170,6 @@ const ConnectionPage: React.FC = () => {
     }
     return timeString;
   };
-
 
   const handleClear = () => {
     setNewErrorMessage('');
@@ -215,73 +260,108 @@ const ConnectionPage: React.FC = () => {
                   <IonCardTitle>Add New Connection</IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent style={{ gap: '20px' }}>
-                  <IonLabel>Select Origin</IonLabel>
-                  <IonInput
-                    name="connectionOrigin"
-                    value={connectionOrigin}
-                    placeholder='Origin Station Name'
-                    onIonChange={(e) => setConnectionOrigin(e.detail.value!)}
-                  ></IonInput>
-                  <IonLabel>Select Destination</IonLabel>
-                  <IonInput
-                    name="connectionDestination"
-                    value={connectionDestination}
-                    placeholder='Destination Station Name'
-                    onIonChange={(e) => setConnectionDestination(e.detail.value!)}
-                  ></IonInput>
-                  <IonLabel>Train</IonLabel>
-                  <IonInput
-                    name="connectionTrain"
-                    value={connectionTrain}
-                    placeholder='Train Number'
-                    onIonChange={(e) => setConnectionTrain(parseInt(e.detail.value!, 10))}
-                  ></IonInput>
-                  <IonLabel>Departure Time</IonLabel>
-                  <IonInput
-                    name="connectionDepartureTime"
-                    value={connectionDepartureTime}
-                    placeholder='HH:MM:SS'
-                    onIonChange={(e) => {
-                      const formattedTime = validateAndFormatTime(e.detail.value!);
-                      if (formattedTime) {
-                        setConnectionDepartureTime(formattedTime);
-                      } else {
-                        setNewErrorMessage("Invalid departure time format. Please use HH:MM:SS.");
-                        return;
-                      }
-                    }}
-                  ></IonInput>
-                  <IonLabel>Arrival Time</IonLabel>
-                  <IonInput
-                    name="connectionArrivalTime"
-                    value={connectionArrivalTime}
-                    placeholder='HH:MM:SS'
-                    onIonChange={(e) => {
-                      const formattedTime = validateAndFormatTime(e.detail.value!);
-                      if (formattedTime) {
-                        setConnectionArrivalTime(formattedTime);
-                      } else {
-                        setNewErrorMessage("Invalid arrival time format. Please use HH:MM:SS.");
-                        return;
-                      }
-                    }}
-                  ></IonInput>
-
-                  <IonLabel>Line Number</IonLabel>
-                  <IonInput
-                    name="connectionLineNumber"
-                    type="number"
-                    value={connectionLineNumber}
-                    onIonChange={(e) => setConnectionLineNumber(parseInt(e.detail.value!, 10))}
-                  ></IonInput>
-                  <IonLabel>Price</IonLabel>
-                  <IonInput
-                    name="connectionPrice"
-                    type="number"
-                    placeholder="0.00"
-                    value={connectionPrice}
-                    onIonChange={(e) => setConnectionPrice(parseFloat(e.detail.value!))}
-                  ></IonInput>
+                  <IonGrid>
+                    <IonRow>
+                      <IonCol size="6">
+                        <IonLabel>Origin</IonLabel>
+                        <IonSelect
+                          name='connectionOrigin'
+                          value={connectionOrigin}
+                          onIonChange={(e) => setConnectionOrigin(e.detail.value)}
+                        >
+                          <IonSelectOption value="">Select Origin Station</IonSelectOption>
+                          {stationsList.map((station, index) => (
+                            <IonSelectOption key={index} value={station.name}>{station.name}</IonSelectOption>
+                          ))}
+                        </IonSelect>
+                      </IonCol>
+                      <IonCol size="6">
+                        <IonLabel>Destination</IonLabel>
+                        <IonSelect
+                          name='connectionDestination'
+                          value={connectionDestination}
+                          onIonChange={(e) => setConnectionDestination(e.detail.value)}
+                        >
+                          <IonSelectOption value="">Select Destination Station</IonSelectOption>
+                          {stationsList.map((station, index) => (
+                            <IonSelectOption key={index} value={station.name}>{station.name}</IonSelectOption>
+                          ))}
+                        </IonSelect>
+                      </IonCol>
+                    </IonRow>
+                    <IonRow>
+                      <IonCol size="12">
+                        <IonLabel>Train</IonLabel>
+                        <IonSelect
+                          name='connectionTrain'
+                          value={connectionTrain}
+                          onIonChange={(e) => setConnectionTrain(parseInt(e.detail.value!, 10))}
+                        >
+                          <IonSelectOption value="">Select Train</IonSelectOption>
+                          {trainsList.map((train, index) => (
+                            <IonSelectOption key={index} value={train.number}>No.{train.number}, Type: {train.type}</IonSelectOption>
+                          ))}
+                        </IonSelect>
+                      </IonCol>
+                    </IonRow>
+                    <IonRow>
+                      <IonCol size="6">
+                        <IonLabel>Departure Time</IonLabel>
+                        <IonInput
+                          name="connectionDepartureTime"
+                          value={connectionDepartureTime}
+                          placeholder='HH:MM:SS'
+                          onIonChange={(e) => {
+                            const formattedTime = validateAndFormatTime(e.detail.value!);
+                            if (formattedTime) {
+                              setConnectionDepartureTime(formattedTime);
+                            } else {
+                              setNewErrorMessage("Invalid departure time format. Please use HH:MM:SS.");
+                              return;
+                            }
+                          }}
+                        ></IonInput>
+                      </IonCol>
+                      <IonCol size="6">
+                        <IonLabel>Arrival Time</IonLabel>
+                        <IonInput
+                          name="connectionArrivalTime"
+                          value={connectionArrivalTime}
+                          placeholder='HH:MM:SS'
+                          onIonChange={(e) => {
+                            const formattedTime = validateAndFormatTime(e.detail.value!);
+                            if (formattedTime) {
+                              setConnectionArrivalTime(formattedTime);
+                            } else {
+                              setNewErrorMessage("Invalid arrival time format. Please use HH:MM:SS.");
+                              return;
+                            }
+                          }}
+                        ></IonInput>
+                      </IonCol>
+                    </IonRow>
+                    <IonRow>
+                      <IonCol size="6">
+                        <IonLabel>Line Number</IonLabel>
+                        <IonInput
+                          name="connectionLineNumber"
+                          type="number"
+                          value={connectionLineNumber}
+                          onIonChange={(e) => setConnectionLineNumber(parseInt(e.detail.value!, 10))}
+                        ></IonInput>
+                      </IonCol>
+                      <IonCol size="6">
+                        <IonLabel>Price</IonLabel>
+                        <IonInput
+                          name="connectionPrice"
+                          type="number"
+                          placeholder="0.00"
+                          value={connectionPrice}
+                          onIonChange={(e) => setConnectionPrice(parseFloat(e.detail.value!))}
+                        ></IonInput>
+                      </IonCol>
+                    </IonRow>
+                  </IonGrid>
 
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <IonButton color="danger" onClick={handleClear}>Clear</IonButton>
@@ -290,6 +370,7 @@ const ConnectionPage: React.FC = () => {
                   {newErrorMessage && <p style={{ color: 'red' }}>{newErrorMessage}</p>}
                   {newSuccessMessage && <p style={{ color: 'green' }}>{newSuccessMessage}</p>}
                 </IonCardContent>
+
               </IonCard>
             </IonCol>
           </IonRow>
