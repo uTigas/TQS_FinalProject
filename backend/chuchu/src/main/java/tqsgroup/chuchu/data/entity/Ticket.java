@@ -2,30 +2,26 @@ package tqsgroup.chuchu.data.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Max;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "TICKETS")
 public class Ticket {
 
-    private static final long MIN_PRICE = 0L;
-    private static final long MAX_PRICE = 100_000L;
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "timestamp")
     @NotNull
     private LocalDateTime timestamp;
 
-    @ManyToOne
-    @JoinColumn(name = "route_id")
     @NotNull
-    private SeatReservation[] route;
+    private List<UUID> route;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -33,33 +29,70 @@ public class Ticket {
     private User user; 
 
     @Column(name = "totalPrice")
-    @Min(MIN_PRICE)
-    @Max(MAX_PRICE)
     @NotNull
-    private long totalPrice;
+    private Double totalPrice;
 
-    public Ticket() {
+    private String origin;
+
+    private String destination;
+
+    private LocalTime departure;
+
+    private LocalTime arrival;
+    public String getOrigin() {
+        return origin;
     }
 
-    public Ticket(SeatReservation[] route, User user) {
+    public void setorigin(String origin) {
+        this.origin = origin;
+    }
+
+    public String getTo() {
+        return destination;
+    }
+
+    public void setTo(String to) {
+        this.destination = to;
+    }
+
+    public LocalTime getDeparture() {
+        return departure;
+    }
+
+    public void setDeparture(LocalTime departure) {
+        this.departure = departure;
+    }
+
+    public LocalTime getArrival() {
+        return arrival;
+    }
+
+    public void setArrival(LocalTime arrival) {
+        this.arrival = arrival;
+    }
+
+    public Ticket() {
+        this.timestamp = LocalDateTime.now();
+    }
+
+    public Ticket(List<UUID> route, User user) {
         this.timestamp = LocalDateTime.now();
         this.route = route;
         this.user = user;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
-
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public SeatReservation[] getRoute() {
+    public List<UUID> getRoute() {
         return route;
     }
 
-    public void setRoute(SeatReservation[] route) {
+    public void setRoute(List<UUID> route) {
         this.route = route;
     }
 
@@ -71,11 +104,11 @@ public class Ticket {
         this.user = user;
     }
 
-    public long getTotalPrice() {
+    public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(long totalPrice) {
+    public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
     }
 }

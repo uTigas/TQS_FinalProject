@@ -49,9 +49,10 @@ import './theme/variables.css';
 import FooterAdmin from './components/FooterAdmin';
 import Footer from './components/Footer';
 import { useContext, useEffect } from 'react';
-import { SharedVariablesContext, User } from './support/Variables';
+import { SharedVariablesContext, SharedVariablesProvider, User } from './support/Variables';
 import TrainPage from './pages/Train Page';
 import APIWrapper from './components/APIWrapper';
+import Tab3 from './pages/Tab3';
 
 setupIonicReact();
 
@@ -77,58 +78,59 @@ const App: React.FC = () => {
     })
   }, [])
   return (
-    
-    <IonApp>
-      <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
-            <Route exact path="/tab2">
-              <Tab2 />
-            </Route>
-            <Route exact path="/">
-              <Tab2 />
-            </Route>
-            <Route exact path="/admin/dashboard">
-              <Dashboard />
-            </Route>
-            <Route exact path="/admin/stations">
-              <StationPage />
-            </Route>
-            <Route path="/admin/trains">
-              <TrainPage />
-            </Route>
-            <Route exact path="/admin/connections">
-            <ConnectionPage />
-          </Route>
-          <Route exact path="/admin">
-              <Redirect to="/admin/dashboard" />
-            </Route>
-          </IonRouterOutlet>
-          <IonTabBar slot="bottom">
-            
-          {loggedUser !== null ? (
-            loggedUser.role === "ADMIN" ? (
-              <IonTabButton tab="adminDashboard" href="/admin">
-                <IonIcon aria-hidden="true" icon={triangle} />
-                <IonLabel>Dashboard</IonLabel>
-              </IonTabButton>
+    <SharedVariablesProvider>
+      <IonApp>
+        <IonReactRouter>
+          <IonTabs>
+            <IonRouterOutlet>
+              <Route exact path="/tab2">
+                <Tab2 />
+              </Route>
+              <Route exact path="/">
+                <Tab2 />
+              </Route>
+              <Route exact path="/tickets">
+                <Tab3 />
+              </Route>
+              <Route exact path="/admin/dashboard">
+                <Dashboard />
+              </Route>
+              <Route path="/admin/stations">
+                <StationPage />
+              </Route>
+              <Route path="/admin/trains">
+                <TrainPage />
+              </Route>
+              <Route exact path="/admin">
+                <Redirect to="/admin/dashboard" />
+              </Route>
+            </IonRouterOutlet>
+            <IonTabBar slot="bottom">
+              
+            {loggedUser !== null ? (
+              loggedUser.role === "ADMIN" ? (
+                <IonTabButton tab="adminDashboard" href="/admin">
+                  <IonIcon aria-hidden="true" icon={triangle} />
+                  <IonLabel>Dashboard</IonLabel>
+                </IonTabButton>
+              ) : (
+                <IonTabButton tab="tab1" href="/tab1">
+                  <IonIcon aria-hidden="true" icon={triangle} />
+                  <IonLabel>Dashboard</IonLabel>
+                </IonTabButton>
+              )
             ) : (
-              <IonTabButton tab="tab1" href="/tab1">
+              <IonTabButton tab="home" href="/">
                 <IonIcon aria-hidden="true" icon={triangle} />
-                <IonLabel>Dashboard</IonLabel>
+                <IonLabel>Homepage</IonLabel>
               </IonTabButton>
-            )
-          ) : (
-            <IonTabButton tab="home" href="/">
-              <IonIcon aria-hidden="true" icon={triangle} />
-              <IonLabel>Homepage</IonLabel>
-            </IonTabButton>
-          )}
+            )}
 
-          </IonTabBar>
-        </IonTabs>
-      </IonReactRouter>
-    </IonApp>
+            </IonTabBar>
+          </IonTabs>
+        </IonReactRouter>
+      </IonApp>
+    </SharedVariablesProvider>
   )
 };
 

@@ -13,6 +13,7 @@ const TimeContainer: React.FC = (() => {
     setSelectedOrigin,
     selectedDestination,
     setSelectedDestination,
+    selectedDate,
     setSelectedDate,
   } = useContext(SharedVariablesContext);
     const updatePossibilities = () => {
@@ -29,6 +30,10 @@ const TimeContainer: React.FC = (() => {
                 <IonCol>
                   <IonTitle className="ion-padding-bottom">When do you want to go?</IonTitle>
                   <IonDatetime min={new Date().toISOString()} firstDayOfWeek={1} presentation="date" onIonChange={(e) => {if(e.detail.value) setSelectedDate(e.detail.value.toString().split('T')[0])}}></IonDatetime>
+                </IonCol>
+                <IonCol>
+                  <IonTitle>Selected Date:</IonTitle>
+                  <IonText className="ion-padding">{selectedDate}</IonText>
                 </IonCol>
               </IonRow>
               

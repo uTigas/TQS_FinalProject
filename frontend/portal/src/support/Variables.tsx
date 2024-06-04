@@ -5,19 +5,40 @@ export interface HeaderProps {
 }
 
 export interface StationData {
-    id: number,
     name: string;
     numberOfLines: number;
   }
 
 export interface Connection {
-    name: string;
+  id: string
+  origin: StationData
+  destination: StationData
+  name: string
+  arrivalTime: string
+  departureTime: string
+  lineNumber: number
+  price: number
+  train: number
 }
 
 export interface User {
     username: string;
     name: string;
     role: string;
+}
+
+export interface Route {
+  arrival: string;
+  departure: string;
+  price: number;
+  connections: Connection[]
+}
+
+export interface Ticket {
+  id: string;
+  totalPrice: number;
+  timestamp: string;
+  route: Connection[];
 }
 
 export enum TrainType {
@@ -30,8 +51,8 @@ interface SharedVariables {
     setLoggedUser : React.Dispatch<React.SetStateAction<User | null>>;
     selectedContainer: number;
     setSelectedContainer: React.Dispatch<React.SetStateAction<number>>;
-    stations : any[];
-    setStations: React.Dispatch<React.SetStateAction<any[]>>;
+    stations : StationData[];
+    setStations: React.Dispatch<React.SetStateAction<StationData[]>>;
     connections: any[];
     setConnections: React.Dispatch<React.SetStateAction<any[]>>;
     possible: any[];
@@ -46,6 +67,10 @@ interface SharedVariables {
     setSelectedReturnDate: React.Dispatch<React.SetStateAction<string>>;
     findReturn: boolean;
     setFindReturn: React.Dispatch<React.SetStateAction<boolean>>;
+    goRoute: Route | null;
+    setGoRoute: React.Dispatch<React.SetStateAction<Route| null>>;
+    returnRoute: Route | null;
+    setReturnRoute: React.Dispatch<React.SetStateAction<Route| null>>;
     results: any[];
     setResults: React.Dispatch<React.SetStateAction<any[]>>;
 
@@ -72,6 +97,10 @@ interface SharedVariables {
       setFindReturn: () => { },
       results: [],
       setResults: () => { },
+      goRoute: null,
+      setGoRoute: () => { },
+      returnRoute: null,
+      setReturnRoute: () => { },
       loggedUser: null,
       setLoggedUser:() => { }
   });
@@ -90,7 +119,9 @@ interface SharedVariables {
     const [selectedReturnDate, setSelectedReturnDate] = useState<string>("");
     const [findReturn, setFindReturn] = useState<boolean>(false);
     const [results, setResults] = useState<any[]>([]);
-  
+    const [goRoute, setGoRoute] = useState<Route | null>(null);
+    const [returnRoute, setReturnRoute] = useState<Route | null>(null);
+
     return (
       <SharedVariablesContext.Provider
         value={{
@@ -116,6 +147,10 @@ interface SharedVariables {
           setFindReturn,
           results,
           setResults,
+          goRoute,
+          setGoRoute,
+          returnRoute,
+          setReturnRoute,
         }}
       >
         {children}

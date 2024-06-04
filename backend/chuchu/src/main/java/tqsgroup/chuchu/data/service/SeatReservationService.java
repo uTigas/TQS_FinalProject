@@ -11,6 +11,7 @@ import tqsgroup.chuchu.data.repository.SeatRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class SeatReservationService {
@@ -91,13 +92,15 @@ public class SeatReservationService {
         }
     }
 
-    public boolean isConnectionValid(SeatReservation prev, SeatReservation next) {
+    public boolean isConnectionValid(UUID prev, UUID next) {
         // Check timestamps and stations
-        
-        if (connectionRepository.findById(prev.getConnection()).get().getDepartureTime().isAfter(connectionRepository.findById(next.getConnection()).get().getArrivalTime())) {
+        Connection prevCon = connectionRepository.findById(prev).get();
+        Connection nextCon = connectionRepository.findById(next).get();
+
+        if (connectionRepository.findById(prevCon.getId()).get().getDepartureTime().isAfter(connectionRepository.findById(nextCon.getId()).get().getArrivalTime())) {
             return false;
         }
-        return connectionRepository.findById(prev.getConnection()).get().getDestination().equals(connectionRepository.findById(next.getConnection()).get().getOrigin());
+        return connectionRepository.findById(prevCon.getId()).get().getDestination().equals(connectionRepository.findById(nextCon.getId()).get().getOrigin());
     }
 
 }
