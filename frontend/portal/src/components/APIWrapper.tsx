@@ -1,7 +1,6 @@
 
 const APIWrapper = {
-  //backendURI: "/", 
-  backendURI: "/", 
+  backendURI: "", 
   privateAPI: "private/api/v1/",
   adminAPI: "admin/api/v1/",
   authAPI: "auth/",
@@ -21,10 +20,10 @@ const APIWrapper = {
       console.error('Error fetching Stations', error);
     }
   },
-
+  
   addStation: async (stationName: string, stationLines: number) => {
     try {
-      return await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'stations', {
+      const response = await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'stations', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -32,20 +31,29 @@ const APIWrapper = {
         },
         body: JSON.stringify({ 'name': stationName, 'numberOfLines': stationLines })
       });
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`${errorText}`);
+      }
+      return response.json();
     } catch (error) {
-      console.error('Error adding Station', error);
+      console.error(error);
+      throw error;
     }
   },
-  
-  fetchOrganizations : async (origin : string|null = null, destination : string|null = null) => {
-    try{
-      let originArg
-      originArg = "?origin=" + origin
-      return await fetch(APIWrapper.backendURI + APIWrapper.privateAPI + 'connections' + (origin ? `?origin=${origin}` : '') + (origin && destination ? `&destination=${destination}` : '') + (!origin && destination ? `?destination=${destination}` : ''),
-      { method: 'GET', credentials: 'include' })
-      
-    } catch (error){
-      console.error('Error fetching Organizations', error);
+
+  editStation: async (oldStationName: string, newStationName: string, stationLines: number) => {
+    try {
+      return await fetch(`${APIWrapper.backendURI + APIWrapper.adminAPI}stations/${oldStationName}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name: newStationName, numberOfLines: stationLines })
+      });
+    } catch (error) {
+      console.error('Error editing Station', error);
     }
   },
 

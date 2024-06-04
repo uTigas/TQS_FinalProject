@@ -9,9 +9,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import tqsgroup.chuchu.data.dao.*;
@@ -62,9 +64,9 @@ public class AdminRestApi {
     @PostMapping("/stations")
     public ResponseEntity<Object> createStation(@RequestBody StationDAO request) {
         try {
-            logger.info("Creating Station with name: {}", request.getName());
+            logger.info("Creating Station");
             Station station = stationService.saveStation(new Station(request.getName(), request.getNumberOfLines()));
-            logger.info("Station with name {} created successfully", request.getName());
+            logger.info("Station created successfully");
             StationDAO response = mapToStationResponse(station);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
@@ -100,12 +102,12 @@ public class AdminRestApi {
         } else {
             try {
                 Station station = stationService.getStationByName(name);
-                logger.info("Fetching Station with name: {}", name);
+                logger.info("Fetching Station");
                 if (station == null) {
-                    logger.info("Station with name {} not found", name);
+                    logger.info("Station not found");
                     return new ResponseEntity<>("Station not found", HttpStatus.NOT_FOUND);
                 }
-                logger.info("Returning Station with name: {}", name);
+                logger.info("Returning Station");
                 StationDAO response = mapToStationResponse(station);
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } catch (IllegalArgumentException e) {
@@ -114,6 +116,44 @@ public class AdminRestApi {
             }
         }
     }
+
+    @Operation(summary = "Edit a Station")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Station was edited successfully",
+            content = { @Content(mediaType = "application/json",
+                schema = @Schema(implementation = StationDAO.class)) }),
+        @ApiResponse(responseCode = "400", description = "Invalid input while attempting to edit Station",
+            content = @Content),
+        @ApiResponse(responseCode = "404", description = "Station not found",
+            content = @Content),
+        @ApiResponse(responseCode = "409", description = "Conflict: Station name already exists",
+            content = @Content) })
+    @PutMapping("/stations/{name}")
+    public ResponseEntity<Object> editStation(@PathVariable String name, @RequestBody StationDAO request) {
+        try {
+            logger.info("Editing Station");
+            Station station = stationService.getStationByName(name);
+            if (station == null) {
+                logger.info("Station to edit does not exist");
+                return new ResponseEntity<>("Station to edit does not exist", HttpStatus.NOT_FOUND);
+            }
+            String newName = request.getName();
+            int newNumberOfLines = request.getNumberOfLines();
+            if (!name.equals(newName) && stationService.getStationByName(newName) != null) {
+                logger.info("Station with conflicting name");
+                return new ResponseEntity<>("Conflict: Station name already exists", HttpStatus.CONFLICT);
+            }
+            station.setName(newName);
+            station.setNumberOfLines(newNumberOfLines);
+            stationService.saveStation(station);
+            logger.info("Station edited successfully");
+            StationDAO response = mapToStationResponse(station);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            logger.error("Error editing Station: {}", e.getMessage());
+            return new ResponseEntity<>("Error while editing Station: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }    
 
     private StationDAO mapToStationResponse(Station station) {
         return StationDAO.builder()
