@@ -9,8 +9,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import tqsgroup.chuchu.data.entity.*;
@@ -57,7 +60,7 @@ public class AdminRestApi {
     @PostMapping("/stations")
     public ResponseEntity<Object> createStation(@RequestBody Station request) {
         try {
-            logger.info("Creating Station with name: {}", request.getName());
+            logger.info("Creating Station");
             Station station = stationService.saveStation(new Station(request.getName(), request.getNumberOfLines()));
             logger.info("Station with name {} created successfully", request.getName());
             Station response = station;
