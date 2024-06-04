@@ -1,7 +1,7 @@
 
 const APIWrapper = {
   //backendURI: "/", 
-  backendURI: "http://localhost:8080/", 
+  backendURI: "/", 
   privateAPI: "private/api/v1/",
   adminAPI: "admin/api/v1/",
   authAPI: "auth/",

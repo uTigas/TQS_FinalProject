@@ -162,7 +162,6 @@ const StationPage: React.FC = () => {
                   <IonInput
                     name="newStationLines"
                     type="number"
-                    value={stationLines}
                     onIonChange={handleNewStationLinesChange}
                   ></IonInput>
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>

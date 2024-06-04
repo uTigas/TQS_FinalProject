@@ -150,7 +150,6 @@ const TrainPage: React.FC = () => {
                   <IonInput 
                   placeholder='Enter train Number'
                     name="newTrainNumber"
-                    value={trainNumber}
                     onIonChange={handleNewtrainNumberChange}
                   ></IonInput>
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>

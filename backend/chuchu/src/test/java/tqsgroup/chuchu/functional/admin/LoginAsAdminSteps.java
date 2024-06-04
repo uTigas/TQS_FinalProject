@@ -20,7 +20,7 @@ public class LoginAsAdminSteps {
     @Given("I access the url {string}")
     public void iAccessTheUrl(String url) {
         driver.manage().deleteAllCookies();
-        driver.get(new StringBuilder().append(BASE_URL).append(CucumberTest.ionicPort).append(url).toString());
+        driver.get(new StringBuilder().append(BASE_URL).append(url).toString());
     }
 
     @When("I log in as an admin")
@@ -29,8 +29,8 @@ public class LoginAsAdminSteps {
         loginButton.click();
 
         // Wait to be redirected to the login page
-        wait.until(ExpectedConditions.urlToBe(new StringBuilder().append(BASE_URL).append(CucumberTest.springPort).append("/auth/login").toString()));
-
+        wait.until(ExpectedConditions.urlMatches(".*/auth/login$"));
+        
         WebElement usernameField = driver.findElement(By.name("username"));
         WebElement passwordField = driver.findElement(By.name("password"));
         WebElement submitButton = driver.findElement(By.cssSelector("button[type='submit']"));
@@ -42,6 +42,6 @@ public class LoginAsAdminSteps {
 
     @Then("I should be redirected back to the {string} page")
     public void iShouldBeRedirectedBackToPage(String pageName) {
-        wait.until(ExpectedConditions.urlToBe(new StringBuilder().append(BASE_URL).append(CucumberTest.ionicPort).append(pageName).toString()));
+        wait.until(ExpectedConditions.urlMatches(".*" + pageName + "$"));
     }
 }
