@@ -110,7 +110,7 @@ const APIWrapper = {
     } catch (error) {
       console.error('Error adding Connection', error);
     }
-  }
+  },
 
   searchRoutes: async (searchParams: URLSearchParams) => {
     try {
