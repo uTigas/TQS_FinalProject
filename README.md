@@ -28,6 +28,11 @@ For a story to be considered complete it must pass all these criteria:
   - Clean code
   - No security issues
 
+## Default Admin user
+
+- name 'admin'
+- password 'password'
+
 ## Links
 
 - [GitHub](https://github.com/uTigas/TQS_FinalProject) 
