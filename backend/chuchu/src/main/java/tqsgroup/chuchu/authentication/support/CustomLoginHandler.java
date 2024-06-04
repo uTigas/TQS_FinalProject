@@ -58,8 +58,6 @@ public class CustomLoginHandler implements AuthenticationSuccessHandler {
 			if (roleTargetUrlMap.containsKey(authorityName)) {
 				return roleTargetUrlMap.get(authorityName);
 			}
-			else
-				return userUrl;
 		}
 
 		throw new IllegalStateException();
