@@ -15,6 +15,7 @@ import { ellipse, square, triangle } from 'ionicons/icons';
 import Tab2 from './pages/Tab2';
 import Dashboard from './pages/Dashboard';
 import StationPage from './pages/StationPage';
+import ConnectionPage from './pages/ConnectionPage';
 import './App.css';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';

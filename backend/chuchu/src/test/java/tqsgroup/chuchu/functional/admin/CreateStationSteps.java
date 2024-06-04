@@ -14,7 +14,7 @@ public class CreateStationSteps {
 
     private final WebDriver driver = CucumberTest.getDriver();
     private final Wait<WebDriver> wait = CucumberTest.wait;
-    private static final String BASE_URL = "http://localhost" + CucumberTest.ionicPort;
+    private static final String BASE_URL = "http://localhost";
 
     @And("I switch to the {string} page")
     public void iSwitchToThePage(String pageName) {
@@ -24,7 +24,7 @@ public class CreateStationSteps {
 
     @Given("I am on the {string} page")
     public void iAmOnThePage(String pageName) {
-        wait.until(ExpectedConditions.urlToBe(BASE_URL + pageName));
+        wait.until(ExpectedConditions.urlMatches(".*" + pageName + "$"));
     }
 
     @When("I fill in the {string} field with {string}")

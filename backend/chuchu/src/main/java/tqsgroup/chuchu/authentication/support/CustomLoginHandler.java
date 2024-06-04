@@ -40,7 +40,7 @@ public class CustomLoginHandler implements AuthenticationSuccessHandler {
 			HttpServletResponse response,
 			Authentication authentication) throws IOException {
 
-		String targetUrl = determineTargetUrl(authentication);
+		String targetUrl = determineTargetUrl(authentication,getBaseUrl(request));
 
 		if (response.isCommitted()) {
 			return;
@@ -49,24 +49,22 @@ public class CustomLoginHandler implements AuthenticationSuccessHandler {
 		redirectStrategy.sendRedirect(request, response, targetUrl);
 	}
 
-	protected String determineTargetUrl(final Authentication authentication) {
-		String ionicURL = new StringBuilder().append("http://localhost:").append(ionicPort).toString();
-		String userUrl = ionicURL + "/";
-		String adminUrl = ionicURL + "/admin";
-
-		roleTargetUrlMap.put("USER", userUrl);
-		roleTargetUrlMap.put("ADMIN", adminUrl);
+	protected String determineTargetUrl(final Authentication authentication, String baseurlString) {
+		roleTargetUrlMap.put("USER", new StringBuilder().append(baseurlString).append(ionicPort).append("/").toString());
+		roleTargetUrlMap.put("ADMIN", new StringBuilder().append(baseurlString).append(ionicPort).append("/admin").toString());
 		final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		for (final GrantedAuthority grantedAuthority : authorities) {
 			String authorityName = grantedAuthority.getAuthority();
 			if (roleTargetUrlMap.containsKey(authorityName)) {
 				return roleTargetUrlMap.get(authorityName);
 			}
-			else
-				return userUrl;
 		}
 
 		throw new IllegalStateException();
+	}
+
+	protected String getBaseUrl(HttpServletRequest request) {
+		return String.format("%s://%s:", request.getScheme(), request.getServerName());
 	}
 
 	protected void clearAuthenticationAttributes(HttpServletRequest request) {

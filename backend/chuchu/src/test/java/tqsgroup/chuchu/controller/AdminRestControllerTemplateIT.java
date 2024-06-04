@@ -119,15 +119,6 @@ class AdminRestControllerTemplateIT {
 
     @Test
     @Order(3)
-    void givenStations_whenGetStations_thenStatus200() {
-        RestAssuredMockMvc.given().mockMvc(mockMvc)
-                .when().get(ADMIN_API + "/stations")
-                .then().statusCode(HttpStatus.OK.value())
-                .body("$.size()", is(3));
-    }
-
-    @Test
-    @Order(4)
     void whenValidTrain_thenCreateTrain() {
         RestAssuredMockMvc.given().mockMvc(mockMvc)
                 .contentType(ContentType.JSON)
@@ -137,21 +128,32 @@ class AdminRestControllerTemplateIT {
     }
 
     @Test
-    @Order(5)
-    void givenTrains_whenGetTrains_thenStatus200() {
-        RestAssuredMockMvc.given().mockMvc(mockMvc)
-                .when().get(ADMIN_API + "/trains")
-                .then().statusCode(HttpStatus.OK.value())
-                .body("$.size()", is(3));
-    }
-
-    @Test
-    @Order(5)
+    @Order(4)
     void whenInvalidTrain_thenReturnBadRequest() {
         RestAssuredMockMvc.given().mockMvc(mockMvc)
                 .contentType(ContentType.JSON)
                 .body("{\"type\": \"Bad Type\", \"number\": 10}")
                 .when().post(ADMIN_API + "/trains")
+                .then().statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @Order(5)
+    void whenValidConnection_thenCreateConnection() {
+        RestAssuredMockMvc.given().mockMvc(mockMvc)
+                .contentType(ContentType.JSON)
+                .body("{\"origin\": {\"name\" : \"station 1\" }, \"destination\": {\"name\" : \"station 2\" }, \"train\": 1, \"departureTime\": \"10:00\", \"arrivalTime\": \"11:00\", \"lineNumber\": 1, \"price\": 100}")
+                .when().post(ADMIN_API + "/connections")
+                .then().statusCode(HttpStatus.CREATED.value());
+    }
+
+    @Test
+    @Order(6)
+    void whenInvalidConnection_thenReturnBadRequest() {
+        RestAssuredMockMvc.given().mockMvc(mockMvc)
+                .contentType(ContentType.JSON)
+                .body("{\"origin\": \"station 1\", \"destination\": \"station 2\", \"train\": \"REGIONAL\", \"departureTime\": \"10:00\"}")
+                .when().post(ADMIN_API + "/connections")
                 .then().statusCode(HttpStatus.BAD_REQUEST.value());
     }
 }

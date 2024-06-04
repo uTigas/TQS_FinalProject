@@ -34,7 +34,7 @@ public class StationService {
 
     // Helper methods
     private void checkEmptyStationName(String name) {
-        if (name.isEmpty()) {
+        if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Station name must not be empty");
         }
     }

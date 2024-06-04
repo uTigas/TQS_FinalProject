@@ -1,8 +1,7 @@
 import { Connection, Route } from "../support/Variables";
 
 const APIWrapper = {
-  //backendURI: "/", 
-  backendURI: "http://localhost:8080/", 
+  backendURI: "", 
   privateAPI: "private/api/v1/",
   adminAPI: "admin/api/v1/",
   publicAPI: "public/api/v1/",
@@ -27,12 +26,10 @@ const APIWrapper = {
       console.error('Error fetching Stations', error);
     }
   },
-
+  
   addStation: async (stationName: string, stationLines: number) => {
     try {
-      console.log("APIWrapper: Add Station...")
-
-      return await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'stations', {
+      const response = await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'stations', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -40,14 +37,36 @@ const APIWrapper = {
         },
         body: JSON.stringify({ 'name': stationName, 'numberOfLines': stationLines })
       });
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`${errorText}`);
+      }
+      return response.json();
     } catch (error) {
-      console.error('Error adding Station', error);
+      console.error(error);
+      throw error;
+    }
+  },
+
+  editStation: async (oldStationName: string, newStationName: string, stationLines: number) => {
+    try {
+      return await fetch(`${APIWrapper.backendURI + APIWrapper.adminAPI}stations/${oldStationName}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name: newStationName, numberOfLines: stationLines })
+      });
+    } catch (error) {
+      console.error('Error editing Station', error);
     }
   },
 
   fetchTrainList: async () => {
     try {
       console.log("APIWrapper: Fetching Trains...")
+      return await fetch(APIWrapper.backendURI + APIWrapper.publicAPI + 'trains', { method: 'GET', credentials: 'include' });
       return await fetch(APIWrapper.backendURI + APIWrapper.publicAPI + 'trains', { method: 'GET', credentials: 'include' });
     } catch (error) {
       console.error('Error fetching Trains', error);
@@ -70,6 +89,28 @@ const APIWrapper = {
       console.error('Error adding Train', error);
     }
   },
+  fetchConnectionList: async () => {
+    try {
+      return await fetch(APIWrapper.backendURI + APIWrapper.publicAPI + 'connections', { method: 'GET', credentials: 'include' });
+    } catch (error) {
+      console.error('Error fetching Connections', error);
+    }
+  },
+
+  addConnection: async (origin: string, destination: string, trainNumber: number, departureTime: string, arrivalTime: string, lineNumber: number, price: number) => {
+    try {
+      return await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'connections', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ "origin": {"name": origin}, "destination": {"name": destination}, "train": trainNumber, "departureTime": departureTime, "arrivalTime": arrivalTime, "lineNumber": lineNumber, "price": price })
+      });
+    } catch (error) {
+      console.error('Error adding Connection', error);
+    }
+  }
 
   searchRoutes: async (searchParams: URLSearchParams) => {
     try {
