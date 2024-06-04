@@ -101,6 +101,9 @@ const App: React.FC = () => {
               <Route path="/admin/trains">
                 <TrainPage />
               </Route>
+              <Route path="/admin/connections">
+                <ConnectionPage />
+              </Route>
               <Route exact path="/admin">
                 <Redirect to="/admin/dashboard" />
               </Route>
