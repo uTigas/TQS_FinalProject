@@ -66,7 +66,7 @@ class StationRepositoryTest {
 
         // When
         List<Station> stations = stationRepository.findAll();
-
+        
         // Then
         assertEquals(stations.size(), 3);
     }

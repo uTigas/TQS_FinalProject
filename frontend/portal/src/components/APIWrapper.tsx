@@ -3,10 +3,13 @@ const APIWrapper = {
   backendURI: "", 
   privateAPI: "private/api/v1/",
   adminAPI: "admin/api/v1/",
+  publicAPI: "public/api/v1/",
   authAPI: "auth/",
 
   fetchUserDetails: async () => {
     try {
+      console.log("APIWrapper: Fetching User Details...")
+
       return await fetch(APIWrapper.backendURI + APIWrapper.authAPI + 'user', { method: 'GET', credentials: 'include' });
     } catch (error) {
       console.error('Error fetching User details', error);
@@ -15,7 +18,9 @@ const APIWrapper = {
 
   fetchStationList: async () => {
     try {
-      return await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'stations', { method: 'GET', credentials: 'include' });
+      console.log("APIWrapper: Fetching Stations...")
+
+      return await fetch(APIWrapper.backendURI + APIWrapper.publicAPI + 'stations', { method: 'GET', credentials: 'include' });
     } catch (error) {
       console.error('Error fetching Stations', error);
     }
@@ -59,7 +64,8 @@ const APIWrapper = {
 
   fetchTrainList: async () => {
     try {
-      return await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'trains', { method: 'GET', credentials: 'include' });
+      console.log("APIWrapper: Fetching Trains...")
+      return await fetch(APIWrapper.backendURI + APIWrapper.publicAPI + 'trains', { method: 'GET', credentials: 'include' });
     } catch (error) {
       console.error('Error fetching Trains', error);
     }
@@ -67,6 +73,8 @@ const APIWrapper = {
 
   addTrain: async (type: string, number: number) => {
     try {
+      console.log("APIWrapper: Adding Trains...")
+
       return await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'trains', {
         method: 'POST',
         credentials: 'include',
@@ -79,5 +87,27 @@ const APIWrapper = {
       console.error('Error adding Train', error);
     }
   },
+  fetchConnectionList: async () => {
+    try {
+      return await fetch(APIWrapper.backendURI + APIWrapper.publicAPI + 'connections', { method: 'GET', credentials: 'include' });
+    } catch (error) {
+      console.error('Error fetching Connections', error);
+    }
+  },
+
+  addConnection: async (origin: string, destination: string, trainNumber: number, departureTime: string, arrivalTime: string, lineNumber: number, price: number) => {
+    try {
+      return await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'connections', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ "origin": {"name": origin}, "destination": {"name": destination}, "train": trainNumber, "departureTime": departureTime, "arrivalTime": arrivalTime, "lineNumber": lineNumber, "price": price })
+      });
+    } catch (error) {
+      console.error('Error adding Connection', error);
+    }
+  }
 }
 export default APIWrapper;

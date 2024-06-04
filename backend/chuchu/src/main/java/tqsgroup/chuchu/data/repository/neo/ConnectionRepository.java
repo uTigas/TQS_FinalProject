@@ -9,9 +9,10 @@ import tqsgroup.chuchu.data.entity.Train;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface ConnectionRepository extends Neo4jRepository<Connection, Long> {
+public interface ConnectionRepository extends Neo4jRepository<Connection, UUID> {
     List<Connection> findAllByOrigin(Station origin);
     List<Connection> findAllByDestination(Station destination);
     List<Connection> findAllByOriginAndDestination(Station origin, Station destination);

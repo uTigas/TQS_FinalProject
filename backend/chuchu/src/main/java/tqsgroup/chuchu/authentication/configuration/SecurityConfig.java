@@ -21,11 +21,11 @@ public class SecurityConfig {
     private String ionicPort;
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(
             auth -> auth
-                .requestMatchers("/auth/**")
+                .requestMatchers("/auth/**", "/public/**")
                 .permitAll()
                 .anyRequest().authenticated())
         .formLogin(form -> form
@@ -40,16 +40,16 @@ public class SecurityConfig {
         .permitAll()
         );
 
-    return http.build();
+        return http.build();
     }
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    AuthenticationSuccessHandler customAuthenticationSuccessHandler(){
+    AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return new CustomLoginHandler();
     }
 }

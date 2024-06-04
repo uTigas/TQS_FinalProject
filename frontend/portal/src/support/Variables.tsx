@@ -5,6 +5,7 @@ export interface HeaderProps {
 }
 
 export interface StationData {
+    id: number,
     name: string;
     numberOfLines: number;
   }
@@ -29,6 +30,8 @@ interface SharedVariables {
     setLoggedUser : React.Dispatch<React.SetStateAction<User | null>>;
     selectedContainer: number;
     setSelectedContainer: React.Dispatch<React.SetStateAction<number>>;
+    stations : any[];
+    setStations: React.Dispatch<React.SetStateAction<any[]>>;
     connections: any[];
     setConnections: React.Dispatch<React.SetStateAction<any[]>>;
     possible: any[];
@@ -51,6 +54,8 @@ interface SharedVariables {
   export const SharedVariablesContext = createContext<SharedVariables>({
       selectedContainer: 1,
       setSelectedContainer: () => { },
+      stations: [],
+      setStations: () => { },
       connections: [],
       setConnections: () => { },
       possible: [],
@@ -77,6 +82,7 @@ interface SharedVariables {
     const [loggedUser, setLoggedUser] = useState<User | null>(null);
     const [selectedContainer, setSelectedContainer] = useState<number>(1);
     const [connections, setConnections] = useState<Connection[]>([]);
+    const [stations, setStations] = useState<StationData[]>([]);
     const [possible, setPossible] = useState<Connection[]>([]);
     const [selectedOrigin, setSelectedOrigin] = useState<string>("");
     const [selectedDestination, setSelectedDestination] = useState<string>("");
@@ -92,6 +98,8 @@ interface SharedVariables {
           setLoggedUser,
           selectedContainer,
           setSelectedContainer,
+          stations,
+          setStations,
           connections,
           setConnections,
           possible,
