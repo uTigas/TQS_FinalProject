@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import tqsgroup.chuchu.data.entity.Connection;
 import tqsgroup.chuchu.data.entity.Station;
+import tqsgroup.chuchu.data.entity.Train;
+import tqsgroup.chuchu.data.entity.TrainType;
 import tqsgroup.chuchu.data.service.ConnectionService;
 import tqsgroup.chuchu.data.service.StationService;
 
@@ -52,11 +54,13 @@ public class PublicRestControllerTemplateIT {
         when(stationService.getStationByName("Station 1")).thenReturn(station1);
         when(stationService.getStationByName("Station 2")).thenReturn(station2);
 
-        Connection connection1 = new Connection(station1, station2,null, LocalTime.of( 12, 0), LocalTime.of( 13, 0),1, 100);
-        Connection connection2 = new Connection(station2, station1,null, LocalTime.of( 14, 0), LocalTime.of( 15, 0),2, 200);
-        Connection connection3 = new Connection(station1, station2,null, LocalTime.of( 16, 0), LocalTime.of( 17, 0),3, 300);
-        Connection connection4 = new Connection(station2, station1,null, LocalTime.of( 18, 0), LocalTime.of( 19, 0),4, 400);
-        Connection connection5 = new Connection(station1, station2,null, LocalTime.of( 20, 0), LocalTime.of( 21, 0),1, 500);
+        Train train = new Train(TrainType.URBAN, 99);
+
+        Connection connection1 = new Connection(station1, station2,train, LocalTime.of( 12, 0), LocalTime.of( 13, 0),1, 100);
+        Connection connection2 = new Connection(station2, station1,train, LocalTime.of( 14, 0), LocalTime.of( 15, 0),2, 200);
+        Connection connection3 = new Connection(station1, station2,train, LocalTime.of( 16, 0), LocalTime.of( 17, 0),3, 300);
+        Connection connection4 = new Connection(station2, station1,train, LocalTime.of( 18, 0), LocalTime.of( 19, 0),4, 400);
+        Connection connection5 = new Connection(station1, station2,train, LocalTime.of( 20, 0), LocalTime.of( 21, 0),1, 500);
 
         when(connectionService.getAllConnections()).thenReturn(List.of(connection1, connection2, connection3, connection4, connection5));
         when(connectionService.getArrivals(eq(station1), eq(10), any())).thenReturn(List.of(connection1, connection3, connection5));
