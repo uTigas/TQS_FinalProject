@@ -23,6 +23,7 @@ const StationPage: React.FC = () => {
         }
       })
       .then(stationData => {
+        console.log(stationData)
         setStations(stationData);
       })
       .catch(error => {
@@ -31,7 +32,7 @@ const StationPage: React.FC = () => {
   }, []);
 
   const handleAddStation = () => {
-    const newStation: StationData = {id: -1, name: stationName, numberOfLines: stationLines };
+    const newStation: StationData = {name: stationName, numberOfLines: stationLines };
     const validStation = checkValidStation(newStation);
     if (validStation !== true) {
       setNewSuccessMessage('');

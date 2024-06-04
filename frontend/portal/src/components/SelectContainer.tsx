@@ -1,7 +1,6 @@
 import { IonCol, IonGrid, IonLabel, IonRow, IonSelect, IonSelectOption, IonTitle } from "@ionic/react"
 import React, { useContext, useEffect, useState } from "react";
-import { SharedVariablesContext } from "../support/Variables";
-import APIWrapper from "./APIWrapper";
+import { SharedVariablesContext, StationData } from "../support/Variables";
 
 const SelectContainer: React.FC = (() => {
   const {
@@ -13,12 +12,7 @@ const SelectContainer: React.FC = (() => {
     setSelectedDestination,
   } = useContext(SharedVariablesContext);
 
-  const [origin, setOrigin] = useState<string | null>(null);
-  const [destination, setDestination] = useState<string | null>(null);
 
-  useEffect (()=>{
-  },[])
-  
   return (
       <IonGrid className='ion-padding'>
             <IonRow>
@@ -27,13 +21,13 @@ const SelectContainer: React.FC = (() => {
             <form>
               <IonRow className='ion-padding'>
                 <IonCol>
-                  <IonSelect id='selectOrigin' label="From" labelPlacement="floating" fill="outline" interface="popover" onIonChange={(e) => setOrigin(e.detail.value)}>
+                  <IonSelect id='selectOrigin' label="From" labelPlacement="floating" fill="outline" interface="popover" onIonChange={(e) => setSelectedOrigin(e.detail.value)}>
                     {stations.map((item, index) => <IonSelectOption key={index}>{item.name}</IonSelectOption>)}
                   </IonSelect>
                 </IonCol>
                 <IonCol>
-                    {stations.map((item, index) => <IonLabel key={index}>{item.name}</IonLabel>)}
-                  <IonSelect id='selectDestination' label="To" labelPlacement="floating" fill="outline" interface="popover" onIonChange={(e) => setDestination(e.detail.value)}>
+                  <IonSelect id='selectDestination' label="To" labelPlacement="floating" fill="outline" interface="popover" onIonChange={(e) => setSelectedDestination(e.detail.value)}>
+                    {stations.map((item, index) => <IonSelectOption key={index}>{item.name}</IonSelectOption>)}
                   </IonSelect>
                 </IonCol>
               </IonRow>

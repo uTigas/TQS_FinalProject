@@ -1,3 +1,4 @@
+import { Connection, Route } from "../support/Variables";
 
 const APIWrapper = {
   //backendURI: "/", 
@@ -47,7 +48,7 @@ const APIWrapper = {
   fetchTrainList: async () => {
     try {
       console.log("APIWrapper: Fetching Trains...")
-      return await fetch(APIWrapper.backendURI + APIWrapper.adminAPI + 'trains', { method: 'GET', credentials: 'include' });
+      return await fetch(APIWrapper.backendURI + APIWrapper.publicAPI + 'trains', { method: 'GET', credentials: 'include' });
     } catch (error) {
       console.error('Error fetching Trains', error);
     }
@@ -67,6 +68,45 @@ const APIWrapper = {
       });
     } catch (error) {
       console.error('Error adding Train', error);
+    }
+  },
+
+  searchRoutes: async (searchParams: URLSearchParams) => {
+    try {
+      console.log("APIWrapper: Searching Routes...")
+      return await fetch(APIWrapper.backendURI + APIWrapper.publicAPI + `routes?${searchParams.toString()}`, 
+      { method: 'GET', 
+      credentials: 'include'
+      }
+      );
+    } catch (error) {
+      console.error('Error searching Routes', error);
+    }
+  },
+
+ buyTicket: async (route: Route) => {
+    try {
+      console.log("APIWrapper: buying Ticket...")
+
+      return await fetch(APIWrapper.backendURI + APIWrapper.privateAPI + 'tickets', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(route)
+      });
+    } catch (error) {
+      console.error('Error buying Ticket', error);
+    }
+  },
+
+  fetchTickets: async () => {
+    try {
+      console.log("APIWrapper: Fetching Tickets...")
+      return await fetch(APIWrapper.backendURI + APIWrapper.privateAPI + 'tickets', { method: 'GET', credentials: 'include' });
+    } catch (error) {
+      console.error('Error fetching Tickets', error);
     }
   },
 }

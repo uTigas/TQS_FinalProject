@@ -2,6 +2,7 @@ import { IonButton, IonCol, IonGrid, IonIcon, IonItem, IonRow, IonText, IonTitle
 import { useContext } from "react";
 import { arrowForward, handRight, search } from "ionicons/icons";
 import { SharedVariablesContext } from "../support/Variables";
+import APIWrapper from "./APIWrapper";
 
 const SearchOptionsContainer: React.FC = (() => {
     const {
@@ -23,7 +24,25 @@ const SearchOptionsContainer: React.FC = (() => {
     setResults,
   } = useContext(SharedVariablesContext);
 
-  const handleCheckboxChange = (option: string) => {
+  const searchRoutes = () => {
+    const searchData = new URLSearchParams
+    searchData.append("from", selectedOrigin)
+    searchData.append('to', selectedDestination)
+    APIWrapper.searchRoutes(searchData)
+    .then((response: Response | undefined) => {
+      if (response && response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Failed to fetch data');
+      }
+    })
+    .then(routes => {
+      console.log(routes)
+      setResults(routes);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    })
   };
 
     return (
@@ -56,7 +75,7 @@ const SearchOptionsContainer: React.FC = (() => {
                       </IonItem>
                     </IonCol>
                     <IonCol size="3" style={{display: "flex", alignItems: "center"}}>
-                        <IonButton color={"success"}><IonIcon icon={search}/>Search</IonButton>
+                        <IonButton color={"success"} onClick={() => searchRoutes()}><IonIcon icon={search} />Search</IonButton>
                     </IonCol>
 
                   </IonRow>
