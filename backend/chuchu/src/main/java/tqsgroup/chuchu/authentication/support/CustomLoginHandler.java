@@ -50,14 +50,20 @@ public class CustomLoginHandler implements AuthenticationSuccessHandler {
 	}
 
 	protected String determineTargetUrl(final Authentication authentication) {
-		roleTargetUrlMap.put("USER", new StringBuilder().append("http://localhost:").append(ionicPort).append("/").toString());
-		roleTargetUrlMap.put("ADMIN", new StringBuilder().append("http://localhost:").append(ionicPort).append("/admin").toString());
+		String ionicURL = new StringBuilder().append("http://localhost:").append(ionicPort).toString();
+		String userUrl = ionicURL + "/";
+		String adminUrl = ionicURL + "/admin";
+
+		roleTargetUrlMap.put("USER", userUrl);
+		roleTargetUrlMap.put("ADMIN", adminUrl);
 		final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		for (final GrantedAuthority grantedAuthority : authorities) {
 			String authorityName = grantedAuthority.getAuthority();
 			if (roleTargetUrlMap.containsKey(authorityName)) {
 				return roleTargetUrlMap.get(authorityName);
 			}
+			else
+				return userUrl;
 		}
 
 		throw new IllegalStateException();

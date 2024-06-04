@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import tqsgroup.chuchu.admin.dao.ConnectionDAO;
+import tqsgroup.chuchu.data.dao.ConnectionDAO;
 import tqsgroup.chuchu.data.entity.Connection;
 import tqsgroup.chuchu.data.entity.Station;
 import tqsgroup.chuchu.data.entity.User;
@@ -29,6 +30,7 @@ import tqsgroup.chuchu.data.service.StationService;
 
 @RestController
 @RequestMapping("/private/api/v1")
+@PreAuthorize("@securityService.hasRole('USER')")
 public class RestApi {
     private static final Logger logger = LoggerFactory.getLogger(RestApi.class);
 

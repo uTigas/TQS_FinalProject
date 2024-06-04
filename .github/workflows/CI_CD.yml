@@ -47,6 +47,24 @@ jobs:
         sudo apt update
         sudo apt install firefox -y --allow-downgrades
 
+    - name: Start Docker Compose 
+      run: docker compose -f docker-compose-dev.yaml up -d
+
+    - name: Wait for Docker Compose to start
+      run: sleep 30s
+
+    - name: Build and analyze with SonarCloud
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: 06eb2137628096c9f5d0a5ac5cd55099c15f5b5b
+      run: mvn -f backend/chuchu/pom.xml -B '-Dtest=!CucumberTest' verify failsafe:integration-test sonar:sonar -Dsonar.projectKey=uTigas_TQS_FinalProject
+
+    - name: Stop Compose
+      run: docker compose -f docker-compose-dev.yaml down
+    
+    - name: Wait for Compose to Shutdown
+      run: sleep 20s
+
     - name: Run Production Compose Setup 
       run: docker compose -f docker-compose-prod.yaml up -d
     
@@ -55,4 +73,14 @@ jobs:
 
     - name: Run Functional Tests
       run: mvn -f backend/chuchu/pom.xml test -Dtest=CucumberTest
-    
+      
+    - name: Push results to Xray on Jira Cloud
+      if: always()
+      uses: mikepenz/xray-action@v3
+      with:
+        username: ${{ secrets.XRAYCLOUD_CLIENT_ID }}
+        password: ${{ secrets.XRAYCLOUD_CLIENT_SECRET }}
+        testFormat: "junit"
+        testPaths: "**/surefire-reports/TEST-*.xml"
+        testExecKey: "TP-27"
+        projectKey: "TP"

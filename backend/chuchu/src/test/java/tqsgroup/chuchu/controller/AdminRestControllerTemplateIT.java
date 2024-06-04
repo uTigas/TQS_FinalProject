@@ -15,12 +15,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 
 import tqsgroup.chuchu.authentication.service.SecurityService;
-import tqsgroup.chuchu.admin.dao.StationDAO;
 import tqsgroup.chuchu.data.entity.Station;
+import tqsgroup.chuchu.data.entity.Train;
+import tqsgroup.chuchu.data.entity.TrainType;
 import tqsgroup.chuchu.data.repository.UserRepository;
 import tqsgroup.chuchu.data.repository.neo.StationRepository;
 import tqsgroup.chuchu.data.repository.RoleRepository;
 import tqsgroup.chuchu.data.repository.SeatRepository;
+import tqsgroup.chuchu.data.repository.TrainRepository;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
@@ -46,6 +48,9 @@ class AdminRestControllerTemplateIT {
     private UserRepository userRepository;
 
     @Autowired
+    private TrainRepository trainRepository;
+
+    @Autowired
     private RoleRepository roleRepository;
 
     @Autowired
@@ -59,6 +64,11 @@ class AdminRestControllerTemplateIT {
         Station station = new Station(name, numberOfLines);
         stationRepository.save(station);
     }
+
+    private void createTestTrain(TrainType type, int number) {
+        Train train = new Train(type, number);
+        trainRepository.save(train);
+    }
     
     @BeforeEach
     void setUp() {
@@ -69,6 +79,11 @@ class AdminRestControllerTemplateIT {
         createTestStation("station 1", 5);
         createTestStation("station 2", 3);
         createTestStation("station 3", 7);
+
+        createTestTrain(TrainType.REGIONAL, 1);
+        createTestTrain(TrainType.INTERCITY, 2);
+        createTestTrain(TrainType.ALPHA, 3);
+
     }
 
     @AfterEach
@@ -76,6 +91,7 @@ class AdminRestControllerTemplateIT {
         stationRepository.deleteAll();
         userRepository.deleteAll();
         roleRepository.deleteAll();
+        trainRepository.deleteAll();
     }
 
     @Test
@@ -112,54 +128,30 @@ class AdminRestControllerTemplateIT {
 
     @Test
     @Order(4)
-    void givenStations_whenEditStation_thenStatus200() {
-        String nameToEdit = "station 1";
-        Station stationToEdit = stationRepository.findByName(nameToEdit);
-        StationDAO editedStation = new StationDAO(nameToEdit + " edited", stationToEdit.getNumberOfLines() + 1);
-        
+    void whenValidTrain_thenCreateTrain() {
         RestAssuredMockMvc.given().mockMvc(mockMvc)
                 .contentType(ContentType.JSON)
-                .body(editedStation)
-                .when().put(ADMIN_API + "/stations/" + stationToEdit.getName())
-                .then().statusCode(HttpStatus.OK.value());
+                .body("{\"type\": \"REGIONAL\", \"number\": 10}")
+                .when().post(ADMIN_API + "/trains")
+                .then().statusCode(HttpStatus.CREATED.value());
     }
 
     @Test
     @Order(5)
-    void givenStations_whenEditBadStation_thenStatus400() {
-        String nameToEdit = "station 1";
-        Station stationToEdit = stationRepository.findByName(nameToEdit);
-        StationDAO editedStation = new StationDAO(nameToEdit + " edited", 0);
-        
+    void givenTrains_whenGetTrains_thenStatus200() {
+        RestAssuredMockMvc.given().mockMvc(mockMvc)
+                .when().get(ADMIN_API + "/trains")
+                .then().statusCode(HttpStatus.OK.value())
+                .body("$.size()", is(3));
+    }
+
+    @Test
+    @Order(5)
+    void whenInvalidTrain_thenReturnBadRequest() {
         RestAssuredMockMvc.given().mockMvc(mockMvc)
                 .contentType(ContentType.JSON)
-                .body(editedStation)
-                .when().put(ADMIN_API + "/stations/" + stationToEdit.getName())
+                .body("{\"type\": \"Bad Type\", \"number\": 10}")
+                .when().post(ADMIN_API + "/trains")
                 .then().statusCode(HttpStatus.BAD_REQUEST.value());
-    }
-
-    @Test
-    @Order(6)
-    void givenNoStation_whenEdit_thenStatus404() {
-        String nameToEdit = "non-existing station";
-        RestAssuredMockMvc.given().mockMvc(mockMvc)
-                .contentType(ContentType.JSON)
-                .body(new StationDAO(nameToEdit, 4))
-                .when().put(ADMIN_API + "/stations/" + nameToEdit)
-                .then().statusCode(HttpStatus.NOT_FOUND.value());
-    }
-
-    @Test
-    @Order(7)
-    void givenStations_whenEditConflict_thenStatus409() {
-        String nameToEdit = "station 1";
-        Station stationToEdit = stationRepository.findByName(nameToEdit);
-        StationDAO editedStation = new StationDAO("station 2", stationToEdit.getNumberOfLines());
-        
-        RestAssuredMockMvc.given().mockMvc(mockMvc)
-                .contentType(ContentType.JSON)
-                .body(editedStation)
-                .when().put(ADMIN_API + "/stations/" + stationToEdit.getName())
-                .then().statusCode(HttpStatus.CONFLICT.value());
     }
 }
