@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 
 import tqsgroup.chuchu.authentication.service.SecurityService;
+import tqsgroup.chuchu.admin.dao.StationDAO;
 import tqsgroup.chuchu.data.entity.Station;
 import tqsgroup.chuchu.data.repository.UserRepository;
 import tqsgroup.chuchu.data.repository.neo.StationRepository;
@@ -107,5 +108,58 @@ class AdminRestControllerTemplateIT {
                 .when().get(ADMIN_API + "/stations")
                 .then().statusCode(HttpStatus.OK.value())
                 .body("$.size()", is(3));
+    }
+
+    @Test
+    @Order(4)
+    void givenStations_whenEditStation_thenStatus200() {
+        String nameToEdit = "station 1";
+        Station stationToEdit = stationRepository.findByName(nameToEdit);
+        StationDAO editedStation = new StationDAO(nameToEdit + " edited", stationToEdit.getNumberOfLines() + 1);
+        
+        RestAssuredMockMvc.given().mockMvc(mockMvc)
+                .contentType(ContentType.JSON)
+                .body(editedStation)
+                .when().put(ADMIN_API + "/stations/" + stationToEdit.getName())
+                .then().statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    @Order(5)
+    void givenStations_whenEditBadStation_thenStatus400() {
+        String nameToEdit = "station 1";
+        Station stationToEdit = stationRepository.findByName(nameToEdit);
+        StationDAO editedStation = new StationDAO(nameToEdit + " edited", 0);
+        
+        RestAssuredMockMvc.given().mockMvc(mockMvc)
+                .contentType(ContentType.JSON)
+                .body(editedStation)
+                .when().put(ADMIN_API + "/stations/" + stationToEdit.getName())
+                .then().statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @Order(6)
+    void givenNoStation_whenEdit_thenStatus404() {
+        String nameToEdit = "non-existing station";
+        RestAssuredMockMvc.given().mockMvc(mockMvc)
+                .contentType(ContentType.JSON)
+                .body(new StationDAO(nameToEdit, 4))
+                .when().put(ADMIN_API + "/stations/" + nameToEdit)
+                .then().statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    @Order(7)
+    void givenStations_whenEditConflict_thenStatus409() {
+        String nameToEdit = "station 1";
+        Station stationToEdit = stationRepository.findByName(nameToEdit);
+        StationDAO editedStation = new StationDAO("station 2", stationToEdit.getNumberOfLines());
+        
+        RestAssuredMockMvc.given().mockMvc(mockMvc)
+                .contentType(ContentType.JSON)
+                .body(editedStation)
+                .when().put(ADMIN_API + "/stations/" + stationToEdit.getName())
+                .then().statusCode(HttpStatus.CONFLICT.value());
     }
 }

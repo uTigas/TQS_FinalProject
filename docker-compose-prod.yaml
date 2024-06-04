@@ -39,7 +39,8 @@ services:
       - DOCKER_HOST=unix:///var/run/docker.sock
       - TESTCONTAINERS_RYUK_DISABLED=true
       - TESTCONTAINERS_HOST_OVERRIDE=host.docker.internal
-      - SPRING_APPLICATION_JSON={"ionic.port":"", "spring.port":"", "spring.data.neo4j.uri":"bolt://neo:7687", "spring.datasource.url":"jdbc:postgresql://postgres:5432/${POSTGRES_DATABASE}?sslmode=disable"}
+      - SPRING_NEO4J_URI=bolt://neo4j:7687
+      - SPRING_APPLICATION_JSON={"ionic.port":"", "spring.port":"", "spring.data.neo4j.uri":"bolt://neo4j:7687", "spring.datasource.url":"jdbc:postgresql://postgres:5432/${POSTGRES_DATABASE}?sslmode=disable"}
       
     volumes:
       - .m2:/root/.m2
