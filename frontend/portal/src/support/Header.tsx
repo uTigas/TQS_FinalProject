@@ -1,19 +1,12 @@
 import { IonButton, IonCol, IonContent, IonHeader, IonIcon, IonPopover, IonRow, IonText, IonTitle, IonToolbar } from "@ionic/react";
 import { logInOutline, logOut, person } from "ionicons/icons";
-import { createContext, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import APIWrapper from "../components/APIWrapper";
+import { User, HeaderProps, SharedVariablesContext } from "./Variables";
 
-interface HeaderProps {
-    name: string;
-}
-
-export interface User {
-    username: string;
-    name: string;
-}
 const Header: React.FC<HeaderProps> = ({ name }) => {
-
-    const [user, setUser] = useState<User | null>(null);
+    const {loggedUser, setLoggedUser}  = useContext(SharedVariablesContext);
+    
     useEffect(() => {
         APIWrapper.fetchUserDetails()
             .then((response: Response | undefined) => {
@@ -24,12 +17,19 @@ const Header: React.FC<HeaderProps> = ({ name }) => {
                 }
             })
             .then(userData => {
-                setUser(userData);
+                const newUser : User = {username: userData.username, name: userData.name, role: userData.role }
+                setLoggedUser(newUser)
             })
             .catch(error => {
                 console.error('Error:', error.message);
+                setLoggedUser(null)
             })
     }, [])
+
+    useEffect(() => {
+        console.log("User was refreshed:" + loggedUser)
+    }, [loggedUser]); 
+    
     return (
 
         <IonHeader>
@@ -38,12 +38,12 @@ const Header: React.FC<HeaderProps> = ({ name }) => {
                     <IonCol>
                         <IonTitle>{name}</IonTitle>
                     </IonCol>
-                    {user !== null ? (
+                    {loggedUser !== null ? (
                         <IonCol className="ion-text-end">
-                            <IonButton id="click-trigger"><IonIcon icon={person}></IonIcon>{user.username}</IonButton>
+                            <IonButton id="click-trigger"><IonIcon icon={person}></IonIcon>{loggedUser.username}</IonButton>
                             <IonPopover trigger="click-trigger" triggerAction="click">
                                 <IonContent class="ion-padding">
-                                    <IonText>Welcome {user.name}.</IonText>
+                                    <IonText>Welcome {loggedUser.name}.</IonText>
                                     <IonButton color={"danger"} href={APIWrapper.backendURI + "auth/logout"}><IonIcon icon={logOut}></IonIcon>Logout</IonButton>
                                 </IonContent>
                             </IonPopover>

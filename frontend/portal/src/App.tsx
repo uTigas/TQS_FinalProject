@@ -1,6 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
+  IonHeader,
   IonIcon,
   IonLabel,
   IonRouterOutlet,
@@ -11,11 +12,10 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
 import Dashboard from './pages/Dashboard';
 import StationPage from './pages/StationPage';
+import ConnectionPage from './pages/ConnectionPage';
 import './App.css';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -48,42 +48,88 @@ import '@ionic/react/css/palettes/dark.system.css';
 import './theme/variables.css';
 import FooterAdmin from './components/FooterAdmin';
 import Footer from './components/Footer';
+import { useContext, useEffect } from 'react';
+import { SharedVariablesContext, User } from './support/Variables';
+import TrainPage from './pages/Train Page';
+import APIWrapper from './components/APIWrapper';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
-          </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
-          </Route>
-          <Route path="/tab3">
-            <Tab3 />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/tab1" />
-          </Route>
-          <Route exact path="/admin/dashboard">
-            <Dashboard />
-          </Route>
-          <Route path="/admin/stations">
-            <StationPage />
+
+const App: React.FC = () => {
+  const {loggedUser, setLoggedUser} = useContext(SharedVariablesContext)
+  useEffect(() => {
+    APIWrapper.fetchUserDetails()
+    .then((response: Response | undefined) => {
+        if (response && response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Failed to fetch data');
+        }
+    })
+    .then(userData => {
+        const newUser : User = {username: userData.username, name: userData.name, role: userData.role }
+        setLoggedUser(newUser)
+    })
+    .catch(error => {
+        console.error('Error:', error.message);
+        setLoggedUser(null)
+    })
+  }, [])
+  return (
+    
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/tab2">
+              <Tab2 />
+            </Route>
+            <Route exact path="/">
+              <Tab2 />
+            </Route>
+            <Route exact path="/admin/dashboard">
+              <Dashboard />
+            </Route>
+            <Route exact path="/admin/stations">
+              <StationPage />
+            </Route>
+            <Route path="/admin/trains">
+              <TrainPage />
+            </Route>
+            <Route exact path="/admin/connections">
+            <ConnectionPage />
           </Route>
           <Route exact path="/admin">
-            <Redirect to="/admin/dashboard" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          {window.location.pathname.startsWith('/admin') ? (<FooterAdmin />) : (<Footer />)}
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+              <Redirect to="/admin/dashboard" />
+            </Route>
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            
+          {loggedUser !== null ? (
+            loggedUser.role === "ADMIN" ? (
+              <IonTabButton tab="adminDashboard" href="/admin">
+                <IonIcon aria-hidden="true" icon={triangle} />
+                <IonLabel>Dashboard</IonLabel>
+              </IonTabButton>
+            ) : (
+              <IonTabButton tab="tab1" href="/tab1">
+                <IonIcon aria-hidden="true" icon={triangle} />
+                <IonLabel>Dashboard</IonLabel>
+              </IonTabButton>
+            )
+          ) : (
+            <IonTabButton tab="home" href="/">
+              <IonIcon aria-hidden="true" icon={triangle} />
+              <IonLabel>Homepage</IonLabel>
+            </IonTabButton>
+          )}
+
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+  )
+};
 
 export default App;

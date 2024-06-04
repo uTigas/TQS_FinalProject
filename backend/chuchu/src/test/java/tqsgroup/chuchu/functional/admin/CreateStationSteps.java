@@ -7,15 +7,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import io.cucumber.java.en.*;
-import tqsgroup.chuchu.CucumberTest;
+import tqsgroup.chuchu.functional.CucumberTest;
 
-import static org.junit.Assert.assertTrue;
 
 public class CreateStationSteps {
 
     private final WebDriver driver = CucumberTest.getDriver();
     private final Wait<WebDriver> wait = CucumberTest.wait;
-    private static final String BASE_URL = "http://localhost" + CucumberTest.ionicPort;
+    private static final String BASE_URL = "http://localhost";
 
     @And("I switch to the {string} page")
     public void iSwitchToThePage(String pageName) {
@@ -25,7 +24,7 @@ public class CreateStationSteps {
 
     @Given("I am on the {string} page")
     public void iAmOnThePage(String pageName) {
-        wait.until(ExpectedConditions.urlToBe(BASE_URL + pageName));
+        wait.until(ExpectedConditions.urlMatches(".*" + pageName + "$"));
     }
 
     @When("I fill in the {string} field with {string}")
@@ -52,6 +51,6 @@ public class CreateStationSteps {
         // Wait for the success message to be visible
         //WebElement successMessageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'" + successMessage + "')]")));
         //assertTrue("Success message not displayed", successMessageElement.isDisplayed());
-        driver.quit();
+        driver.manage().deleteAllCookies();;
     }
 }

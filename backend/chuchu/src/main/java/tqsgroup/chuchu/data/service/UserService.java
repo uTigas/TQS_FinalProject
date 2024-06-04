@@ -44,6 +44,11 @@ public class UserService {
             admin.setPassword(passwordEncoder.encode("password"));
             admin.setRole(adminRole);
             admin.setName("Admin User");
+            User user = new User();
+            user.setUsername("user");
+            user.setPassword(passwordEncoder.encode("password"));
+            user.setRole(userRole);
+            user.setName("User");
             
             repo.save(admin);
         }

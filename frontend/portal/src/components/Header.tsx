@@ -33,7 +33,7 @@ const Header: React.FC<HeaderProps> = ({ name }) => {
 
         <IonHeader>
             <IonToolbar>
-                <IonRow>
+                <IonRow className="ion-margin-top">
                     <IonCol>
                         <IonTitle>{name}</IonTitle>
                     </IonCol>
